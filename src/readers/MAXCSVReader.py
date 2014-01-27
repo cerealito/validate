@@ -3,27 +3,11 @@ from _hashlib import new
 __author__ = 'saflores'
 
 import csv
+from Variable import Variable
 
 csv.register_dialect('MAX', delimiter=';', skipinitialspace=True)
 
 
-class Variable:
-    def __init__(self, fullname, v_type, dim1, dim2):
-
-        self.fullname = fullname
-        self.type = v_type
-        self.dim1 = dim1
-        self.dim2 = dim2
-        self.index = 0
-        self.samples = {}
-
-        tokens = self.fullname.split('\\')
-
-        self.model = tokens[0]
-        self.name = tokens[1]
-
-    def __str__(self):
-        return self.model + ':' + self.name + '  [' + self.type + ']'
 
 
 class MAXCSVReader:
@@ -62,27 +46,43 @@ class MAXCSVReader:
                 if row[0] == '#PAYLOAD':
                     break
 
-                new_var = Variable(row[0], row[1], row[2], row[3])
+                new_var = Variable(fullname=row[0], v_type=row[1], dim1=row[2], dim2=row[3])
                 self.variables.append(new_var)
 
+            #########################################################
+            ## find every variable created in the step above in the header:
+            header = next(generic_reader)
+            time_column_idx = 0
+            for v in self.variables:
+                try:
+                    v.index = header.index(v.fullname)
+                except ValueError:
+                    print('Column not found')
+                finally:
+                    if v.index == 0:
+                        # this means that time is not the very first column in the payload.
+                        # screw it we do not handle this kind of format
+                        print('Format not supported')
+                        raise TypeError
+
+            for v in self.variables:
+                print(v)
 
             #########################################################
             # start reading the payload and populate each variable
-            ## skip the header line:
-            ## TODO: maybe can be used for a check?
-            h = next(generic_reader)
-
-
             i = 0
+
             for row in generic_reader:
+                t = row[time_column_idx]
+                print('analizing t=',t)
 
-                col = 0;
-                t = row[col]
-                print(str(len(row)) + '  ' + str(len(self.variables)))
+                for v in self.variables:
+                    print('\tvar ' + v.name + '=', row[v.index])
 
-
-
+                    v.samples[t] = row[v.index]
 
                 i += 1
                 if i > 10:
                     break
+
+            print( self.variables[3].samples)
