@@ -18,7 +18,7 @@ class MAXCSVReader:
 
         self.nbSamples = 0
         self.variables = []
-
+        self.times = []
         self.read(csv_f)
 
     def read(self, f):
@@ -65,24 +65,28 @@ class MAXCSVReader:
                         print('Format not supported')
                         raise TypeError
 
-            for v in self.variables:
-                print(v)
-
             #########################################################
             # start reading the payload and populate each variable
-            i = 0
-
             for row in generic_reader:
-                t = row[time_column_idx]
-                print('analizing t=',t)
+                if row[0] == '#END':
+                    break
+                t = float(row[time_column_idx])
+
+                # keep track of the times:
+                self.times.append(float(t))
 
                 for v in self.variables:
-                    print('\tvar ' + v.name + '=', row[v.index])
-
+                    #print('\tvar ' + v.name + '=', row[v.index])
                     v.samples[t] = row[v.index]
 
-                i += 1
-                if i > 10:
-                    break
+    def get_variable(self, fullname):
+        lookUpVar = Variable(fullname)
 
-            print( self.variables[3].samples)
+        if lookUpVar in self.variables:
+            idx = self.variables.index(lookUpVar)
+            return self.variables[idx]
+        else:
+            import sys
+            sys.stdout.flush()
+            sys.stderr.write('Variable ' + fullname + 'was not read in the csv file\n')
+            sys.stderr.write('Returning None\n')
