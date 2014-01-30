@@ -21,10 +21,6 @@ class MatplotlibTest(unittest.TestCase):
 
         myVar = r.get_variable('CPC_SACU\SACU_h_cabin_alt_target_ft_out')
 
-        # o_values = []
-        # for t in r.times:
-        #     o_values.append(myVar.samples.get(t))
-
         plt.plot(myVar.times, myVar.values, 'r-.')
         plt.show()
 

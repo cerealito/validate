@@ -4,9 +4,9 @@ from src.readers.MAXCSVReader import MAXCSVReader
 
 __author__ = 'saflores'
 
-class ReadTest(unittest.TestCase):
+class MAXCSVReader_tester(unittest.TestCase):
 
-    def test_Read(self):
+    def test_read(self):
         print ('hello...')
 
         r = MAXCSVReader('ref_214.csv')
@@ -18,7 +18,6 @@ class ReadTest(unittest.TestCase):
 
         for t in myVar.times:
             print('{:03.8f} '.format(t), myVar.value_at(t))
-
 
 if __name__ == '__main__':
     unittest.main()
