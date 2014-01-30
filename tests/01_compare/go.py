@@ -16,8 +16,9 @@ class ReadTest(unittest.TestCase):
         print()
         myVar = r.get_variable('CPC_SACU\SACU_p_delta_sensor_out_psid')
 
-        for t in r.times:
-            print('{:03.2f} '.format(t), myVar.samples.get(t))
+        for t in myVar.times:
+            print('{:03.8f} '.format(t), myVar.value_at(t))
+
 
 if __name__ == '__main__':
     unittest.main()

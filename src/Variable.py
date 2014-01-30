@@ -8,16 +8,22 @@ class Variable:
         self.dim1 = dim1
         self.dim2 = dim2
         self.index = 0
-        self.samples = {}
+
+        self.times = []
+        self.values = []
 
         tokens = self.fullname.split('\\')
 
         self.model = tokens[0]
         self.name = tokens[1]
 
+    def value_at(self, time):
+        idx = self.times.index(time)
+        return self.values[idx]
+
     def __str__(self):
         return '{0:2d} '.format(self.index) + '{:<8}'.format(self.type) +\
-               '{:<} '.format(len(self.samples)) +\
+               '{:<} '.format(len(self.values)) +\
                self.model + ':' + self.name
 
     def __eq__(self, other):

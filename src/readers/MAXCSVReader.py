@@ -7,9 +7,6 @@ from Variable import Variable
 
 csv.register_dialect('MAX', delimiter=';', skipinitialspace=True)
 
-
-
-
 class MAXCSVReader:
     def __init__(self, csv_f):
         '''
@@ -77,7 +74,9 @@ class MAXCSVReader:
 
                 for v in self.variables:
                     #print('\tvar ' + v.name + '=', row[v.index])
-                    v.samples[t] = row[v.index]
+                    #v.samples[t] = row[v.index]
+                    v.times.append(t)
+                    v.values.append(row[v.index])
 
     def get_variable(self, fullname):
         lookUpVar = Variable(fullname)
