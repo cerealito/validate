@@ -27,7 +27,7 @@ class Variable:
                self.model + ':' + self.name
 
     def __eq__(self, other):
-        if self.fullname == other.fullname:
-            return True
-        else:
-            return False
+         if self.fullname == other.fullname:
+             return True
+         else:
+             return False

@@ -9,11 +9,10 @@ csv.register_dialect('MAX', delimiter=';', skipinitialspace=True)
 
 class MAXCSVReader:
     def __init__(self, csv_f):
-        '''
+        """
         A Max produced CSV file has the following shit:
-        '''
+        """
 
-        self.nbSamples = 0
         self.variables = []
         self.times = []
         self.read(csv_f)
@@ -79,13 +78,13 @@ class MAXCSVReader:
                     v.values.append(row[v.index])
 
     def get_variable(self, fullname):
-        lookUpVar = Variable(fullname)
+        look_up_v = Variable(fullname)
 
-        if lookUpVar in self.variables:
-            idx = self.variables.index(lookUpVar)
+        if look_up_v in self.variables:
+            idx = self.variables.index(look_up_v)
             return self.variables[idx]
         else:
             import sys
             sys.stdout.flush()
-            sys.stderr.write('Variable ' + fullname + 'was not read in the csv file\n')
+            sys.stderr.write('Variable ' + fullname + ' was not read in the csv file\n')
             sys.stderr.write('Returning None\n')

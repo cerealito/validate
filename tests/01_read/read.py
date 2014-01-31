@@ -9,7 +9,7 @@ class MAXCSVReader_tester(unittest.TestCase):
     def test_read(self):
         print ('hello...')
 
-        r = MAXCSVReader('ref_214.csv')
+        r = MAXCSVReader('../00_install/ref_214.csv')
 
         for v in r.variables:
             print(v)
