@@ -5,34 +5,36 @@ __author__ = 'saflores'
 
 
 class FileComparator:
-    @staticmethod
-    def compare(file_test, file_ref):
-        all_vars_equal = True
-        #TODO: decide what type of file this is
+    def __init__(self, file_test, file_ref):
+        self.different_vars = []
 
+        #TODO: decide what type of file this is
         ###############################################################
         # for now we only have one kind of reader so create two of them
-        record_test = MAXCSVReader(file_test)
-        record_ref = MAXCSVReader(file_ref)
+        self.record_test = MAXCSVReader(file_test)
+        self.record_ref = MAXCSVReader(file_ref)
 
         ###############################################################
         # check that the records are actually equivalent:
-        if len(record_test.variables) != len(record_ref.variables):
+        if len(self.record_test.variables) != len(self.record_ref.variables):
             raise NotImplementedError('Files must have the same number of variables')
 
-        if len(record_test.times) != len(record_ref.times):
+        if len(self.record_test.times) != len(self.record_ref.times):
             raise NotImplementedError('files do not have the same number of samples')
+
+    def compare(self):
+        all_vars_equal = True
 
         ###############################################################
         # some output to the user
-        print('Comparing ' + str(len(record_test.variables)) + ' variables')
+        print('Comparing ' + str(len(self.record_test.variables)) + ' variables')
 
         ###############################################################
         # iterate over the test's variables and compare it with it's
         # reference counterpart
-        for v_test in record_test.variables:
+        for v_test in self.record_test.variables:
 
-            v_ref = record_ref.get_variable(v_test.fullname)
+            v_ref = self.record_ref.get_variable(v_test.fullname)
 
             vc = VarComparator()
 
@@ -41,9 +43,13 @@ class FileComparator:
 
             all_vars_equal = result and all_vars_equal
 
+            if not result:
+                self.different_vars.append((v_test, v_ref))
+
         return all_vars_equal
 
-
+    def get_different_var_tuples(self):
+        return self.different_vars
 
 
 

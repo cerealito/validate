@@ -1,5 +1,5 @@
 import unittest
-from src.FileComparator import FileComparator as fc
+from src.FileComparator import FileComparator
 
 __author__ = 'saflores'
 
@@ -10,7 +10,8 @@ class FileComparator_tester(unittest.TestCase):
         t = '../00_install/small.csv'
         r = '../00_install/small_2.csv'
 
-        r = fc.compare(t, r)
+        fc = FileComparator(t, r)
+        r = fc.compare()
 
         print('\n### Overall result is: ', r)
         self.assertFalse(r)
@@ -18,7 +19,9 @@ class FileComparator_tester(unittest.TestCase):
     def test_equals(self):
         print('comparing a file to itself')
         fp = '../00_install/test_214.csv'
-        r = fc.compare(fp, fp)
+
+        fc = FileComparator(fp, fp)
+        r = fc.compare()
 
         print('\n### Overall result is: ', r)
         self.assertTrue(r)
@@ -28,7 +31,8 @@ class FileComparator_tester(unittest.TestCase):
         t = '../00_install/test_214.csv'
         r = '../00_install/ref_214.csv'
 
-        r = fc.compare(t, r)
+        fc = FileComparator(t, r)
+        r = fc.compare()
 
         print('\n### Overall result is: ', r)
         self.assertFalse(r)
