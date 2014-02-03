@@ -24,7 +24,7 @@ class graph_tester(unittest.TestCase):
                 test, ref = v_tuple
 
                 plt.plot(ref.times, ref.values, color='#00FF21',
-                         label='ref', linestyle='solid', linewidth=1.5)
+                         label='ref', linestyle='solid', linewidth=2.5)
                 plt.plot(test.times, test.values, color='#FF1D00',
                          label='test', linestyle='dashed', linewidth=1.5)
                 plt.ylabel(test.name)
@@ -39,9 +39,6 @@ class graph_tester(unittest.TestCase):
                 box = ax.get_position()
                 ax.set_position([box.x0, box.y0 + box.height * 0.1, box.width, box.height * 0.9])
                 plt.show()
-
-
-
 
         self.assertFalse(r)
 
@@ -76,7 +73,7 @@ class graph_tester(unittest.TestCase):
                 test, ref = v_tuple
 
                 plt.plot(ref.times, ref.values, color='#00FF21',
-                         label='ref', linestyle='solid', linewidth=1.5)
+                         label='ref', linestyle='solid', linewidth=2.5)
                 plt.plot(test.times, test.values, color='#FF1D00',
                          label='test', linestyle='dashed', linewidth=1.5)
                 plt.ylabel(test.name)
