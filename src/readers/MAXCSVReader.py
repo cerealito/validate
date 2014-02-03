@@ -66,6 +66,8 @@ class MAXCSVReader:
             for row in generic_reader:
                 if row[0] == '#END':
                     break
+                # Times are kept as floats so that we can search easily among
+                # different formats
                 t = float(row[time_column_idx])
 
                 # keep track of the times:
@@ -73,7 +75,6 @@ class MAXCSVReader:
 
                 for v in self.variables:
                     #print('\tvar ' + v.name + '=', row[v.index])
-                    #v.samples[t] = row[v.index]
                     v.times.append(t)
                     v.values.append(row[v.index])
 

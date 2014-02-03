@@ -9,26 +9,35 @@ class FileComparator:
     def compare(file_test, file_ref):
         all_vars_equal = True
         #TODO: decide what type of file this is
-        # for now we only have one reader so...
 
+        ###############################################################
+        # for now we only have one kind of reader so create two of them
         record_test = MAXCSVReader(file_test)
         record_ref = MAXCSVReader(file_ref)
 
+        ###############################################################
+        # check that the records are actually equivalent:
         if len(record_test.variables) != len(record_ref.variables):
-            raise NotImplementedError ('Files must have the same number of variables')
+            raise NotImplementedError('Files must have the same number of variables')
 
         if len(record_test.times) != len(record_ref.times):
             raise NotImplementedError('files do not have the same number of samples')
 
+        ###############################################################
+        # some output to the user
         print('Comparing ' + str(len(record_test.variables)) + ' variables')
 
+        ###############################################################
+        # iterate over the test's variables and compare it with it's
+        # reference counterpart
         for v_test in record_test.variables:
 
             v_ref = record_ref.get_variable(v_test.fullname)
 
             vc = VarComparator()
-            result = vc.compare(v_test, v_ref)
-            print(v_test.name, '... ', result)
+
+            result, error = vc.compare(v_test, v_ref)
+            print(v_test.name, '... ', result, str(error) + '%')
 
             all_vars_equal = result and all_vars_equal
 
