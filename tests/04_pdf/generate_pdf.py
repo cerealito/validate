@@ -2,6 +2,7 @@ import unittest
 
 
 from fpdf import FPDF
+from src.FileComparator import FileComparator
 from report_generators.PDFReport import PDFReport
 
 __author__ = 'saflores'
@@ -22,7 +23,29 @@ class PdfTester(unittest.TestCase):
 
         pdf.output('test1.pdf','F')
 
-    def test_maxi(self):
+    def test_small(self):
+        print('Comparing and graphing a mini error...')
+        t = '../00_install/small.csv'
+        r = '../00_install/small_2.csv'
+        pb_list = []
+
+        fc = FileComparator(t, r)
+        r = fc.compare()
+
+        print('\n### Overall result is: ', r)
+        if not r:
+            pb_list = fc.get_different_var_tuples()
+            print('should graph', str(len(pb_list)), 'variables')
+
+        # for every couple of variables with problems, generate a png
+        for v_tuple in pb_list:
+            test, ref = v_tuple
+            self.generate_png(test, ref)
+
+        self.assertFalse(r)
+
+
+
         pdf = PDFReport()
         pdf.alias_nb_pages()
         pdf.add_page()

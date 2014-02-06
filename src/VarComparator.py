@@ -1,5 +1,6 @@
 __author__ = 'saflores'
 
+
 class VarComparator:
     def compare(self, test, ref):
         both_are_equal = True

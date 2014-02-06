@@ -6,6 +6,7 @@ class PDFReport(FPDF):
 
     def __init__(self, title='untitled'):
         self.title = title
+
         super().__init__()
 
     def header(self):
