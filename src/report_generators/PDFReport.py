@@ -4,9 +4,9 @@ from fpdf import FPDF
 
 class PDFReport(FPDF):
 
-    def __init__(self, title='untitled'):
-        self.title = title
-
+    def __init__(self, results):
+        self.results = results
+        self.title = 'untitled'
         super().__init__()
 
     def header(self):

@@ -41,12 +41,11 @@ class GraphTester(unittest.TestCase):
         print('\n### Overall result is: ', r)
         if not r:
             pb_list = fc.get_different_var_tuples()
-            print('should graph', str(len(pb_list)), 'variables')
+            print('Errors exist (' + str(len(pb_list)) + ')')
 
         # for every couple of variables with problems, generate a png
-        for v_tuple in pb_list:
-            test, ref = v_tuple
-            self.generate_png(test, ref)
+        for result in fc.get_results():
+            self.generate_png(result.test_var, result.ref_var)
 
         self.assertFalse(r)
 
@@ -62,12 +61,11 @@ class GraphTester(unittest.TestCase):
         print('\n### Overall result is: ', r)
         if not r:
             pb_list = fc.get_different_var_tuples()
-            print('should graph', str(len(pb_list)), 'variables')
+            print('Errors exist (' + str(len(pb_list)) + ')')
 
         # for every couple of variables with problems, generate a png
-        for v_tuple in pb_list:
-            test, ref = v_tuple
-            self.generate_png(test, ref)
+        for result in fc.get_results():
+            self.generate_png(result.test_var, result.ref_var)
 
         self.assertTrue(r)
 
@@ -84,12 +82,11 @@ class GraphTester(unittest.TestCase):
         print('\n### Overall result is: ', r)
         if not r:
             pb_list = fc.get_different_var_tuples()
-            print('should graph', str(len(pb_list)), 'variables')
+            print('Errors exist (' + str(len(pb_list)) + ')')
 
         # for every couple of variables with problems, generate a png
-        for v_tuple in pb_list:
-            test, ref = v_tuple
-            self.generate_png(test, ref)
+        for result in fc.get_results():
+            self.generate_png(result.test_var, result.ref_var)
 
         self.assertFalse(r)
 
