@@ -1,5 +1,5 @@
 import unittest
-from src.FileComparator import FileComparator
+from src.FileComparator import FileComparator, RSummary
 
 __author__ = 'saflores'
 
@@ -11,20 +11,20 @@ class FileComparator_tester(unittest.TestCase):
         r = '../00_install/small_2.csv'
 
         fc = FileComparator(t, r)
-        r = fc.compare()
+        res = fc.compare()
 
-        print('\n### Overall result is: ', r)
-        self.assertFalse(r)
+        print('\n### Overall result is: ', res.files_are_equal)
+        self.assertFalse(res.files_are_equal)
 
     def test_equals(self):
         print('comparing a file to itself')
         fp = '../00_install/test_214.csv'
 
         fc = FileComparator(fp, fp)
-        r = fc.compare()
+        res = fc.compare()
 
-        print('\n### Overall result is: ', r)
-        self.assertTrue(r)
+        print('\n### Overall result is: ', res.files_are_equal)
+        self.assertTrue(res.files_are_equal)
 
     def test_diff(self):
         print('Comparing to a known error...')
@@ -32,10 +32,10 @@ class FileComparator_tester(unittest.TestCase):
         r = '../00_install/ref_214.csv'
 
         fc = FileComparator(t, r)
-        r = fc.compare()
+        res = fc.compare()
 
-        print('\n### Overall result is: ', r)
-        self.assertFalse(r)
+        print('\n### Overall result is: ', res.files_are_equal)
+        self.assertFalse(res.files_are_equal)
 
 if __name__ == '__main__':
     unittest.main()

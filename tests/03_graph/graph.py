@@ -36,10 +36,10 @@ class GraphTester(unittest.TestCase):
         pb_list = []
 
         fc = FileComparator(t, r)
-        r = fc.compare()
+        res = fc.compare()
 
-        print('\n### Overall result is: ', r)
-        if not r:
+        print('\n### Overall result is: ', res.files_are_equal)
+        if not res.files_are_equal:
             pb_list = fc.get_different_var_tuples()
             print('Errors exist (' + str(len(pb_list)) + ')')
 
@@ -47,7 +47,7 @@ class GraphTester(unittest.TestCase):
         for result in fc.get_results():
             self.generate_png(result.test_var, result.ref_var)
 
-        self.assertFalse(r)
+        self.assertFalse(res.files_are_equal)
 
     #################################################################################
     def test_equals(self):
@@ -56,10 +56,10 @@ class GraphTester(unittest.TestCase):
         pb_list = []
 
         fc = FileComparator(fp, fp)
-        r = fc.compare()
+        res = fc.compare()
 
-        print('\n### Overall result is: ', r)
-        if not r:
+        print('\n### Overall result is: ', res.files_are_equal)
+        if not res.files_are_equal:
             pb_list = fc.get_different_var_tuples()
             print('Errors exist (' + str(len(pb_list)) + ')')
 
@@ -67,7 +67,7 @@ class GraphTester(unittest.TestCase):
         for result in fc.get_results():
             self.generate_png(result.test_var, result.ref_var)
 
-        self.assertTrue(r)
+        self.assertTrue(res.files_are_equal)
 
     #################################################################################
     def test_diff(self):
@@ -77,10 +77,10 @@ class GraphTester(unittest.TestCase):
         pb_list = []
 
         fc = FileComparator(t, r)
-        r = fc.compare()
+        res = fc.compare()
 
-        print('\n### Overall result is: ', r)
-        if not r:
+        print('\n### Overall result is: ', res.files_are_equal)
+        if not res.files_are_equal:
             pb_list = fc.get_different_var_tuples()
             print('Errors exist (' + str(len(pb_list)) + ')')
 
@@ -88,7 +88,7 @@ class GraphTester(unittest.TestCase):
         for result in fc.get_results():
             self.generate_png(result.test_var, result.ref_var)
 
-        self.assertFalse(r)
+        self.assertFalse(res.files_are_equal)
 
 if __name__ == '__main__':
     unittest.main()

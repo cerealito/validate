@@ -27,17 +27,18 @@ class PdfTester(unittest.TestCase):
         r = '../00_install/small_2.csv'
 
         fc = FileComparator(t, r)
-        r = fc.compare()
-        self.assertFalse(r)
+        res = fc.compare()
+        self.assertFalse(res.files_are_equal)
 
-        print('\n### Overall result is: ', r)
+        print('\n### Overall result is: ', res.files_are_equal)
         print('generating pdf report...')
         out_f = 'test2.pdf'
-        pdf_report = PDFReport(fc.get_results())
-        pdf_report.add_page()
-        pdf_report.set_font('Times','',12)
+        pdf_report = PDFReport(res)
+
+        pdf_report.summary()
+
         for i in range(1,41):
-            pdf_report.cell(0,10,'Printing line number '+str(i),0,1)
+            pdf_report.cell(0, 10, 'Printing line number ' + str(i), 0, 1)
         pdf_report.output(out_f,'F')
 
         self.assertTrue(os.path.exists(out_f))

@@ -3,6 +3,13 @@ from readers.MAXCSVReader import MAXCSVReader
 
 __author__ = 'saflores'
 
+class RSummary:
+    def __init__(self, file_test, file_ref, equal, results_l):
+        self.file_test = file_test
+        self.file_ref = file_ref
+        self.files_are_equal = equal
+        self.result_l = results_l
+
 class Result:
     def __init__(self, test_var, ref_var, match, error):
         self.test_var = test_var
@@ -15,6 +22,8 @@ class Result:
 
 class FileComparator:
     def __init__(self, file_test, file_ref):
+        self.file_test = file_test
+        self.file_ref = file_ref
         self.different_vars = []
         self.results = []
 
@@ -58,7 +67,9 @@ class FileComparator:
             if not vars_match:
                 self.different_vars.append((v_test, v_ref))
 
-        return all_vars_equal
+        result_summary = RSummary(self.file_test, self.file_ref, all_vars_equal, self.results)
+
+        return result_summary
 
     def get_different_var_tuples(self):
         return self.different_vars
