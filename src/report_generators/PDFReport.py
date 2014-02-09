@@ -1,3 +1,6 @@
+from os.path import abspath
+from charts.generation import generate_png
+
 __author__ = 'cerealito'
 
 from fpdf import FPDF
@@ -30,15 +33,26 @@ class PDFReport(FPDF):
         # Arial italic 8
         self.set_font('Arial','I',8)
         # Page number
-        self.cell(0, 10, 'Page '+str(self.page_no())+'/{nb}',0,0,'C')
+        self.cell(0, 10, 'Page '+str(self.page_no())+'/{nb}', 0, 0, 'C')
 
     def summary(self):
 
         self.multi_cell(w=0, h=5, txt='Test report for files:', border=0)
-
-        self.cell(w=0, h=5, txt=self.r_summary.file_test, border=0, ln=1)
-        self.cell(w=0, h=5, txt=self.r_summary.file_ref, border=0, ln=1)
+        self.cell(w=0, h=5, border=0, ln=1)
+        self.cell(w=0, h=5, txt=abspath(self.r_summary.file_test), border=0, ln=1)
+        self.cell(w=0, h=5, txt=abspath(self.r_summary.file_ref), border=0, ln=1)
+        self.cell(w=0, h=5, border=0, ln=1)
 
         self.cell(w=0, h=5, txt='Over all result is ' + str(self.r_summary.files_are_equal), border=0, ln=1)
+        self.cell(w=0, h=5, border=0, ln=1)
+
+        self.cell(w=0, h=5, txt='Variables follow' + str(self.r_summary.files_are_equal), border=0, ln=1)
+
         for r in self.r_summary.result_l:
             self.cell(w=0, h=5, txt=str(r), border=0, ln=1)
+
+        # for every couple of variables, generate a png
+        for result in self.r_summary.result_l:
+            generate_png(result.test_var, result.ref_var)
+
+

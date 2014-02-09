@@ -39,7 +39,8 @@ class PdfTester(unittest.TestCase):
 
         for i in range(1,41):
             pdf_report.cell(0, 10, 'Printing line number ' + str(i), 0, 1)
-        pdf_report.output(out_f,'F')
+
+        pdf_report.output(out_f, 'F')
 
         self.assertTrue(os.path.exists(out_f))
 
