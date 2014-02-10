@@ -25,6 +25,7 @@ def generate_png(test, ref):
     # for some weird reason we must call savefig before show, otherwise the output file is all white
     plt.savefig(output_f)
     #plt.show()
+    plt.close()
     if exists(output_f):
         return abspath(output_f)
     else:

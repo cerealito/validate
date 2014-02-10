@@ -19,7 +19,7 @@ class PdfTester(unittest.TestCase):
         pdf.cell(40, 10, 'PDF TEST!', border=1, ln=1)
         pdf.cell(100, 10, 'Powered by FPDF.', border=0, ln=0, align='C')
 
-        pdf.output('test1.pdf','F')
+        pdf.output('mini.pdf','F')
 
     def test_small(self):
         print('Comparing and graphing a mini error...')
@@ -32,18 +32,34 @@ class PdfTester(unittest.TestCase):
 
         print('\n### Overall result is: ', res.files_are_equal)
         print('generating pdf report...')
-        out_f = 'test2.pdf'
+        out_f = 'small.pdf'
         pdf_report = PDFReport(res)
 
         pdf_report.summary()
-
-        for i in range(1,41):
-            pdf_report.cell(0, 10, 'Printing line number ' + str(i), 0, 1)
 
         pdf_report.output(out_f, 'F')
 
         self.assertTrue(os.path.exists(out_f))
 
+    def test_big(self):
+        print('Comparing and graphing a mini error...')
+        t = '../00_install/test_214.csv'
+        r = '../00_install/ref_214.csv'
+
+        fc = FileComparator(t, r)
+        res = fc.compare()
+        self.assertFalse(res.files_are_equal)
+
+        print('\n### Overall result is: ', res.files_are_equal)
+        print('generating pdf report...')
+        out_f = 'big.pdf'
+        pdf_report = PDFReport(res)
+
+        pdf_report.summary()
+
+        pdf_report.output(out_f, 'F')
+
+        self.assertTrue(os.path.exists(out_f))
 
 if __name__ == '__main__':
     unittest.main()

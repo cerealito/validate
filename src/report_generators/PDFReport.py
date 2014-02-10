@@ -8,7 +8,7 @@ from fpdf import FPDF
 class PDFReport(FPDF):
 
     def __init__(self, result_summary):
-        super().__init__()
+        super().__init__(orientation='P', unit='mm', format='A4')
         self.r_summary = result_summary
         self.title = 'untitled'
 
@@ -38,21 +38,21 @@ class PDFReport(FPDF):
     def summary(self):
 
         self.multi_cell(w=0, h=5, txt='Test report for files:', border=0)
-        self.cell(w=0, h=5, border=0, ln=1)
+        self.ln()
         self.cell(w=0, h=5, txt=abspath(self.r_summary.file_test), border=0, ln=1)
         self.cell(w=0, h=5, txt=abspath(self.r_summary.file_ref), border=0, ln=1)
-        self.cell(w=0, h=5, border=0, ln=1)
+        self.ln()
 
         self.cell(w=0, h=5, txt='Over all result is ' + str(self.r_summary.files_are_equal), border=0, ln=1)
-        self.cell(w=0, h=5, border=0, ln=1)
+        self.ln()
 
-        self.cell(w=0, h=5, txt='Variables follow' + str(self.r_summary.files_are_equal), border=0, ln=1)
-
+        self.cell(w=0, h=5, txt='The following variables were compared:', border=0, ln=1)
+        self.set_font('Courier', 'B', 12)
+        self.cell(w=0, h=5, txt='{:<60} {:>}'.format('Variable', 'Error'), border=0, ln=1)
         for r in self.r_summary.result_l:
             self.cell(w=0, h=5, txt=str(r), border=0, ln=1)
 
         # for every couple of variables, generate a png
         for result in self.r_summary.result_l:
-            generate_png(result.test_var, result.ref_var)
-
-
+            tmp_img_f = generate_png(result.test_var, result.ref_var)
+            self.image(tmp_img_f, w=180 )
