@@ -13,8 +13,8 @@ class FileComparator_tester(unittest.TestCase):
         fc = FileComparator(t, r)
         res = fc.compare()
 
-        print('\n### Overall result is: ', res.files_are_equal)
-        self.assertFalse(res.files_are_equal)
+        print('\n### Overall result is: ', res.is_acceptable)
+        self.assertFalse(res.is_acceptable)
 
     def test_equals(self):
         print('comparing a file to itself')
@@ -23,19 +23,19 @@ class FileComparator_tester(unittest.TestCase):
         fc = FileComparator(fp, fp)
         res = fc.compare()
 
-        print('\n### Overall result is: ', res.files_are_equal)
-        self.assertTrue(res.files_are_equal)
+        print('\n### Overall result is: ', res.is_acceptable)
+        self.assertTrue(res.is_acceptable)
 
     def test_diff(self):
-        print('Comparing to a known error...')
+        print('Comparing to a known error... (should pass)')
         t = '../00_install/test_214.csv'
         r = '../00_install/ref_214.csv'
 
         fc = FileComparator(t, r)
         res = fc.compare()
 
-        print('\n### Overall result is: ', res.files_are_equal)
-        self.assertFalse(res.files_are_equal)
+        print('\n### Overall result is: ', res.is_acceptable)
+        self.assertTrue(res.is_acceptable)
 
 if __name__ == '__main__':
     unittest.main()

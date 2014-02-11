@@ -1,4 +1,6 @@
+from encodings import big5
 import unittest
+import os
 from charts.generation import generate_png
 from FileComparator import FileComparator
 
@@ -6,6 +8,8 @@ __author__ = 'saflores'
 
 
 class GraphTester(unittest.TestCase):
+
+
 
     #################################################################################
     def test_mini(self):
@@ -17,8 +21,8 @@ class GraphTester(unittest.TestCase):
         fc = FileComparator(t, r)
         res = fc.compare()
 
-        print('\n### Overall result is: ', res.files_are_equal)
-        if not res.files_are_equal:
+        print('\n### Overall result is: ', res.is_acceptable)
+        if not res.is_acceptable:
             print('Errors exist (' + str(len(fc.different_vars)) + ')')
 
         # for every couple of variables, generate a png
@@ -27,7 +31,7 @@ class GraphTester(unittest.TestCase):
             of = generate_png(result.test_var, result.ref_var)
             self.assertIsNotNone(of)
 
-        self.assertFalse(res.files_are_equal)
+        self.assertFalse(res.is_acceptable)
 
     #################################################################################
     def test_equals(self):
@@ -37,8 +41,8 @@ class GraphTester(unittest.TestCase):
         fc = FileComparator(fp, fp)
         res = fc.compare()
 
-        print('\n### Overall result is: ', res.files_are_equal)
-        if not res.files_are_equal:
+        print('\n### Overall result is: ', res.is_acceptable)
+        if not res.is_acceptable:
             print('Errors exist (' + str(len(fc.different_vars)) + ')')
 
         # for every couple of variables, generate a png
@@ -46,7 +50,7 @@ class GraphTester(unittest.TestCase):
             of = generate_png(result.test_var, result.ref_var)
             self.assertIsNotNone(of)
 
-        self.assertTrue(res.files_are_equal)
+        self.assertTrue(res.is_acceptable)
 
     #################################################################################
     def test_diff(self):
@@ -57,8 +61,8 @@ class GraphTester(unittest.TestCase):
         fc = FileComparator(t, r)
         res = fc.compare()
 
-        print('\n### Overall result is: ', res.files_are_equal)
-        if not res.files_are_equal:
+        print('\n### Overall result is: ', res.is_acceptable)
+        if not res.is_acceptable:
             print('Errors exist (' + str(len(fc.different_vars)) + ')')
 
         # for every couple of variables, generate a png
@@ -66,7 +70,7 @@ class GraphTester(unittest.TestCase):
             of = generate_png(result.test_var, result.ref_var)
             self.assertIsNotNone(of)
 
-        self.assertFalse(res.files_are_equal)
+        self.assertTrue(res.is_acceptable)
 
 if __name__ == '__main__':
     unittest.main()

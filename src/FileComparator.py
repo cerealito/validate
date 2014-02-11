@@ -1,6 +1,9 @@
 from VarComparator import VarComparator
 from readers.MAXCSVReader import MAXCSVReader
 from Results import ResultCouple, FileCmpResult
+import time
+from datetime import datetime
+
 __author__ = 'saflores'
 
 
@@ -26,7 +29,7 @@ class FileComparator:
             raise NotImplementedError('files do not have the same number of samples')
 
     def compare(self):
-        all_vars_equal = True
+        all_variables_pass = True
 
         ###############################################################
         # some output to the user
@@ -46,14 +49,19 @@ class FileComparator:
             self.result_couple_l.append(r)
             print(r)
 
-            all_vars_equal = vars_match and all_vars_equal
+            all_variables_pass = (r.status == 'matched' or r.status == 'passed') and all_variables_pass
 
             if not vars_match:
                 self.different_vars.append((v_test, v_ref))
 
         ###############################################################
         # Pack everything in an object and return
-        file_cmp_result = FileCmpResult(self.file_test, self.file_ref, all_vars_equal, self.result_couple_l)
+
+        file_cmp_result = FileCmpResult(self.file_test,
+                                        self.file_ref,
+                                        all_variables_pass,
+                                        self.result_couple_l,
+                                        datetime.now())
 
         return file_cmp_result
 

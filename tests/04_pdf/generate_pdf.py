@@ -1,7 +1,6 @@
 import os
 import unittest
 
-
 from fpdf import FPDF
 from src.FileComparator import FileComparator
 from report_generators.PDFReport import PDFReport
@@ -10,6 +9,13 @@ __author__ = 'saflores'
 
 
 class PdfTester(unittest.TestCase):
+    def setUp(self):
+        try:
+            os.remove('big.pdf')
+            os.remove('small.pdf')
+            os.remove('mini.pdf')
+        except FileNotFoundError:
+            pass
     #################################################################################
     def test_mini(self):
         pdf = FPDF()
@@ -22,15 +28,15 @@ class PdfTester(unittest.TestCase):
         pdf.output('mini.pdf','F')
 
     def test_small(self):
-        print('Comparing and graphing a mini error...')
+        print('Comparing and graphing a mini error')
         t = '../00_install/small.csv'
         r = '../00_install/small_2.csv'
 
         fc = FileComparator(t, r)
         res = fc.compare()
-        self.assertFalse(res.files_are_equal)
+        self.assertFalse(res.is_acceptable)
 
-        print('\n### Overall result is: ', res.files_are_equal)
+        print('\n### Overall result is: ', res.is_acceptable)
         print('generating pdf report...')
         out_f = 'small.pdf'
         pdf_report = PDFReport(res)
@@ -48,9 +54,9 @@ class PdfTester(unittest.TestCase):
 
         fc = FileComparator(t, r)
         res = fc.compare()
-        self.assertFalse(res.files_are_equal)
+        self.assertTrue(res.is_acceptable)
 
-        print('\n### Overall result is: ', res.files_are_equal)
+        print('\n### Overall result is: ', res.is_acceptable)
         print('generating pdf report...')
         out_f = 'big.pdf'
         pdf_report = PDFReport(res)

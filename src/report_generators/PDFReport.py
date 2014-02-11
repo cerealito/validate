@@ -42,28 +42,41 @@ class PDFReport(FPDF):
         #######################################################################
         # Big title in the first page
         self.set_y(30)
-        self.set_font('Arial', 'B', 18)
-        self.cell(w=190, h=10, txt=self.title, ln=1, border=0, align='C')
+        self.set_font('Arial', 'B', 16)
+        self.cell(w=190, h=10, txt=self.title, ln=1,  align='C')
 
         #######################################################################
         # body of the report
-        self.set_font('Arial', 'B', 12)
+        self.set_font('Arial', '', 10)
         self.ln()
         self.ln()
-        self.multi_cell(w=0, h=5, txt='Validation report for files:', border=0)
-        self.ln()
-        self.cell(w=0, h=5, txt=abspath(self.file_cmp_result.file_test), border=0, ln=1)
-        self.cell(w=0, h=5, txt=abspath(self.file_cmp_result.file_ref), border=0, ln=1)
-        self.ln()
+        l = 'On' + self.file_cmp_result.date.strftime('  %d/%m/%Y at %H:%M  ') +\
+            'the following files were compared:'
+        self.cell(w=0, h=5, txt=l, ln=1)
+        self.cell(w=0, h=5, txt='Test:', ln=1)
 
-        self.cell(w=0, h=5, txt='Over all result is ' + str(self.file_cmp_result.files_are_equal), border=0, ln=1)
-        self.ln()
-
-        self.cell(w=0, h=5, txt='The following variables were compared:', border=0, ln=1)
         self.set_font('Courier', 'B', 10)
-        self.cell(w=0, h=5, txt='{:<60} {:<}  {:<7}'.format('Variable', 'Error', 'Status'), border=0, ln=1)
+        self.cell(w=0, h=5, txt='    ' + abspath(self.file_cmp_result.file_test), ln=1)
+
+        self.set_font('Arial', '', 10)
+        self.cell(w=0, h=5, txt='Reference:', ln=1)
+
+        self.set_font('Courier', 'B', 10)
+        self.cell(w=0, h=5, txt='    ' + abspath(self.file_cmp_result.file_ref), ln=1)
+
+        self.set_font('Arial', '', 10)
+        self.ln()
+
+        l = 'Passed' if self.file_cmp_result.is_acceptable else 'Not passed'
+
+        self.cell(w=0, h=5, txt='Over all result is ' + l,  ln=1)
+        self.ln()
+
+        self.cell(w=0, h=5, txt='Summary of the variables compared:', ln=1)
+        self.set_font('Courier', 'B', 10)
+        self.cell(w=0, h=5, txt='{:<60} {:<}  {:<7}'.format('Variable', 'Error', 'Status'),  ln=1)
         for r in self.file_cmp_result.result_l:
-            self.cell(w=0, h=5, txt=str(r), border=0, ln=1)
+            self.cell(w=0, h=5, txt=str(r),  ln=1)
 
         # for every couple of variables, generate a png
         for result in self.file_cmp_result.result_l:
