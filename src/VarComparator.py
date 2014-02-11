@@ -11,7 +11,6 @@ class VarComparator:
             raise ValueError('Variables must have equal domains')
 
         for t in test.times:
-
             test_v = test.value_at(t)
             ref_v = ref.value_at(t)
             if test_v != ref_v:

@@ -15,7 +15,8 @@ def generate_png(test, ref):
     plt.title(test.name)
     plt.ylabel('value')
     plt.xlabel('seconds')
-    plt.legend(ncol=1, loc=2)
+    # one
+    plt.legend(ncol=1, loc=1)
 
     # get the min and max values in the Y axis
     ymin, ymax = plt.ylim()

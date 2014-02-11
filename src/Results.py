@@ -13,6 +13,12 @@ class ResultCouple:
         self.ref_var = ref_var
         self.match = match
         self.error = error
+        self.status = 'ko'
+
+        if error <= 5:
+            self.status = 'warning'
+        if error <= 1:
+            self.status = 'passed'
 
     def __str__(self):
-        return '{:<60} {:.2f}%'.format(self.test_var.name, self.error)
+        return '{:<60} {:.2f}%  {:>7}'.format(self.test_var.name, self.error, self.status)

@@ -9,7 +9,7 @@ class FileComparator:
         self.file_test = file_test
         self.file_ref = file_ref
         self.different_vars = []
-        self.results = []
+        self.result_couple_l = []
 
         #TODO: decide what type of file this is
         ###############################################################
@@ -43,7 +43,7 @@ class FileComparator:
             vars_match, error = vc.compare(v_test, v_ref)
 
             r = ResultCouple(v_test, v_ref, vars_match, error)
-            self.results.append(r)
+            self.result_couple_l.append(r)
             print(r)
 
             all_vars_equal = vars_match and all_vars_equal
@@ -51,14 +51,9 @@ class FileComparator:
             if not vars_match:
                 self.different_vars.append((v_test, v_ref))
 
-        file_cmp_result = FileCmpResult(self.file_test, self.file_ref, all_vars_equal, self.results)
+        ###############################################################
+        # Pack everything in an object and return
+        file_cmp_result = FileCmpResult(self.file_test, self.file_ref, all_vars_equal, self.result_couple_l)
 
         return file_cmp_result
-
-    def get_different_var_tuples(self):
-        return self.different_vars
-
-    def get_results(self):
-        return self.results
-
 

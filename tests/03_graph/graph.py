@@ -19,11 +19,10 @@ class GraphTester(unittest.TestCase):
 
         print('\n### Overall result is: ', res.files_are_equal)
         if not res.files_are_equal:
-            pb_list = fc.get_different_var_tuples()
-            print('Errors exist (' + str(len(pb_list)) + ')')
+            print('Errors exist (' + str(len(fc.different_vars)) + ')')
 
         # for every couple of variables, generate a png
-        for result in fc.get_results():
+        for result in fc.result_couple_l:
 
             of = generate_png(result.test_var, result.ref_var)
             self.assertIsNotNone(of)
@@ -40,11 +39,10 @@ class GraphTester(unittest.TestCase):
 
         print('\n### Overall result is: ', res.files_are_equal)
         if not res.files_are_equal:
-            pb_list = fc.get_different_var_tuples()
-            print('Errors exist (' + str(len(pb_list)) + ')')
+            print('Errors exist (' + str(len(fc.different_vars)) + ')')
 
         # for every couple of variables, generate a png
-        for result in fc.get_results():
+        for result in fc.result_couple_l:
             of = generate_png(result.test_var, result.ref_var)
             self.assertIsNotNone(of)
 
@@ -61,11 +59,10 @@ class GraphTester(unittest.TestCase):
 
         print('\n### Overall result is: ', res.files_are_equal)
         if not res.files_are_equal:
-            pb_list = fc.get_different_var_tuples()
-            print('Errors exist (' + str(len(pb_list)) + ')')
+            print('Errors exist (' + str(len(fc.different_vars)) + ')')
 
         # for every couple of variables, generate a png
-        for result in fc.get_results():
+        for result in fc.result_couple_l:
             of = generate_png(result.test_var, result.ref_var)
             self.assertIsNotNone(of)
 

@@ -60,8 +60,8 @@ class PDFReport(FPDF):
         self.ln()
 
         self.cell(w=0, h=5, txt='The following variables were compared:', border=0, ln=1)
-        self.set_font('Courier', 'B', 12)
-        self.cell(w=0, h=5, txt='{:<60} {:>}'.format('Variable', 'Error'), border=0, ln=1)
+        self.set_font('Courier', 'B', 10)
+        self.cell(w=0, h=5, txt='{:<60} {:<}  {:<7}'.format('Variable', 'Error', 'Status'), border=0, ln=1)
         for r in self.file_cmp_result.result_l:
             self.cell(w=0, h=5, txt=str(r), border=0, ln=1)
 
