@@ -1,16 +1,15 @@
-from pip.vendor.html5lib.filters import alphabeticalattributes
-
 __author__ = 'cerealito'
 import matplotlib.pyplot as plt
 from os.path import abspath, exists
+
 
 def generate_png(test, ref):
 
     output_f = test.name + '.png'
 
-    plt.plot(ref.times, ref.values, color='#00FF21',
+    plt.plot(ref.times(), ref.values(), color='#00FF21',
              label='ref', linestyle='solid', linewidth=2.5)
-    plt.plot(test.times, test.values, color='#FF1D00',
+    plt.plot(test.times(), test.values(), color='#FF1D00',
              label='test', linestyle='dashed', linewidth=1.5)
     plt.title(test.name)
     plt.ylabel('value')

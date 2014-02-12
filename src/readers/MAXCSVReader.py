@@ -75,8 +75,9 @@ class MAXCSVReader:
 
                 for v in self.variables:
                     #print('\tvar ' + v.name + '=', row[v.index])
-                    v.times.append(t)
-                    v.values.append(row[v.index])
+                    v.samples[float(t)] = row[v.index]
+                    #v.times.append(t)
+                    #v.values.append(row[v.index])
 
     def get_variable(self, fullname):
         look_up_v = Variable(fullname)

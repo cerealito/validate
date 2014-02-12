@@ -27,6 +27,9 @@ class FileComparator_tester(unittest.TestCase):
         self.assertTrue(res.is_acceptable)
 
     def test_diff(self):
+        # lists 44 secs
+        # od    2.23 secs!
+        # dicts
         print('Comparing to a known error... (should pass)')
         t = '../00_install/test_214.csv'
         r = '../00_install/ref_214.csv'

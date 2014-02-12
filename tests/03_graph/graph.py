@@ -8,9 +8,6 @@ __author__ = 'saflores'
 
 
 class GraphTester(unittest.TestCase):
-
-
-
     #################################################################################
     def test_mini(self):
         print('Comparing and graphing a mini error...')
