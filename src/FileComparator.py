@@ -1,7 +1,5 @@
-from VarComparator import VarComparator
 from readers.MAXCSVReader import MAXCSVReader
 from Results import ResultCouple, FileCmpResult
-import time
 from datetime import datetime
 
 __author__ = 'saflores'
@@ -42,8 +40,8 @@ class FileComparator:
 
             v_ref = self.record_ref.get_variable(v_test.fullname)
             # TODO see if you can turn this to a function or static method of class 'Variable'
-            vc = VarComparator()
-            vars_match, error = vc.compare(v_test, v_ref)
+
+            vars_match, error = v_test.compare_to(v_ref)
 
             r = ResultCouple(v_test, v_ref, vars_match, error)
             self.result_couple_l.append(r)

@@ -25,7 +25,7 @@ def generate_png(test, ref):
 
 
     # for some weird reason we must call savefig before show, otherwise the output file is all white
-    plt.savefig(output_f)
+    plt.savefig(output_f, dpi=240, bbox_inches='tight')
     #plt.show()
     plt.close()
     if exists(output_f):
