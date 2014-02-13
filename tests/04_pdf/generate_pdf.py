@@ -2,7 +2,7 @@ import os
 import unittest
 
 from fpdf import FPDF
-from src.FileComparator import FileComparator
+from FileComparator import FileComparator
 from report_generators.PDFReport import PDFReport
 
 __author__ = 'saflores'

@@ -1,5 +1,5 @@
 import unittest
-from src.FileComparator import FileComparator
+from FileComparator import FileComparator
 
 __author__ = 'saflores'
 

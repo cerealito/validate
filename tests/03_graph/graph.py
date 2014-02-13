@@ -1,6 +1,5 @@
 from encodings import big5
 import unittest
-import os
 from charts.generation import generate_png
 from FileComparator import FileComparator
 
