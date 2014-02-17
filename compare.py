@@ -13,22 +13,18 @@ if __name__ == '__main__':
 __author__ = 'saflores'
 
 from FileComparator import FileComparator
-from report_generators.PDFReport import PDFReport
 
 ###############################################################################
-if __name__ == '__main__':
+print('Test...')
+t = './tests/00_install/test_214.csv'
+r = './tests/00_install/ref_214.csv'
 
+fc = FileComparator(t, r)
+res = fc.compare()
+print()
+if res:
+    print('### Files do not have significant differences: PASS')
+else:
+    print('### Files differ significantly: FAIL')
 
-    print('Test...')
-    t = './tests/00_install/test_214.csv'
-    r = './tests/00_install/ref_214.csv'
-
-    fc = FileComparator(t, r)
-    res = fc.compare()
-    print()
-    if res:
-        print('### Files do not have significant differences: PASS')
-    else:
-        print('### Files differ significantly: FAIL')
-
-    sys.exit(0)
+sys.exit(0)
