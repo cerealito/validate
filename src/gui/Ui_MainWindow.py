@@ -1,11 +1,31 @@
+from PyQt5.QtGui import QDropEvent
+
 __author__ = 'saflores'
 
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5 import QtCore
+from PyQt5.QtWidgets import *
 from PyQt5.QtCore import pyqtSlot
-from PyQt5.QtWidgets import QMessageBox
 import platform
 
 __version__ = '0.0.1'
+
+class TgtLine(QLineEdit):
+    def __init__(self, *args):
+        super().__init__(*args)
+        self.setAcceptDrops(True)
+
+    def dragEnterEvent(self, event):
+        # we need to accept the proposed action or change it.
+        # otherwise dropEvent() won't be called.
+        # accept only if there is a copy...
+        if event.proposedAction() == QtCore.Qt.CopyAction:
+            event.acceptProposedAction()
+
+    def dropEvent(self, event):
+        if event.mimeData().hasUrls():
+            str_p = event.mimeData().urls()[0].path()
+            print(str_p)
+            self.setText(str_p)
 
 class Ui_MainWindow(object):
 
@@ -15,53 +35,53 @@ class Ui_MainWindow(object):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(648, 173)
 
-        self.centralwidget = QtWidgets.QWidget(MainWindow)
+        self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
 
-        self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
+        self.gridLayout = QGridLayout(self.centralwidget)
         self.gridLayout.setObjectName("gridLayout")
 
-        self.lbl_ref = QtWidgets.QLabel(self.centralwidget)
+        self.lbl_ref = QLabel(self.centralwidget)
         self.lbl_ref.setObjectName("lbl_ref")
         self.gridLayout.addWidget(self.lbl_ref, 2, 0, 1, 1)
 
-        self.line_test = QtWidgets.QLineEdit(self.centralwidget)
+        self.line_test = TgtLine(self.centralwidget)
         self.line_test.setObjectName("line_test")
         self.gridLayout.addWidget(self.line_test, 1, 0, 1, 3)
 
-        self.lbl_test = QtWidgets.QLabel(self.centralwidget)
+        self.lbl_test = QLabel(self.centralwidget)
         self.lbl_test.setObjectName("lbl_test")
         self.gridLayout.addWidget(self.lbl_test, 0, 0, 1, 1)
 
-        self.line_ref = QtWidgets.QLineEdit(self.centralwidget)
+        self.line_ref = QLineEdit(self.centralwidget)
         self.line_ref.setObjectName("line_ref")
         self.gridLayout.addWidget(self.line_ref, 3, 0, 1, 3)
 
-        spacerItem = QtWidgets.QSpacerItem(268, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem = QSpacerItem(268, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
         self.gridLayout.addItem(spacerItem, 4, 2, 1, 1)
 
-        self.btn_compare = QtWidgets.QPushButton(self.centralwidget)
+        self.btn_compare = QPushButton(self.centralwidget)
         self.btn_compare.setObjectName("btn_compare")
         self.gridLayout.addWidget(self.btn_compare, 4, 1, 1, 1)
 
-        spacerItem1 = QtWidgets.QSpacerItem(269, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem1 = QSpacerItem(269, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
         self.gridLayout.addItem(spacerItem1, 4, 0, 1, 1)
 
-        spacerItem2 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        spacerItem2 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
         self.gridLayout.addItem(spacerItem2, 5, 0, 1, 3)
 
         MainWindow.setCentralWidget(self.centralwidget)
 
-        self.menubar = QtWidgets.QMenuBar(MainWindow)
+        self.menubar = QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 648, 18))
         self.menubar.setObjectName("menubar")
-        self.menuHelp = QtWidgets.QMenu(self.menubar)
+        self.menuHelp = QMenu(self.menubar)
         self.menuHelp.setObjectName("menuHelp")
         MainWindow.setMenuBar(self.menubar)
-        self.statusbar = QtWidgets.QStatusBar(MainWindow)
+        self.statusbar = QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
-        self.actionAbout = QtWidgets.QAction(MainWindow)
+        self.actionAbout = QAction(MainWindow)
         self.actionAbout.setObjectName("actionAbout")
         self.menuHelp.addAction(self.actionAbout)
         self.menubar.addAction(self.menuHelp.menuAction())
@@ -71,7 +91,6 @@ class Ui_MainWindow(object):
 
         ###########################################################
         # connections follow
-
         self.btn_compare.clicked.connect(lambda: self.do_something("lambda makes the function " +
                                                                   "annonymous so that we can pass " +
                                                                   "parameters"))
