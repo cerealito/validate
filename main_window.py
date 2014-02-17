@@ -12,7 +12,7 @@ from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtWidgets import QMessageBox
 import platform
 
-toto = '0.0.1'
+__version__ = '0.0.1'
 
 
 class Ui_MainWindow(object):
@@ -29,32 +29,32 @@ class Ui_MainWindow(object):
         self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
         self.gridLayout.setObjectName("gridLayout")
 
-        self.lineEdit = QtWidgets.QLineEdit(self.centralwidget)
-        self.lineEdit.setObjectName("lineEdit")
+        self.lbl_ref = QtWidgets.QLabel(self.centralwidget)
+        self.lbl_ref.setObjectName("lbl_ref")
+        self.gridLayout.addWidget(self.lbl_ref, 2, 0, 1, 1)
 
-        self.gridLayout.addWidget(self.lineEdit, 1, 0, 1, 3)
+        self.line_test = QtWidgets.QLineEdit(self.centralwidget)
+        self.line_test.setObjectName("line_test")
+        self.gridLayout.addWidget(self.line_test, 1, 0, 1, 3)
+
+        self.lbl_test = QtWidgets.QLabel(self.centralwidget)
+        self.lbl_test.setObjectName("lbl_test")
+        self.gridLayout.addWidget(self.lbl_test, 0, 0, 1, 1)
+
+        self.line_ref = QtWidgets.QLineEdit(self.centralwidget)
+        self.line_ref.setObjectName("line_ref")
+        self.gridLayout.addWidget(self.line_ref, 3, 0, 1, 3)
+
         spacerItem = QtWidgets.QSpacerItem(268, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.gridLayout.addItem(spacerItem, 4, 2, 1, 1)
 
-        self.pushButton = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton.setObjectName("pushButton")
+        self.btn_compare = QtWidgets.QPushButton(self.centralwidget)
+        self.btn_compare.setObjectName("btn_compare")
+        self.gridLayout.addWidget(self.btn_compare, 4, 1, 1, 1)
 
-        self.gridLayout.addWidget(self.pushButton, 4, 1, 1, 1)
-
-        self.lineEdit_2 = QtWidgets.QLineEdit(self.centralwidget)
-        self.lineEdit_2.setObjectName("lineEdit_2")
-
-        self.gridLayout.addWidget(self.lineEdit_2, 3, 0, 1, 3)
         spacerItem1 = QtWidgets.QSpacerItem(269, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.gridLayout.addItem(spacerItem1, 4, 0, 1, 1)
 
-        self.label_2 = QtWidgets.QLabel(self.centralwidget)
-        self.label_2.setObjectName("label_2")
-        self.gridLayout.addWidget(self.label_2, 2, 0, 1, 1)
-        self.label = QtWidgets.QLabel(self.centralwidget)
-        self.label.setObjectName("label")
-
-        self.gridLayout.addWidget(self.label, 0, 0, 1, 1)
         spacerItem2 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.gridLayout.addItem(spacerItem2, 5, 0, 1, 3)
 
@@ -77,36 +77,39 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
-        #self.pushButton.clicked.connect(outsider)
-        self.pushButton.clicked.connect(lambda: self.do_something("caca"))
-        self.pushButton.clicked.connect(self.about)
+        ###########################################################
+        # connections follow
+
+        self.btn_compare.clicked.connect(lambda: self.do_something("lambda makes the function " +
+                                                                  "annonymous so that we can pass " +
+                                                                  "parameters"))
+
+        self.actionAbout.triggered.connect(self.about)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "Validate"))
-        self.pushButton.setText(_translate("MainWindow", "Compare"))
-        self.label_2.setText(_translate("MainWindow", "Reference File:"))
-        self.label.setText(_translate("MainWindow", "Test File:"))
+        self.btn_compare.setText(_translate("MainWindow", "Compare"))
+        self.lbl_ref.setText(_translate("MainWindow", "Reference File:"))
+        self.lbl_test.setText(_translate("MainWindow", "Test File:"))
         self.menuHelp.setTitle(_translate("MainWindow", "Help"))
         self.actionAbout.setText(_translate("MainWindow", "About"))
 
     @pyqtSlot()
     def do_something(self, p):
-        print ("1: is " + self.lineEdit.text())
-        print ("2: is " + self.lineEdit_2.text())
-        print (p)
+        print("1: is " + self.line_test.text())
+        print("2: is " + self.line_ref.text())
+        print(p)
 
     def about(self):
+        str = "<center><b>Validate v{0} </b></center>           " + \
+              "<p>Copyright © 2014 Samuel FLORES.               " + \
+              "All rights reserved in accordance with GPL v3</p>" + \
+              "<p>Python {1} - on {2}</p>"
+
         QMessageBox.about(self.MainWindow, "Validate",
-                          (" <b>Validate v%s\n</b>"
-                           " <p>Copyright (c) 2014 Samuel FLORES.\n"
-                           " All rights reserved in accordance with\n"
-                           " GPL v3 - No Warranties\n"
-                           " <p>Python %s - on %s"
-                          ) % (
-                              toto,
-                              platform.python_version(),
-                              platform.system()))
+                          str.format(__version__, platform.python_version(), platform.system()))
+
         '''Popup a box with about message.'''
 
 if __name__ == "__main__":
