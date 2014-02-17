@@ -5,6 +5,8 @@ __author__ = 'saflores'
 from PyQt5 import QtCore
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import pyqtSlot
+
+
 import platform
 
 __version__ = '0.0.1'
@@ -53,7 +55,7 @@ class Ui_MainWindow(object):
         self.lbl_test.setObjectName("lbl_test")
         self.gridLayout.addWidget(self.lbl_test, 0, 0, 1, 1)
 
-        self.line_ref = QLineEdit(self.centralwidget)
+        self.line_ref = TgtLine(self.centralwidget)
         self.line_ref.setObjectName("line_ref")
         self.gridLayout.addWidget(self.line_ref, 3, 0, 1, 3)
 
@@ -75,16 +77,21 @@ class Ui_MainWindow(object):
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 648, 18))
         self.menubar.setObjectName("menubar")
+
+        self.actionAbout = QAction(MainWindow)
+        self.actionAbout.setObjectName("actionAbout")
+
         self.menuHelp = QMenu(self.menubar)
         self.menuHelp.setObjectName("menuHelp")
+        self.menuHelp.addAction(self.actionAbout)
+
+        self.menubar.addAction(self.menuHelp.menuAction())
+
         MainWindow.setMenuBar(self.menubar)
+
         self.statusbar = QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
-        self.actionAbout = QAction(MainWindow)
-        self.actionAbout.setObjectName("actionAbout")
-        self.menuHelp.addAction(self.actionAbout)
-        self.menubar.addAction(self.menuHelp.menuAction())
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
