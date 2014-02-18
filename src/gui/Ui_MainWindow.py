@@ -23,9 +23,13 @@ class TgtLine(QLineEdit):
         if event.proposedAction() == QtCore.Qt.CopyAction:
             event.acceptProposedAction()
 
-    def dropEvent(self, event):
+    # the ': Type' is a python3 annotation. This helps IDEs to guess the parameter type!
+    # can also be achieved with @type in the docstring...
+    def dropEvent(self, event: QDropEvent):
+
         if event.mimeData().hasUrls():
-            str_p = event.mimeData().urls()[0].path()
+
+            str_p = event.mimeData().urls()[0].toLocalFile()
             print(str_p)
             self.setText(str_p)
 
