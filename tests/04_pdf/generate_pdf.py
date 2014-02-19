@@ -42,6 +42,7 @@ class PdfTester(unittest.TestCase):
         pdf_report = PDFReport(res)
 
         pdf_report.summary()
+        pdf_report.plot_results()
 
         pdf_report.output(out_f, 'F')
 
@@ -62,6 +63,7 @@ class PdfTester(unittest.TestCase):
         pdf_report = PDFReport(res)
 
         pdf_report.summary()
+        pdf_report.plot_results()
 
         pdf_report.output(out_f, 'F')
 

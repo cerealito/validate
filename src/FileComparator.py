@@ -9,7 +9,6 @@ class FileComparator:
     def __init__(self, file_test, file_ref):
         self.file_test = file_test
         self.file_ref = file_ref
-        self.different_vars = []
         self.result_couple_l = []
 
         #TODO: decide what type of file this is
@@ -39,8 +38,6 @@ class FileComparator:
         for v_test in self.record_test.variables:
 
             v_ref = self.record_ref.get_variable(v_test.fullname)
-            # TODO see if you can turn this to a function or static method of class 'Variable'
-
             vars_match, error = v_test.compare_to(v_ref)
 
             r = ResultCouple(v_test, v_ref, vars_match, error)
@@ -48,9 +45,6 @@ class FileComparator:
             print(r)
 
             all_variables_pass = (r.status == 'matched' or r.status == 'passed') and all_variables_pass
-
-            if not vars_match:
-                self.different_vars.append((v_test, v_ref))
 
         ###############################################################
         # Pack everything in an object and return

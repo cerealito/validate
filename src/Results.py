@@ -26,4 +26,4 @@ class ResultCouple:
             self.status = 'ko'
 
     def __str__(self):
-        return '{:<60} {:.2f}%  {:<7}'.format(self.test_var.name, self.error, self.status)
+        return '{:<75} {:.2f}%  {:<7}'.format(self.test_var.name, self.error, self.status)
