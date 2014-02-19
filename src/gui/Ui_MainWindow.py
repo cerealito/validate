@@ -1,4 +1,7 @@
 from PyQt5.QtGui import QDropEvent
+from os.path import exists, basename, abspath
+from FileComparator import FileComparator
+from report_generators.PDFReport import PDFReport
 
 __author__ = 'saflores'
 
@@ -104,7 +107,7 @@ class Ui_MainWindow(object):
         # connections follow
         self.btn_compare.clicked.connect(lambda: self.do_something("lambda makes the function " +
                                                                   "annonymous so that we can pass " +
-                                                                  "parameters"))
+                                                                  "parameters", "blah"))
 
         self.actionAbout.triggered.connect(self.about)
 
@@ -118,10 +121,44 @@ class Ui_MainWindow(object):
         self.actionAbout.setText(_translate("MainWindow", "About"))
 
     @pyqtSlot()
-    def do_something(self, p):
-        print("1: is " + self.line_test.text())
-        print("2: is " + self.line_ref.text())
-        print(p)
+    def do_something(self, p, q):
+        self.statusbar.clearMessage()
+
+        t = self.line_test.text()
+        r = self.line_ref.text()
+
+        if not exists(t):
+            self.statusbar.showMessage('Test file does not exist')
+            return
+
+        if not exists(r):
+            self.statusbar.showMessage('Reference file does not exist')
+            return
+
+        fc = FileComparator(t, r)
+        res = fc.compare()
+
+        if res.is_acceptable:
+            self.statusbar.showMessage('Files do not have significant differences :)')
+        else:
+            self.statusbar.showMessage('Files have significant differences :(')
+
+        out_f = str(basename(t))[:-4] + '.pdf'
+
+        pdf_report = PDFReport(res)
+        pdf_report.summary()
+
+        self.statusbar.showMessage('generating pdf report, please wait...')
+        pdf_report.plot_results()
+        pdf_report.output(out_f, 'F')
+
+        if exists(out_f):
+            self.statusbar.showMessage('Done. Output file is: ' + abspath(out_f))
+            self.line_test.clear()
+            self.line_ref.clear()
+        else:
+            self.statusbar.showMessage('Oops! something went wrong. Cannot continue"')
+
 
     def about(self):
         """Popup a box with about message."""
