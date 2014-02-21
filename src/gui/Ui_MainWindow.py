@@ -87,6 +87,15 @@ class Ui_MainWindow(object):
         self.menubar.setGeometry(QtCore.QRect(0, 0, 648, 18))
         self.menubar.setObjectName("menubar")
 
+        self.action_preferences = QAction(MainWindow)
+        self.action_preferences.setObjectName("action_preferences")
+
+        self.menu_validate = QMenu(self.menubar)
+        self.menu_validate.setObjectName("menu_validate")
+        self.menu_validate.addAction(self.action_preferences)
+
+        self.menubar.addAction(self.menu_validate.menuAction())
+
         self.actionAbout = QAction(MainWindow)
         self.actionAbout.setObjectName("actionAbout")
 
@@ -119,7 +128,9 @@ class Ui_MainWindow(object):
         self.btn_compare.setText(_translate("MainWindow", "Compare"))
         self.lbl_ref.setText(_translate("MainWindow", "Reference File:"))
         self.lbl_test.setText(_translate("MainWindow", "Test File:"))
+        self.menu_validate.setTitle(_translate("MainWindow", "Validate"))
         self.menuHelp.setTitle(_translate("MainWindow", "Help"))
+        self.action_preferences.setText(_translate("MainWindow", "Preferences"))
         self.actionAbout.setText(_translate("MainWindow", "About"))
 
     @pyqtSlot()
