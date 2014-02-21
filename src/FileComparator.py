@@ -56,4 +56,3 @@ class FileComparator:
                                         datetime.now())
 
         return file_cmp_result
-

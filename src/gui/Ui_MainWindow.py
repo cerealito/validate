@@ -14,6 +14,7 @@ import platform
 
 __version__ = '0.0.1'
 
+
 class TgtLine(QLineEdit):
     def __init__(self, *args):
         super().__init__(*args)
@@ -36,9 +37,10 @@ class TgtLine(QLineEdit):
             print(str_p)
             self.setText(str_p)
 
+
 class Ui_MainWindow(object):
 
-    def setupUi(self, MainWindow):
+    def setup_ui(self, MainWindow):
 
         self.MainWindow = MainWindow
         MainWindow.setObjectName("MainWindow")
@@ -158,7 +160,6 @@ class Ui_MainWindow(object):
             self.line_ref.clear()
         else:
             self.statusbar.showMessage('Oops! something went wrong. Cannot continue"')
-
 
     def about(self):
         """Popup a box with about message."""
