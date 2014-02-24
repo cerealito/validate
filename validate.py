@@ -14,13 +14,11 @@ __author__ = 'saflores'
 
 
 from PyQt5 import QtWidgets
-from gui.Ui_MainWindow import Ui_MainWindow
+from gui.ui import UI
 import sys
 
 app = QtWidgets.QApplication(sys.argv)
 MainWindow = QtWidgets.QMainWindow()
-ui = Ui_MainWindow()
-ui.setup_ui(MainWindow)
+ui = UI(MainWindow)
 MainWindow.show()
 sys.exit(app.exec_())
-

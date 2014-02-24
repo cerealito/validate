@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>MainWindow</class>
- <widget class="QMainWindow" name="MainWindow">
+ <class>designer_window</class>
+ <widget class="QMainWindow" name="designer_window">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -13,13 +13,13 @@
   <property name="windowTitle">
    <string>Validate</string>
   </property>
-  <widget class="QWidget" name="centralwidget">
+  <widget class="QWidget" name="central_widget">
    <layout class="QGridLayout" name="gridLayout">
     <item row="1" column="0" colspan="3">
-     <widget class="QLineEdit" name="lineEdit"/>
+     <widget class="TgtLine" name="line_test"/>
     </item>
     <item row="4" column="2">
-     <spacer name="horizontalSpacer_2">
+     <spacer name="spacer_h_right">
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
       </property>
@@ -32,17 +32,17 @@
      </spacer>
     </item>
     <item row="4" column="1">
-     <widget class="QPushButton" name="pushButton">
+     <widget class="QPushButton" name="btn_compare">
       <property name="text">
        <string>Compare</string>
       </property>
      </widget>
     </item>
     <item row="3" column="0" colspan="3">
-     <widget class="QLineEdit" name="lineEdit_2"/>
+     <widget class="TgtLine" name="line_ref"/>
     </item>
     <item row="4" column="0">
-     <spacer name="horizontalSpacer">
+     <spacer name="spacer_h_left">
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
       </property>
@@ -55,21 +55,21 @@
      </spacer>
     </item>
     <item row="2" column="0">
-     <widget class="QLabel" name="label_2">
+     <widget class="QLabel" name="lbl_ref">
       <property name="text">
        <string>Reference File:</string>
       </property>
      </widget>
     </item>
     <item row="0" column="0">
-     <widget class="QLabel" name="label">
+     <widget class="QLabel" name="lbl_test">
       <property name="text">
        <string>Test File:</string>
       </property>
      </widget>
     </item>
     <item row="5" column="0" colspan="3">
-     <spacer name="verticalSpacer">
+     <spacer name="spacer_v_btm">
       <property name="orientation">
        <enum>Qt::Vertical</enum>
       </property>
@@ -92,21 +92,40 @@
      <height>18</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuHelp">
+   <widget class="QMenu" name="menu_help">
     <property name="title">
      <string>Help</string>
     </property>
-    <addaction name="actionAbout"/>
+    <addaction name="action_about"/>
    </widget>
-   <addaction name="menuHelp"/>
+   <widget class="QMenu" name="menu_validate">
+    <property name="title">
+     <string>validate</string>
+    </property>
+    <addaction name="action_preferences"/>
+   </widget>
+   <addaction name="menu_validate"/>
+   <addaction name="menu_help"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
-  <action name="actionAbout">
+  <action name="action_about">
    <property name="text">
     <string>About</string>
    </property>
   </action>
+  <action name="action_preferences">
+   <property name="text">
+    <string>preferences</string>
+   </property>
+  </action>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>TgtLine</class>
+   <extends>QLineEdit</extends>
+   <header>gui.custom</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>
