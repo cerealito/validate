@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>648</width>
-    <height>173</height>
+    <width>652</width>
+    <height>253</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -68,18 +68,32 @@
       </property>
      </widget>
     </item>
-    <item row="5" column="0" colspan="3">
-     <spacer name="spacer_v_btm">
-      <property name="orientation">
-       <enum>Qt::Vertical</enum>
+    <item row="5" column="0">
+     <widget class="QLabel" name="lbl_result_is">
+      <property name="text">
+       <string/>
       </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>20</width>
-        <height>40</height>
-       </size>
+     </widget>
+    </item>
+    <item row="5" column="1" colspan="2">
+     <widget class="QLabel" name="lbl_result">
+      <property name="text">
+       <string/>
       </property>
-     </spacer>
+     </widget>
+    </item>
+    <item row="6" column="0" colspan="3">
+     <widget class="QTableView" name="table_view_results">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Sunken</enum>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>
@@ -88,7 +102,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>648</width>
+     <width>652</width>
      <height>18</height>
     </rect>
    </property>
@@ -100,9 +114,9 @@
    </widget>
    <widget class="QMenu" name="menu_validate">
     <property name="title">
-     <string>validate</string>
+     <string>Validate</string>
     </property>
-    <addaction name="action_preferences"/>
+    <addaction name="action_to_pdf"/>
    </widget>
    <addaction name="menu_validate"/>
    <addaction name="menu_help"/>
@@ -113,9 +127,12 @@
     <string>About</string>
    </property>
   </action>
-  <action name="action_preferences">
+  <action name="action_to_pdf">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
-    <string>preferences</string>
+    <string>Export as PDF</string>
    </property>
   </action>
  </widget>
@@ -126,6 +143,12 @@
    <header>gui.custom</header>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>line_test</tabstop>
+  <tabstop>line_ref</tabstop>
+  <tabstop>btn_compare</tabstop>
+  <tabstop>table_view_results</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

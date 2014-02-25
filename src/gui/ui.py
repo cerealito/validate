@@ -25,16 +25,18 @@ class UI (Ui_designer_window):
         self.setupUi(main_window_p)
         self.main_window = main_window_p
 
+        self.comparision_result = None
+
         ###########################################################
         # connections follow
-        self.btn_compare.clicked.connect(lambda: self.do_something("lambda makes the function " +
-                                                                  "annonymous so that we can pass " +
-                                                                  "parameters", "blah"))
+        self.btn_compare.clicked.connect(self.compare_files)
 
         self.action_about.triggered.connect(self.about)
 
+        self.action_to_pdf.triggered.connect(self.export_as_pdf)
+
     @pyqtSlot()
-    def do_something(self, p, q):
+    def compare_files(self):
         self.statusbar.clearMessage()
 
         t = self.line_test.text()
@@ -48,29 +50,49 @@ class UI (Ui_designer_window):
             self.statusbar.showMessage('Reference file does not exist')
             return
 
+        # TODO: catch exceptions/handle errors
         fc = FileComparator(t, r)
-        res = fc.compare()
 
-        if res.is_acceptable:
-            self.statusbar.showMessage('Files do not have significant differences :)')
+        self.comparision_result = fc.compare()
+
+        ########## visual output to the user:
+        self.lbl_result_is.setText('Overall result is:')
+        if self.comparision_result.is_acceptable:
+            self.lbl_result.setText('<div style="color:green;font-weight:bold;">Passed</div>')
+            self.statusbar.showMessage('Files do not have significant differences :)', 5000)
         else:
-            self.statusbar.showMessage('Files have significant differences :(')
+            self.lbl_result.setText('<div style="color:red;font-weight:bold;">Not Passed</div>')
+            self.statusbar.showMessage('Files have significant differences :(', 5000)
 
-        out_f = str(basename(t))[:-4] + '.pdf'
+        ########## enable pdf export:
+        self.action_to_pdf.setEnabled(True)
 
-        pdf_report = PDFReport(res)
+    def export_as_pdf(self):
+        out_f = str(basename(self.comparision_result.file_test))[:-4] + '.pdf'
+
+        pdf_report = PDFReport(self.comparision_result)
         pdf_report.summary()
 
         self.statusbar.showMessage('generating pdf report, please wait...')
+
+        # TODO: this guy is blocking! maybe put in a different thread?
         pdf_report.plot_results()
+
         pdf_report.output(out_f, 'F')
 
         if exists(out_f):
-            self.statusbar.showMessage('Done. Output file is: ' + abspath(out_f))
-            self.line_test.clear()
-            self.line_ref.clear()
+            self.statusbar.showMessage('Done. Output file is: ' + abspath(out_f), 20000)
+            self.clear_results()
         else:
-            self.statusbar.showMessage('Oops! something went wrong. Cannot continue"')
+            self.statusbar.showMessage('Oops! something went wrong. Cannot continue', 20000)
+
+    def clear_results(self):
+        self.line_test.clear()
+        self.line_ref.clear()
+        self.lbl_result.clear()
+        self.lbl_result_is.clear()
+        self.action_to_pdf.setEnabled(False)
+        self.comparision_result = None
 
     def about(self):
         """Popup a box with about message."""
