@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'main_window.ui'
 #
-# Created: Tue Feb 25 15:05:16 2014
+# Created: Tue Feb 25 17:11:27 2014
 #      by: PyQt5 UI code generator 5.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -49,6 +49,8 @@ class Ui_designer_window(object):
         self.table_view_results.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.table_view_results.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.table_view_results.setObjectName("table_view_results")
+        self.table_view_results.horizontalHeader().setStretchLastSection(True)
+        self.table_view_results.verticalHeader().setStretchLastSection(False)
         self.gridLayout.addWidget(self.table_view_results, 6, 0, 1, 3)
         designer_window.setCentralWidget(self.central_widget)
         self.menubar = QtWidgets.QMenuBar(designer_window)

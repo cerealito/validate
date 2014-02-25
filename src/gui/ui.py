@@ -1,4 +1,5 @@
 from gui.gen import Ui_designer_window
+from gui.Result_table_mdl import Result_table_mdl
 
 from os.path import exists, basename, abspath
 from FileComparator import FileComparator
@@ -37,7 +38,7 @@ class UI (Ui_designer_window):
 
     @pyqtSlot()
     def compare_files(self):
-        self.statusbar.clearMessage()
+        #self.statusbar.clearMessage()
 
         t = self.line_test.text()
         r = self.line_ref.text()
@@ -64,6 +65,8 @@ class UI (Ui_designer_window):
             self.lbl_result.setText('<div style="color:red;font-weight:bold;">Not Passed</div>')
             self.statusbar.showMessage('Files have significant differences :(', 5000)
 
+        self.table_view_results.setModel(Result_table_mdl(self.comparision_result))
+
         ########## enable pdf export:
         self.action_to_pdf.setEnabled(True)
 
@@ -81,10 +84,10 @@ class UI (Ui_designer_window):
         pdf_report.output(out_f, 'F')
 
         if exists(out_f):
-            self.statusbar.showMessage('Done. Output file is: ' + abspath(out_f), 20000)
+            self.statusbar.showMessage('Done. Output file is: ' + abspath(out_f), 10000)
             self.clear_results()
         else:
-            self.statusbar.showMessage('Oops! something went wrong. Cannot continue', 20000)
+            self.statusbar.showMessage('Oops! something went wrong. Cannot continue', 10000)
 
     def clear_results(self):
         self.line_test.clear()
@@ -93,6 +96,7 @@ class UI (Ui_designer_window):
         self.lbl_result_is.clear()
         self.action_to_pdf.setEnabled(False)
         self.comparision_result = None
+        self.table_view_results.setModel(None)
 
     def about(self):
         """Popup a box with about message."""
