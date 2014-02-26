@@ -1,8 +1,9 @@
+from queue import Queue, Empty
 from gui.gen import Ui_designer_window
 from gui.ResulTableMdl import ResulTableMdl
 
 from os.path import exists, basename, abspath
-from FileComparator import FileComparator
+from AsyncFileComparator import AsyncFileComparator
 from report_generators.PDFReport import PDFReport
 
 
@@ -54,7 +55,8 @@ class UI (Ui_designer_window):
 
         ########## try to compare...
         try:
-            fc = FileComparator(t, r)
+            result_q = Queue()
+            fc = AsyncFileComparator(t, r, result_q)
         except TypeError as e:
             self.statusbar.showMessage(str(e))
             return
@@ -62,7 +64,14 @@ class UI (Ui_designer_window):
             self.statusbar.showMessage('Format not recognized')
             return
 
-        self.comparision_result = fc.compare()
+        fc.start()
+
+        while True:
+            try:
+                self.comparision_result = result_q.get_nowait()
+                break
+            except Empty:
+                self.statusbar.showMessage('Comparision in progress...', 1000)
 
         ########## visual output to the user:
         self.lbl_result_is.setText('Overall result is:')

@@ -1,3 +1,5 @@
+from queue import Queue
+from threading import Thread
 from readers.MAXCSVReader import MAXCSVReader
 from Results import ResultCouple, FileCmpResult
 from datetime import datetime
@@ -5,10 +7,12 @@ from datetime import datetime
 __author__ = 'saflores'
 
 
-class FileComparator:
-    def __init__(self, file_test, file_ref):
+class AsyncFileComparator(Thread):
+    def __init__(self, file_test, file_ref, q: Queue):
+        super().__init__()
         self.file_test = file_test
         self.file_ref = file_ref
+        self.queue = q
         self.result_couple_l = []
 
         #TODO: decide what type of file this is
@@ -25,7 +29,10 @@ class FileComparator:
         if len(self.record_test.times) != len(self.record_ref.times):
             raise NotImplementedError('files do not have the same number of samples')
 
-    def compare(self):
+    def run(self):
+        self.queue.put(self.__compare())
+
+    def __compare(self):
         all_variables_pass = True
 
         ###############################################################

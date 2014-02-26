@@ -1,7 +1,7 @@
 from encodings import big5
 import unittest
 from charts.generation import generate_png
-from FileComparator import FileComparator
+from AsyncFileComparator import AsyncFileComparator
 
 __author__ = 'saflores'
 
@@ -14,8 +14,8 @@ class GraphTester(unittest.TestCase):
         r = '../00_install/small_2.csv'
         pb_list = []
 
-        fc = FileComparator(t, r)
-        res = fc.compare()
+        fc = AsyncFileComparator(t, r)
+        res = fc.__compare()
 
         print('\n### Overall result is: ', res.is_acceptable)
         if not res.is_acceptable:
@@ -34,8 +34,8 @@ class GraphTester(unittest.TestCase):
         print('comparing a file to itself')
         fp = '../00_install/test_214.csv'
 
-        fc = FileComparator(fp, fp)
-        res = fc.compare()
+        fc = AsyncFileComparator(fp, fp)
+        res = fc.__compare()
 
         print('\n### Overall result is: ', res.is_acceptable)
         if not res.is_acceptable:
@@ -54,8 +54,8 @@ class GraphTester(unittest.TestCase):
         t = '../00_install/test_214.csv'
         r = '../00_install/ref_214.csv'
 
-        fc = FileComparator(t, r)
-        res = fc.compare()
+        fc = AsyncFileComparator(t, r)
+        res = fc.__compare()
 
         print('\n### Overall result is: ', res.is_acceptable)
         if not res.is_acceptable:

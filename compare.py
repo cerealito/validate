@@ -12,15 +12,15 @@ if __name__ == '__main__':
 
 __author__ = 'saflores'
 
-from FileComparator import FileComparator
+from AsyncFileComparator import AsyncFileComparator
 
 ###############################################################################
 print('Test...')
 t = './tests/00_install/test_214.csv'
 r = './tests/00_install/ref_214.csv'
 
-fc = FileComparator(t, r)
-res = fc.compare()
+fc = AsyncFileComparator(t, r)
+res = fc.__compare()
 print()
 if res:
     print('### Files do not have significant differences: PASS')

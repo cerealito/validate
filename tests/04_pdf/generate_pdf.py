@@ -2,7 +2,7 @@ import os
 import unittest
 
 from fpdf import FPDF
-from FileComparator import FileComparator
+from AsyncFileComparator import AsyncFileComparator
 from report_generators.PDFReport import PDFReport
 
 __author__ = 'saflores'
@@ -32,8 +32,8 @@ class PdfTester(unittest.TestCase):
         t = '../00_install/small.csv'
         r = '../00_install/small_2.csv'
 
-        fc = FileComparator(t, r)
-        res = fc.compare()
+        fc = AsyncFileComparator(t, r)
+        res = fc.__compare()
         self.assertFalse(res.is_acceptable)
 
         print('\n### Overall result is: ', res.is_acceptable)
@@ -53,8 +53,8 @@ class PdfTester(unittest.TestCase):
         t = '../00_install/test_214.csv'
         r = '../00_install/ref_214.csv'
 
-        fc = FileComparator(t, r)
-        res = fc.compare()
+        fc = AsyncFileComparator(t, r)
+        res = fc.__compare()
         self.assertTrue(res.is_acceptable)
 
         print('\n### Overall result is: ', res.is_acceptable)
