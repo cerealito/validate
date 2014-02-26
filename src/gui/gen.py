@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'main_window.ui'
 #
-# Created: Tue Feb 25 17:11:27 2014
+# Created: Wed Feb 26 13:46:31 2014
 #      by: PyQt5 UI code generator 5.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -46,8 +46,11 @@ class Ui_designer_window(object):
         self.gridLayout.addWidget(self.lbl_result, 5, 1, 1, 2)
         self.table_view_results = QtWidgets.QTableView(self.central_widget)
         self.table_view_results.setEnabled(True)
-        self.table_view_results.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.table_view_results.setFrameShape(QtWidgets.QFrame.Box)
         self.table_view_results.setFrameShadow(QtWidgets.QFrame.Sunken)
+        self.table_view_results.setAlternatingRowColors(True)
+        self.table_view_results.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
+        self.table_view_results.setGridStyle(QtCore.Qt.DashLine)
         self.table_view_results.setObjectName("table_view_results")
         self.table_view_results.horizontalHeader().setStretchLastSection(True)
         self.table_view_results.verticalHeader().setStretchLastSection(False)

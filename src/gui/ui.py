@@ -1,5 +1,5 @@
 from gui.gen import Ui_designer_window
-from gui.Result_table_mdl import Result_table_mdl
+from gui.ResulTableMdl import ResulTableMdl
 
 from os.path import exists, basename, abspath
 from FileComparator import FileComparator
@@ -65,7 +65,10 @@ class UI (Ui_designer_window):
             self.lbl_result.setText('<div style="color:red;font-weight:bold;">Not Passed</div>')
             self.statusbar.showMessage('Files have significant differences :(', 5000)
 
-        self.table_view_results.setModel(Result_table_mdl(self.comparision_result))
+        # create a Result_table_model with the results and associate it with the view.
+        # it should show up immediately
+        self.table_view_results.setModel(ResulTableMdl(self.comparision_result))
+        self.table_view_results.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeToContents)
 
         ########## enable pdf export:
         self.action_to_pdf.setEnabled(True)
