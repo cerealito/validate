@@ -32,5 +32,14 @@ class MAXCSVReader_tester(unittest.TestCase):
         for t in myVar.times():
             print('{:03.8f} '.format(t), myVar.value_at(t))
 
+    def test_crap(self):
+        print ('Reading crap')
+        try:
+            r = MAXCSVReader('../00_install/QtTest.py')
+        except Exception as e:
+            print('Type Error exception caught')
+            self.assertEquals(e.__class__, TypeError)
+
+
 if __name__ == '__main__':
     unittest.main()

@@ -1,4 +1,5 @@
 from _hashlib import new
+import builtins
 
 __author__ = 'saflores'
 
@@ -20,7 +21,15 @@ class MAXCSVReader:
     def read(self, f):
 
         with open(f) as csv_f:
+            # TODO: test for correct file type with libmagic or similar.
+            # relying on readline() will fail with a very large file with no new lines
+
+            # check that there is a header:
             l = csv_f.readline()
+            if l.strip() != '#HEADER':
+                raise TypeError('Format not supported')
+
+
 
             generic_reader = csv.reader(csv_f, dialect='MAX')
 
@@ -33,8 +42,7 @@ class MAXCSVReader:
             # check that we will read the stuff in the right order
             l = csv_f.readline()
             if l != 'Name;Type;FirstDim;SndDim;LocalAttributes\n':
-                print('Format not supported')
-                raise TypeError
+                raise TypeError('Format not supported')
 
             #########################################################
             # Create a new variable for each entry in the DATA

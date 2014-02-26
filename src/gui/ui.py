@@ -43,6 +43,7 @@ class UI (Ui_designer_window):
         t = self.line_test.text()
         r = self.line_ref.text()
 
+        ########## Some Error Handling:
         if not exists(t):
             self.statusbar.showMessage('Test file does not exist')
             return
@@ -51,8 +52,15 @@ class UI (Ui_designer_window):
             self.statusbar.showMessage('Reference file does not exist')
             return
 
-        # TODO: catch exceptions/handle errors
-        fc = FileComparator(t, r)
+        ########## try to compare...
+        try:
+            fc = FileComparator(t, r)
+        except TypeError as e:
+            self.statusbar.showMessage(str(e))
+            return
+        except UnicodeDecodeError:
+            self.statusbar.showMessage('Format not recognized')
+            return
 
         self.comparision_result = fc.compare()
 
