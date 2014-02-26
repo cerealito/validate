@@ -1,6 +1,6 @@
 from PyQt5.QtCore import QAbstractTableModel
 from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QBrush
+from PyQt5.QtGui import QBrush, QColor
 from Results import FileCmpResult
 
 __author__ = 'saflores'
@@ -28,21 +28,20 @@ class Result_table_mdl(QAbstractTableModel):
             if QModelIndex.column() == 2:
                 return result_couple.status
 
-        # TODO: fix this, it does not work :P
-        if int_role == Qt.FontRole:
+        if int_role == Qt.ForegroundRole and QModelIndex.column() == 2:
             color = QBrush(Qt.black)
             if result_couple.status == 'ko':
                 #RED
                 color = QBrush(Qt.red)
             if result_couple.status == 'warning':
                 #YELLOW
-                color = QBrush(Qt.darkYellow)
+                color = QBrush(QColor(255, 157, 0, 255))
             if result_couple.status == 'passed':
                 # Yellowish-GREEN
-                color = QBrush(Qt.green)
+                color = QBrush(QColor(153, 204, 0, 255))
             if result_couple.status == 'matched':
                 # GREEN
-                color = QBrush(Qt.darkGreen)
+                color = QBrush(QColor(0, 204, 0, 255))
             return color
 
     def headerData(self, p_int, Qt_Orientation, int_role=None):
