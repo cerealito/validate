@@ -15,11 +15,9 @@ class GraphTester(unittest.TestCase):
         pb_list = []
 
         fc = AsyncFileComparator(t, r)
-        res = fc.__compare()
+        res = fc.compare()
 
         print('\n### Overall result is: ', res.is_acceptable)
-        if not res.is_acceptable:
-            print('Errors exist (' + str(len(fc.different_vars)) + ')')
 
         # for every couple of variables, generate a png
         for result in fc.result_couple_l:
@@ -35,11 +33,9 @@ class GraphTester(unittest.TestCase):
         fp = '../00_install/test_214.csv'
 
         fc = AsyncFileComparator(fp, fp)
-        res = fc.__compare()
+        res = fc.compare()
 
         print('\n### Overall result is: ', res.is_acceptable)
-        if not res.is_acceptable:
-            print('Errors exist (' + str(len(fc.different_vars)) + ')')
 
         # for every couple of variables, generate a png
         for result in fc.result_couple_l:
@@ -55,11 +51,7 @@ class GraphTester(unittest.TestCase):
         r = '../00_install/ref_214.csv'
 
         fc = AsyncFileComparator(t, r)
-        res = fc.__compare()
-
-        print('\n### Overall result is: ', res.is_acceptable)
-        if not res.is_acceptable:
-            print('Errors exist (' + str(len(fc.different_vars)) + ')')
+        res = fc.compare()
 
         # for every couple of variables, generate a png
         for result in fc.result_couple_l:

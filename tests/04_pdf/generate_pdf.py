@@ -33,7 +33,7 @@ class PdfTester(unittest.TestCase):
         r = '../00_install/small_2.csv'
 
         fc = AsyncFileComparator(t, r)
-        res = fc.__compare()
+        res = fc.compare()
         self.assertFalse(res.is_acceptable)
 
         print('\n### Overall result is: ', res.is_acceptable)
@@ -54,7 +54,7 @@ class PdfTester(unittest.TestCase):
         r = '../00_install/ref_214.csv'
 
         fc = AsyncFileComparator(t, r)
-        res = fc.__compare()
+        res = fc.compare()
         self.assertTrue(res.is_acceptable)
 
         print('\n### Overall result is: ', res.is_acceptable)

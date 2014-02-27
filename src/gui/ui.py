@@ -1,4 +1,6 @@
 from queue import Queue, Empty
+from time import sleep
+from gui.BackgroundJobWatcher import BackgroundJobWatcher, sleeper
 from gui.gen import Ui_designer_window
 from gui.ResulTableMdl import ResulTableMdl
 
@@ -8,7 +10,7 @@ from report_generators.PDFReport import PDFReport
 
 
 from PyQt5.QtWidgets import *
-from PyQt5.QtCore import pyqtSlot
+from PyQt5.QtCore import pyqtSlot, QThread
 
 __author__ = 'saflores'
 
@@ -29,6 +31,9 @@ class UI (Ui_designer_window):
 
         self.comparision_result = None
 
+        self.output_q = Queue()
+        self.w_thread = QThread()
+
         ###########################################################
         # connections follow
         self.btn_compare.clicked.connect(self.compare_files)
@@ -36,6 +41,12 @@ class UI (Ui_designer_window):
         self.action_about.triggered.connect(self.about)
 
         self.action_to_pdf.triggered.connect(self.export_as_pdf)
+
+
+
+    @pyqtSlot()
+    def handle_result(self, res):
+        self.statusbar.showMessage('DONE!!!', str(res))
 
     @pyqtSlot()
     def compare_files(self):
@@ -53,38 +64,41 @@ class UI (Ui_designer_window):
             self.statusbar.showMessage('Reference file does not exist')
             return
 
+        # simulate a blocking call
+
+        w = BackgroundJobWatcher()
+        w.JOB_FINISHED.connect(self.handle_result)
+        w.moveToThread(self.w_thread)
+
+        self.w_thread.started.connect(w.work)
+        self.w_thread.start()
+
+        self.statusbar.showMessage('using a thread will not block, but how does it notifies when it is done?')
+
         ########## try to compare...
-        try:
-            result_q = Queue()
-            fc = AsyncFileComparator(t, r, result_q)
-        except TypeError as e:
-            self.statusbar.showMessage(str(e))
-            return
-        except UnicodeDecodeError:
-            self.statusbar.showMessage('Format not recognized')
-            return
+        # try:
+        #     fc = AsyncFileComparator(t, r)
+        # except TypeError as e:
+        #     self.statusbar.showMessage(str(e))
+        #     return
+        # except UnicodeDecodeError:
+        #     self.statusbar.showMessage('Format not recognized')
+        #     return
+        #
+        # self.comparision_result = fc.compare()
+        #
+        # ########## visual output to the user:
+        # self.lbl_result_is.setText('Overall result is:')
+        # if self.comparision_result.is_acceptable:
+        #     self.lbl_result.setText('<div style="color:green;font-weight:bold;">Passed</div>')
+        #     self.statusbar.showMessage('Files do not have significant differences :)', 5000)
+        # else:
+        #     self.lbl_result.setText('<div style="color:red;font-weight:bold;">Not Passed</div>')
+        #     self.statusbar.showMessage('Files have significant differences :(', 5000)
 
-        fc.start()
-
-        while True:
-            try:
-                self.comparision_result = result_q.get_nowait()
-                break
-            except Empty:
-                self.statusbar.showMessage('Comparision in progress...', 1000)
-
-        ########## visual output to the user:
-        self.lbl_result_is.setText('Overall result is:')
-        if self.comparision_result.is_acceptable:
-            self.lbl_result.setText('<div style="color:green;font-weight:bold;">Passed</div>')
-            self.statusbar.showMessage('Files do not have significant differences :)', 5000)
-        else:
-            self.lbl_result.setText('<div style="color:red;font-weight:bold;">Not Passed</div>')
-            self.statusbar.showMessage('Files have significant differences :(', 5000)
-
-        # create a Result_table_model with the results and associate it with the view.
-        # it should show up immediately
-        self.table_view_results.setModel(ResulTableMdl(self.comparision_result))
+        # # create a Result_table_model with the results and associate it with the view.
+        # # it should show up immediately
+        # self.table_view_results.setModel(ResulTableMdl(self.comparision_result))
         self.table_view_results.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeToContents)
 
         ########## enable pdf export:

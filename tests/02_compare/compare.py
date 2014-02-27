@@ -15,12 +15,9 @@ class FileComparator_tester(unittest.TestCase):
         fc = AsyncFileComparator(t, r, q)
         fc.start()
 
-        while True:
-            try:
-                res = q.get_nowait()
-                break
-            except Empty:
-                print('main thread not blocked')
+        # join blocks the caller thread until fc finishes
+        fc.join()
+        res = q.get_nowait()
 
         print('\n### Overall result is: ', res.is_acceptable)
         self.assertFalse(res.is_acceptable)
@@ -33,12 +30,9 @@ class FileComparator_tester(unittest.TestCase):
         fc = AsyncFileComparator(fp, fp, q)
         fc.start()
 
-        while True:
-            try:
-                res = q.get_nowait()
-                break
-            except Empty:
-                pass
+        # join blocks the caller thread until fc finishes
+        fc.join()
+        res = q.get_nowait()
 
         print('\n### Overall result is: ', res.is_acceptable)
         self.assertTrue(res.is_acceptable)
@@ -55,12 +49,9 @@ class FileComparator_tester(unittest.TestCase):
         fc = AsyncFileComparator(t, r, q)
         fc.start()
 
-        while True:
-            try:
-                res = q.get_nowait()
-                break
-            except Empty:
-                pass
+        # join blocks the caller thread until fc finishes
+        fc.join()
+        res = q.get_nowait()
 
         print('\n### Overall result is: ', res.is_acceptable)
         self.assertTrue(res.is_acceptable)

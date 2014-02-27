@@ -8,7 +8,7 @@ __author__ = 'saflores'
 
 
 class AsyncFileComparator(Thread):
-    def __init__(self, file_test, file_ref, q: Queue):
+    def __init__(self, file_test, file_ref, q: Queue=None):
         super().__init__()
         self.file_test = file_test
         self.file_ref = file_ref
@@ -30,9 +30,9 @@ class AsyncFileComparator(Thread):
             raise NotImplementedError('files do not have the same number of samples')
 
     def run(self):
-        self.queue.put(self.__compare())
+        self.queue.put(self.compare())
 
-    def __compare(self):
+    def compare(self):
         all_variables_pass = True
 
         ###############################################################

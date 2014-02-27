@@ -20,7 +20,7 @@ t = './tests/00_install/test_214.csv'
 r = './tests/00_install/ref_214.csv'
 
 fc = AsyncFileComparator(t, r)
-res = fc.__compare()
+res = fc.compare()
 print()
 if res:
     print('### Files do not have significant differences: PASS')
