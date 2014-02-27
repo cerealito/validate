@@ -33,6 +33,7 @@ class UI (Ui_designer_window):
 
         self.output_q = Queue()
         self.w_thread = QThread()
+        self.watcher = BackgroundJobWatcher()
 
         ###########################################################
         # connections follow
@@ -42,11 +43,12 @@ class UI (Ui_designer_window):
 
         self.action_to_pdf.triggered.connect(self.export_as_pdf)
 
-
+        self.watcher.JOB_FINISHED.connect(self.handle_result)
+        self.w_thread.started.connect(self.watcher.work)
 
     @pyqtSlot()
     def handle_result(self, res):
-        self.statusbar.showMessage('DONE!!!', str(res))
+        self.statusbar.showMessage('DONE!!!' + str(res))
 
     @pyqtSlot()
     def compare_files(self):
@@ -66,11 +68,8 @@ class UI (Ui_designer_window):
 
         # simulate a blocking call
 
-        w = BackgroundJobWatcher()
-        w.JOB_FINISHED.connect(self.handle_result)
-        w.moveToThread(self.w_thread)
 
-        self.w_thread.started.connect(w.work)
+        self.watcher.moveToThread(self.w_thread)
         self.w_thread.start()
 
         self.statusbar.showMessage('using a thread will not block, but how does it notifies when it is done?')

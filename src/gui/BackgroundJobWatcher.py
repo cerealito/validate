@@ -17,12 +17,14 @@ class sleeper():
 
 
 class BackgroundJobWatcher(QObject):
-    JOB_FINISHED = pyqtSignal()
+    # this is very strange for python but must pass a class as an argument (like telling the type of it)
+    JOB_FINISHED = pyqtSignal('caca'.__class__)
 
     def __init__(self):
-        super().__init__()
+        QObject.__init__(self)
         self.test_str = 'can see this instance variables'
         print('WATCHER constructor', self.test_str)
+
 
     @pyqtSlot()
     def work(self):
@@ -32,9 +34,6 @@ class BackgroundJobWatcher(QObject):
         my_sleeper = sleeper()
         res = my_sleeper.sleep()
 
-        self.JOB_FINISHED.emit(res)
-
-
-
+        self.JOB_FINISHED.emit(str(res))
 
 
