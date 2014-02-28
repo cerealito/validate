@@ -1,5 +1,6 @@
+from PyQt5 import QtGui
 from time import sleep
-from PyQt5.QtCore import QObject, pyqtSignal, pyqtSlot
+from PyQt5.QtCore import QObject, pyqtSignal, pyqtSlot, QThread
 from FileComparator import FileComparator
 
 __author__ = 'saflores'
@@ -31,12 +32,13 @@ class FileComparatorAsyncWrapper(QObject):
         # TODO: write a blog entry on this
         print('QObj slot :', self.test_str)
 
-        for i in range(10):
+        for i in range(5):
             sleep(1)
             print('sleeping', i)
 
         comparision_result = self.file_comparator.compare()
 
+        # move this object back to the main thread, were it was originally created
+        self.moveToThread(QtGui.QGuiApplication.instance().thread())
         self.result_ready.emit(comparision_result)
-
 
