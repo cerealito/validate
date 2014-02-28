@@ -2,7 +2,7 @@ import os
 import unittest
 
 from fpdf import FPDF
-from AsyncFileComparator import AsyncFileComparator
+from FileComparator import FileComparator
 from report_generators.PDFReport import PDFReport
 
 __author__ = 'saflores'
@@ -25,14 +25,16 @@ class PdfTester(unittest.TestCase):
         pdf.cell(40, 10, 'PDF TEST!', border=1, ln=1)
         pdf.cell(100, 10, 'Powered by FPDF.', border=0, ln=0, align='C')
 
-        pdf.output('mini.pdf','F')
+        out_f = 'mini.pdf'
+        pdf.output(out_f,'F')
+        self.assertTrue(os.path.exists(out_f))
 
     def test_small(self):
         print('Comparing and graphing a mini error')
         t = '../00_install/small.csv'
         r = '../00_install/small_2.csv'
 
-        fc = AsyncFileComparator(t, r)
+        fc = FileComparator(t, r)
         res = fc.compare()
         self.assertFalse(res.is_acceptable)
 
@@ -53,7 +55,7 @@ class PdfTester(unittest.TestCase):
         t = '../00_install/test_214.csv'
         r = '../00_install/ref_214.csv'
 
-        fc = AsyncFileComparator(t, r)
+        fc = FileComparator(t, r)
         res = fc.compare()
         self.assertTrue(res.is_acceptable)
 

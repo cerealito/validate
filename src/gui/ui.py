@@ -1,16 +1,16 @@
-from queue import Queue, Empty
-from time import sleep
-from gui.BackgroundJobWatcher import BackgroundJobWatcher, sleeper
-from gui.gen import Ui_designer_window
-from gui.ResulTableMdl import ResulTableMdl
-
+from queue import Queue
 from os.path import exists, basename, abspath
-from AsyncFileComparator import AsyncFileComparator
-from report_generators.PDFReport import PDFReport
-
 
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import pyqtSlot, QThread
+from FileComparator import FileComparator
+from Results import FileCmpResult
+from gui.FileComparatorAsyncWrapper import FileComparatorAsyncWrapper
+from gui.ResultTableMdl import ResultTableMdl
+
+from gui.gen import Ui_designer_window
+from report_generators.PDFReport import PDFReport
+
 
 __author__ = 'saflores'
 
@@ -32,26 +32,27 @@ class UI (Ui_designer_window):
         self.comparision_result = None
 
         self.output_q = Queue()
-        self.w_thread = QThread()
-        self.watcher = BackgroundJobWatcher()
+        self.cmp_thread = QThread()
+        self.fc_wrapper = FileComparatorAsyncWrapper()
 
         ###########################################################
         # connections follow
-        self.btn_compare.clicked.connect(self.compare_files)
 
+        # main button
+        self.btn_compare.clicked.connect(self.start_comparision)
+
+        # actions in our menu
         self.action_about.triggered.connect(self.about)
-
         self.action_to_pdf.triggered.connect(self.export_as_pdf)
 
-        self.watcher.JOB_FINISHED.connect(self.handle_result)
-        self.w_thread.started.connect(self.watcher.work)
+        # what does the cmp_thread does when we start it
+        self.cmp_thread.started.connect(self.fc_wrapper.synchronous_compare)
+
+        # do something upon arrival of results
+        self.fc_wrapper.result_ready.connect(self.handle_result)
 
     @pyqtSlot()
-    def handle_result(self, res):
-        self.statusbar.showMessage('DONE!!!' + str(res))
-
-    @pyqtSlot()
-    def compare_files(self):
+    def start_comparision(self):
         #self.statusbar.clearMessage()
 
         t = self.line_test.text()
@@ -66,38 +67,44 @@ class UI (Ui_designer_window):
             self.statusbar.showMessage('Reference file does not exist')
             return
 
-        # simulate a blocking call
+        ########## try to create our (synchronous) file comparator
+        try:
+            fc = FileComparator(t, r)
+        except Exception as e:
+            self.statusbar.showMessage(str(e))
+            return
+        except UnicodeDecodeError:
+            self.statusbar.showMessage('Format not recognized')
+            return
 
+        # put our fc in the asynchronous wrapper
+        self.fc_wrapper.set_file_comparator(fc)
 
-        self.watcher.moveToThread(self.w_thread)
-        self.w_thread.start()
+        # we can now put the wrapper in a separate thread
+        self.fc_wrapper.moveToThread(self.cmp_thread)
+        self.cmp_thread.start()
 
-        self.statusbar.showMessage('using a thread will not block, but how does it notifies when it is done?')
+        self.statusbar.showMessage('Comparing...')
+        # nothing else to do here, handle result will be called when our thread emits a signal
 
-        ########## try to compare...
-        # try:
-        #     fc = AsyncFileComparator(t, r)
-        # except TypeError as e:
-        #     self.statusbar.showMessage(str(e))
-        #     return
-        # except UnicodeDecodeError:
-        #     self.statusbar.showMessage('Format not recognized')
-        #     return
-        #
-        # self.comparision_result = fc.compare()
-        #
-        # ########## visual output to the user:
-        # self.lbl_result_is.setText('Overall result is:')
-        # if self.comparision_result.is_acceptable:
-        #     self.lbl_result.setText('<div style="color:green;font-weight:bold;">Passed</div>')
-        #     self.statusbar.showMessage('Files do not have significant differences :)', 5000)
-        # else:
-        #     self.lbl_result.setText('<div style="color:red;font-weight:bold;">Not Passed</div>')
-        #     self.statusbar.showMessage('Files have significant differences :(', 5000)
+    @pyqtSlot()
+    def handle_result(self, res: FileCmpResult):
+        self.statusbar.showMessage('Done')
+        self.comparision_result = res
 
-        # # create a Result_table_model with the results and associate it with the view.
-        # # it should show up immediately
-        # self.table_view_results.setModel(ResulTableMdl(self.comparision_result))
+        ########## visual output to the user:
+        self.lbl_result_is.setText('Overall result is:')
+
+        if self.comparision_result.is_acceptable:
+            self.lbl_result.setText('<div style="color:green;font-weight:bold;">Passed</div>')
+            self.statusbar.showMessage('Files do not have significant differences :)', 5000)
+        else:
+            self.lbl_result.setText('<div style="color:red;font-weight:bold;">Not Passed</div>')
+            self.statusbar.showMessage('Files have significant differences :(', 5000)
+
+        # create a Result_table_model with the results and associate it with the view.
+        # it should show up immediately
+        self.table_view_results.setModel(ResultTableMdl(self.comparision_result))
         self.table_view_results.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeToContents)
 
         ########## enable pdf export:

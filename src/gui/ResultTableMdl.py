@@ -5,7 +5,7 @@ from Results import FileCmpResult
 
 __author__ = 'saflores'
 
-class ResulTableMdl(QAbstractTableModel):
+class ResultTableMdl(QAbstractTableModel):
 
     NAME_COLUMN = 0
     ERROR_COLUMN = 1
@@ -25,14 +25,14 @@ class ResulTableMdl(QAbstractTableModel):
         result_couple = self.cmp_res.result_l[QModelIndex.row()]
 
         if int_role == Qt.DisplayRole:
-            if QModelIndex.column() == ResulTableMdl.NAME_COLUMN:
+            if QModelIndex.column() == ResultTableMdl.NAME_COLUMN:
                 return result_couple.test_var.name
-            if QModelIndex.column() == ResulTableMdl.ERROR_COLUMN:
+            if QModelIndex.column() == ResultTableMdl.ERROR_COLUMN:
                 return '{:.3f}%'.format(result_couple.error)
-            if QModelIndex.column() == ResulTableMdl.STATUS_COLUMN:
+            if QModelIndex.column() == ResultTableMdl.STATUS_COLUMN:
                 return result_couple.status
 
-        if int_role == Qt.ForegroundRole and QModelIndex.column() == ResulTableMdl.STATUS_COLUMN:
+        if int_role == Qt.ForegroundRole and QModelIndex.column() == ResultTableMdl.STATUS_COLUMN:
             color = QBrush(Qt.black)
             if result_couple.status == 'ko':
                 #RED
@@ -51,11 +51,11 @@ class ResulTableMdl(QAbstractTableModel):
     def headerData(self, p_int, Qt_Orientation, int_role=None):
         if int_role == Qt.DisplayRole:
             if Qt_Orientation == Qt.Horizontal:
-                if p_int == ResulTableMdl.NAME_COLUMN:
+                if p_int == ResultTableMdl.NAME_COLUMN:
                     return 'Variable'
-                if p_int == ResulTableMdl.ERROR_COLUMN:
+                if p_int == ResultTableMdl.ERROR_COLUMN:
                     return 'Error'
-                if p_int == ResulTableMdl.STATUS_COLUMN:
+                if p_int == ResultTableMdl.STATUS_COLUMN:
                     return 'Status'
             if Qt_Orientation == Qt.Vertical:
                 return p_int + 1

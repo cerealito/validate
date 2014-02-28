@@ -12,14 +12,14 @@ if __name__ == '__main__':
 
 __author__ = 'saflores'
 
-from AsyncFileComparator import AsyncFileComparator
+from FileComparator import FileComparator
 
 ###############################################################################
 print('Test...')
 t = './tests/00_install/test_214.csv'
 r = './tests/00_install/ref_214.csv'
 
-fc = AsyncFileComparator(t, r)
+fc = FileComparator(t, r)
 res = fc.compare()
 print()
 if res:

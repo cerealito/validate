@@ -1,6 +1,5 @@
-from queue import Queue, Empty
 import unittest
-from AsyncFileComparator import AsyncFileComparator
+from FileComparator import FileComparator
 
 __author__ = 'saflores'
 
@@ -11,13 +10,8 @@ class FileComparator_tester(unittest.TestCase):
         t = '../00_install/small.csv'
         r = '../00_install/small_2.csv'
 
-        q = Queue()
-        fc = AsyncFileComparator(t, r, q)
-        fc.start()
-
-        # join blocks the caller thread until fc finishes
-        fc.join()
-        res = q.get_nowait()
+        fc = FileComparator(t, r)
+        res = fc.compare()
 
         print('\n### Overall result is: ', res.is_acceptable)
         self.assertFalse(res.is_acceptable)
@@ -26,13 +20,8 @@ class FileComparator_tester(unittest.TestCase):
         print('comparing a file to itself')
         fp = '../00_install/test_214.csv'
 
-        q = Queue()
-        fc = AsyncFileComparator(fp, fp, q)
-        fc.start()
-
-        # join blocks the caller thread until fc finishes
-        fc.join()
-        res = q.get_nowait()
+        fc = FileComparator(fp, fp)
+        res = fc.compare()
 
         print('\n### Overall result is: ', res.is_acceptable)
         self.assertTrue(res.is_acceptable)
@@ -45,13 +34,8 @@ class FileComparator_tester(unittest.TestCase):
         t = '../00_install/test_214.csv'
         r = '../00_install/ref_214.csv'
 
-        q = Queue()
-        fc = AsyncFileComparator(t, r, q)
-        fc.start()
-
-        # join blocks the caller thread until fc finishes
-        fc.join()
-        res = q.get_nowait()
+        fc = FileComparator(t, r)
+        res = fc.compare()
 
         print('\n### Overall result is: ', res.is_acceptable)
         self.assertTrue(res.is_acceptable)
