@@ -30,13 +30,12 @@ class UI (Ui_designer_window):
         self.main_window = main_window_p
 
         self.comparision_result = None
+        self.cmp_thread = None
 
-        self.output_q = Queue()
-        self.cmp_thread = QThread()
         self.fc_wrapper = FileComparatorAsyncWrapper()
 
         ###########################################################
-        # connections follow
+        # connections follow reminder: signal.connect(slot)
 
         # main button
         self.btn_compare.clicked.connect(self.start_comparision)
@@ -45,16 +44,11 @@ class UI (Ui_designer_window):
         self.action_about.triggered.connect(self.about)
         self.action_to_pdf.triggered.connect(self.export_as_pdf)
 
-        # what does the cmp_thread does when we start it
-        self.cmp_thread.started.connect(self.fc_wrapper.synchronous_compare)
-
         # do something upon arrival of results
         self.fc_wrapper.result_ready.connect(self.handle_result)
 
     @pyqtSlot()
     def start_comparision(self):
-        #self.statusbar.clearMessage()
-
         t = self.line_test.text()
         r = self.line_ref.text()
 
@@ -81,7 +75,16 @@ class UI (Ui_designer_window):
         self.fc_wrapper.set_file_comparator(fc)
 
         # we can now put the wrapper in a separate thread
+        self.cmp_thread = QThread()
+        print('hello from main thread', QThread.currentThread())
+        print('created a new target thread ' + str(self.cmp_thread))
+        print('Moving...')
         self.fc_wrapper.moveToThread(self.cmp_thread)
+
+        # tell the thread what to do when started and when finishing
+        self.cmp_thread.started.connect(self.fc_wrapper.synchronous_compare)
+        self.cmp_thread.finished.connect(self.cmp_thread.deleteLater)
+
         self.cmp_thread.start()
 
         self.statusbar.showMessage('Comparing...')
