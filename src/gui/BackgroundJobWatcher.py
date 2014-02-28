@@ -17,8 +17,10 @@ class sleeper():
 
 
 class BackgroundJobWatcher(QObject):
-    # this is very strange for python but must pass a class as an argument (like telling the type of it)
-    JOB_FINISHED = pyqtSignal('caca'.__class__)
+    # this is very strange for me as (an occasional)  Python programmer
+    # but must pass a class as an argument (like telling the type of it)
+    # I have found that object <built-in> does a good job here.
+    JOB_FINISHED = pyqtSignal(object)
 
     def __init__(self):
         QObject.__init__(self)
