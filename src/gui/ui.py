@@ -6,6 +6,7 @@ from PyQt5.QtCore import pyqtSlot, QThread
 from FileComparator import FileComparator
 from Results import FileCmpResult
 from gui.FileComparatorAsyncWrapper import FileComparatorAsyncWrapper
+from gui.PDFReportAsyncWrapper import PDFReportAsyncWrapper
 from gui.ResultTableMdl import ResultTableMdl
 
 from gui.gen import Ui_designer_window
@@ -31,8 +32,10 @@ class UI (Ui_designer_window):
 
         self.comparision_result = None
         self.cmp_thread = None
+        self.pdf_thread = None
 
         self.fc_wrapper = FileComparatorAsyncWrapper()
+        self.pdf_report_wrapper = PDFReportAsyncWrapper()
 
         ###########################################################
         # connections follow reminder: signal.connect(slot)
@@ -42,10 +45,11 @@ class UI (Ui_designer_window):
 
         # actions in our menu
         self.action_about.triggered.connect(self.about)
-        self.action_to_pdf.triggered.connect(self.export_as_pdf)
+        self.action_to_pdf.triggered.connect(self.start_pdf_generation)
 
         # do something upon arrival of results
         self.fc_wrapper.result_ready.connect(self.handle_result)
+        self.pdf_report_wrapper.pdf_ready.connect(self.handle_pdf)
 
     @pyqtSlot()
     def start_comparision(self):
@@ -76,12 +80,12 @@ class UI (Ui_designer_window):
 
         # we can now put the wrapper in a separate thread
         self.cmp_thread = QThread()
-        print('hello from main thread', QThread.currentThread())
-        print('created a new target thread ' + str(self.cmp_thread))
-        print('Moving...')
         self.fc_wrapper.moveToThread(self.cmp_thread)
+        # the code above will fail the second time because the fc_wrapper will live in the cmp_thread.
+        # we can only "push" objects from the current thread.
+        # the solution is to move it back at the end of the cmp_thread
 
-        # tell the thread what to do when started and when finishing
+        # tell the thread what to do when started and when finished; then go!
         self.cmp_thread.started.connect(self.fc_wrapper.synchronous_compare)
         self.cmp_thread.finished.connect(self.cmp_thread.deleteLater)
 
@@ -113,19 +117,25 @@ class UI (Ui_designer_window):
         ########## enable pdf export:
         self.action_to_pdf.setEnabled(True)
 
-    def export_as_pdf(self):
-        out_f = str(basename(self.comparision_result.file_test))[:-4] + '.pdf'
-
-        pdf_report = PDFReport(self.comparision_result)
-        pdf_report.summary()
+    def start_pdf_generation(self):
 
         self.statusbar.showMessage('generating pdf report, please wait...')
 
-        # TODO: this guy is blocking! maybe put in a different thread?
-        pdf_report.plot_results()
+        pdf_report = PDFReport(self.comparision_result)
 
-        pdf_report.output(out_f, 'F')
+        # put the PDFReport in an async wrapper
+        self.pdf_report_wrapper.set_pdf_report(pdf_report)
 
+        self.pdf_thread = QThread()
+        self.pdf_report_wrapper.moveToThread(self.pdf_thread)
+
+        self.pdf_thread.started.connect(self.pdf_report_wrapper.synchronous_pdf_generation)
+        self.pdf_thread.finished.connect(self.pdf_thread.deleteLater)
+
+        self.pdf_thread.start()
+
+    @pyqtSlot()
+    def handle_pdf(self, out_f):
         if exists(out_f):
             self.statusbar.showMessage('Done. Output file is: ' + abspath(out_f), 10000)
             self.clear_results()

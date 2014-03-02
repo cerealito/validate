@@ -32,9 +32,9 @@ class FileComparatorAsyncWrapper(QObject):
         # TODO: write a blog entry on this
         print('QObj slot :', self.test_str)
 
-        for i in range(5):
-            sleep(1)
-            print('sleeping', i)
+        # for i in range(5):
+        #     sleep(1)
+        #     print('sleeping', i)
 
         comparision_result = self.file_comparator.compare()
 
