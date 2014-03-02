@@ -38,7 +38,9 @@ class UI (Ui_designer_window):
         self.pdf_report_wrapper = PDFReportAsyncWrapper()
         self.table_view_results.hide()
         self.lbl_result_is.hide()
-        #self.spacer_v = QtWidgets.QSpacerItem(268, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        # add an expanding vertical spacer at the bottom
+        self.spacer_v_btm = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.gridLayout.addItem(self.spacer_v_btm, 6, 0, 1, 1)
 
         ###########################################################
         # connections follow reminder: signal.connect(slot)
@@ -49,6 +51,7 @@ class UI (Ui_designer_window):
         # actions in our menu
         self.action_about.triggered.connect(self.about)
         self.action_to_pdf.triggered.connect(self.start_pdf_generation)
+        self.action_clear_results.triggered.connect(self.clear_results)
 
         # do something upon arrival of results
         self.fc_wrapper.result_ready.connect(self.handle_result)
@@ -158,7 +161,7 @@ class UI (Ui_designer_window):
         self.line_test.clear()
         self.line_ref.clear()
         self.lbl_result.clear()
-        self.lbl_result_is.clear()
+        self.lbl_result_is.hide()
         self.action_to_pdf.setEnabled(False)
         self.comparision_result = None
         self.table_view_results.setModel(None)

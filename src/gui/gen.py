@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'main_window.ui'
 #
-# Created: Sun Mar  2 21:12:06 2014
+# Created: Sun Mar  2 21:22:58 2014
 #      by: PyQt5 UI code generator 5.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -71,11 +71,11 @@ class Ui_designer_window(object):
         self.action_to_pdf = QtWidgets.QAction(designer_window)
         self.action_to_pdf.setEnabled(False)
         self.action_to_pdf.setObjectName("action_to_pdf")
-        self.actionClear_results = QtWidgets.QAction(designer_window)
-        self.actionClear_results.setObjectName("actionClear_results")
+        self.action_clear_results = QtWidgets.QAction(designer_window)
+        self.action_clear_results.setObjectName("action_clear_results")
         self.menu_help.addAction(self.action_about)
         self.menu_validate.addAction(self.action_to_pdf)
-        self.menu_validate.addAction(self.actionClear_results)
+        self.menu_validate.addAction(self.action_clear_results)
         self.menubar.addAction(self.menu_validate.menuAction())
         self.menubar.addAction(self.menu_help.menuAction())
 
@@ -96,6 +96,6 @@ class Ui_designer_window(object):
         self.menu_validate.setTitle(_translate("designer_window", "Validate"))
         self.action_about.setText(_translate("designer_window", "About"))
         self.action_to_pdf.setText(_translate("designer_window", "Export as PDF"))
-        self.actionClear_results.setText(_translate("designer_window", "Clear results"))
+        self.action_clear_results.setText(_translate("designer_window", "Clear results"))
 
 from gui.custom import TgtLine
