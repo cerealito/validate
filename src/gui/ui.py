@@ -1,3 +1,4 @@
+from PyQt5 import QtWidgets
 from os.path import exists, abspath
 
 from PyQt5.QtWidgets import *
@@ -35,6 +36,9 @@ class UI (Ui_designer_window):
 
         self.fc_wrapper = FileComparatorAsyncWrapper()
         self.pdf_report_wrapper = PDFReportAsyncWrapper()
+        self.table_view_results.hide()
+        self.lbl_result_is.hide()
+        #self.spacer_v = QtWidgets.QSpacerItem(268, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
 
         ###########################################################
         # connections follow reminder: signal.connect(slot)
@@ -74,6 +78,9 @@ class UI (Ui_designer_window):
             self.statusbar.showMessage('Format not recognized')
             return
 
+        # disable the use of the button while comparing
+        self.btn_compare.setEnabled(False)
+
         # put our fc in the asynchronous wrapper
         self.fc_wrapper.set_file_comparator(fc)
 
@@ -98,8 +105,11 @@ class UI (Ui_designer_window):
         self.statusbar.showMessage('Done')
         self.comparision_result = res
 
-        ########## visual output to the user:
-        self.lbl_result_is.setText('Overall result is:')
+        # Make the results table view visible:
+        self.table_view_results.show()
+
+        ########## output to the user:
+        self.lbl_result_is.show()
 
         if self.comparision_result.is_acceptable:
             self.lbl_result.setText('<div style="color:green;font-weight:bold;">Passed</div>')
@@ -115,10 +125,13 @@ class UI (Ui_designer_window):
 
         ########## enable pdf export:
         self.action_to_pdf.setEnabled(True)
+        ########## re-enable cmp button:
+        self.btn_compare.setEnabled(True)
 
     def start_pdf_generation(self):
-
         self.statusbar.showMessage('generating pdf report, please wait...')
+        # disable further pdf exports until this one finishes
+        self.action_to_pdf.setEnabled(False)
 
         pdf_report = PDFReport(self.comparision_result)
 
@@ -149,6 +162,7 @@ class UI (Ui_designer_window):
         self.action_to_pdf.setEnabled(False)
         self.comparision_result = None
         self.table_view_results.setModel(None)
+        self.table_view_results.hide()
 
     def about(self):
         """Popup a box with about message."""

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>652</width>
-    <height>253</height>
+    <height>318</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -71,7 +71,7 @@
     <item row="5" column="0">
      <widget class="QLabel" name="lbl_result_is">
       <property name="text">
-       <string/>
+       <string>Overall result is:</string>
       </property>
      </widget>
     </item>
@@ -118,7 +118,7 @@
      <x>0</x>
      <y>0</y>
      <width>652</width>
-     <height>18</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_help">
@@ -132,6 +132,7 @@
      <string>Validate</string>
     </property>
     <addaction name="action_to_pdf"/>
+    <addaction name="actionClear_results"/>
    </widget>
    <addaction name="menu_validate"/>
    <addaction name="menu_help"/>
@@ -148,6 +149,11 @@
    </property>
    <property name="text">
     <string>Export as PDF</string>
+   </property>
+  </action>
+  <action name="actionClear_results">
+   <property name="text">
+    <string>Clear results</string>
    </property>
   </action>
  </widget>

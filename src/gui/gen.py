@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'main_window.ui'
 #
-# Created: Wed Feb 26 13:46:31 2014
+# Created: Sun Mar  2 21:12:06 2014
 #      by: PyQt5 UI code generator 5.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -12,7 +12,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_designer_window(object):
     def setupUi(self, designer_window):
         designer_window.setObjectName("designer_window")
-        designer_window.resize(652, 253)
+        designer_window.resize(652, 318)
         self.central_widget = QtWidgets.QWidget(designer_window)
         self.central_widget.setObjectName("central_widget")
         self.gridLayout = QtWidgets.QGridLayout(self.central_widget)
@@ -37,7 +37,6 @@ class Ui_designer_window(object):
         self.lbl_test.setObjectName("lbl_test")
         self.gridLayout.addWidget(self.lbl_test, 0, 0, 1, 1)
         self.lbl_result_is = QtWidgets.QLabel(self.central_widget)
-        self.lbl_result_is.setText("")
         self.lbl_result_is.setObjectName("lbl_result_is")
         self.gridLayout.addWidget(self.lbl_result_is, 5, 0, 1, 1)
         self.lbl_result = QtWidgets.QLabel(self.central_widget)
@@ -57,7 +56,7 @@ class Ui_designer_window(object):
         self.gridLayout.addWidget(self.table_view_results, 6, 0, 1, 3)
         designer_window.setCentralWidget(self.central_widget)
         self.menubar = QtWidgets.QMenuBar(designer_window)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 652, 18))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 652, 22))
         self.menubar.setObjectName("menubar")
         self.menu_help = QtWidgets.QMenu(self.menubar)
         self.menu_help.setObjectName("menu_help")
@@ -72,8 +71,11 @@ class Ui_designer_window(object):
         self.action_to_pdf = QtWidgets.QAction(designer_window)
         self.action_to_pdf.setEnabled(False)
         self.action_to_pdf.setObjectName("action_to_pdf")
+        self.actionClear_results = QtWidgets.QAction(designer_window)
+        self.actionClear_results.setObjectName("actionClear_results")
         self.menu_help.addAction(self.action_about)
         self.menu_validate.addAction(self.action_to_pdf)
+        self.menu_validate.addAction(self.actionClear_results)
         self.menubar.addAction(self.menu_validate.menuAction())
         self.menubar.addAction(self.menu_help.menuAction())
 
@@ -89,9 +91,11 @@ class Ui_designer_window(object):
         self.btn_compare.setText(_translate("designer_window", "Compare"))
         self.lbl_ref.setText(_translate("designer_window", "Reference File:"))
         self.lbl_test.setText(_translate("designer_window", "Test File:"))
+        self.lbl_result_is.setText(_translate("designer_window", "Overall result is:"))
         self.menu_help.setTitle(_translate("designer_window", "Help"))
         self.menu_validate.setTitle(_translate("designer_window", "Validate"))
         self.action_about.setText(_translate("designer_window", "About"))
         self.action_to_pdf.setText(_translate("designer_window", "Export as PDF"))
+        self.actionClear_results.setText(_translate("designer_window", "Clear results"))
 
 from gui.custom import TgtLine
