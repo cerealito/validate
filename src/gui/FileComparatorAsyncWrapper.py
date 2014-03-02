@@ -1,6 +1,5 @@
 from PyQt5 import QtGui
-from time import sleep
-from PyQt5.QtCore import QObject, pyqtSignal, pyqtSlot, QThread
+from PyQt5.QtCore import QObject, pyqtSignal, pyqtSlot
 from FileComparator import FileComparator
 
 __author__ = 'saflores'

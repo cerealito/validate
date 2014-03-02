@@ -1,5 +1,5 @@
 from os.path import abspath, basename
-from Results import FileCmpResult, ResultCouple
+from Results import FileCmpResult
 from charts.generation import generate_png
 
 __author__ = 'cerealito'

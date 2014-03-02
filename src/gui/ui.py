@@ -1,5 +1,4 @@
-from queue import Queue
-from os.path import exists, basename, abspath
+from os.path import exists, abspath
 
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import pyqtSlot, QThread

@@ -1,4 +1,3 @@
-from encodings import big5
 import unittest
 from charts.generation import generate_png
 from FileComparator import FileComparator

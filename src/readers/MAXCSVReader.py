@@ -1,6 +1,3 @@
-from _hashlib import new
-import builtins
-
 __author__ = 'saflores'
 
 import csv
