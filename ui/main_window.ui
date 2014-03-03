@@ -15,44 +15,12 @@
   </property>
   <widget class="QWidget" name="central_widget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="1" column="0" colspan="3">
-     <widget class="TgtLine" name="line_test"/>
-    </item>
-    <item row="4" column="2">
-     <spacer name="spacer_h_right">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>268</width>
-        <height>20</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
-    <item row="4" column="1">
-     <widget class="QPushButton" name="btn_compare">
+    <item row="0" column="0">
+     <widget class="QLabel" name="lbl_test">
       <property name="text">
-       <string>Compare</string>
+       <string>Test File:</string>
       </property>
      </widget>
-    </item>
-    <item row="3" column="0" colspan="3">
-     <widget class="TgtLine" name="line_ref"/>
-    </item>
-    <item row="4" column="0">
-     <spacer name="spacer_h_left">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>269</width>
-        <height>20</height>
-       </size>
-      </property>
-     </spacer>
     </item>
     <item row="2" column="0">
      <widget class="QLabel" name="lbl_ref">
@@ -61,28 +29,46 @@
       </property>
      </widget>
     </item>
-    <item row="0" column="0">
-     <widget class="QLabel" name="lbl_test">
-      <property name="text">
-       <string>Test File:</string>
-      </property>
-     </widget>
-    </item>
     <item row="5" column="0">
      <widget class="QLabel" name="lbl_result_is">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
       <property name="text">
        <string>Overall result is:</string>
       </property>
      </widget>
     </item>
-    <item row="5" column="1" colspan="2">
+    <item row="5" column="1">
      <widget class="QLabel" name="lbl_result">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
       <property name="text">
        <string/>
       </property>
      </widget>
     </item>
-    <item row="6" column="0" colspan="3">
+    <item row="5" column="2" colspan="3">
+     <spacer name="horizontalSpacer">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>438</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item row="6" column="0" colspan="5">
      <widget class="QTableView" name="table_view_results">
       <property name="enabled">
        <bool>true</bool>
@@ -115,6 +101,38 @@
        <bool>false</bool>
       </attribute>
      </widget>
+    </item>
+    <item row="1" column="0" colspan="5">
+     <widget class="TgtLine" name="line_test"/>
+    </item>
+    <item row="3" column="0" colspan="5">
+     <widget class="TgtLine" name="line_ref"/>
+    </item>
+    <item row="4" column="4">
+     <widget class="QPushButton" name="btn_compare">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="text">
+       <string>Compare</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="0" colspan="4">
+     <spacer name="spacer_h_left">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>269</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
     </item>
    </layout>
   </widget>
@@ -173,7 +191,6 @@
  <tabstops>
   <tabstop>line_test</tabstop>
   <tabstop>line_ref</tabstop>
-  <tabstop>btn_compare</tabstop>
   <tabstop>table_view_results</tabstop>
  </tabstops>
  <resources/>

@@ -1,5 +1,5 @@
 import unittest
-from charts.generation import generate_png
+from charts.generation import generate_png, show
 from FileComparator import FileComparator
 
 __author__ = 'saflores'
@@ -7,11 +7,26 @@ __author__ = 'saflores'
 
 class GraphTester(unittest.TestCase):
     #################################################################################
+    def test_show(self):
+        print('Comparing and graphing a mini error...')
+        t = '../00_install/small.csv'
+        r = '../00_install/small_2.csv'
+
+        fc = FileComparator(t, r)
+        res = fc.compare()
+
+        print('\n### Overall result is: ', res.is_acceptable)
+
+        # for every couple of variables, show
+        for result in fc.result_couple_l:
+            show(result.test_var, result.ref_var)
+
+        self.assertFalse(res.is_acceptable)
+    #################################################################################
     def test_mini(self):
         print('Comparing and graphing a mini error...')
         t = '../00_install/small.csv'
         r = '../00_install/small_2.csv'
-        pb_list = []
 
         fc = FileComparator(t, r)
         res = fc.compare()
@@ -20,7 +35,6 @@ class GraphTester(unittest.TestCase):
 
         # for every couple of variables, generate a png
         for result in fc.result_couple_l:
-
             of = generate_png(result.test_var, result.ref_var)
             self.assertIsNotNone(of)
 

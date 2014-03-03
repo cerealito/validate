@@ -2,9 +2,9 @@ from PyQt5 import QtWidgets
 from os.path import exists, abspath
 
 from PyQt5.QtWidgets import *
-from PyQt5.QtCore import pyqtSlot, QThread
-from FileComparator import FileComparator
+from PyQt5.QtCore import pyqtSlot, QThread, QModelIndex
 from Results import FileCmpResult
+from charts.generation import show
 from gui.FileComparatorAsyncWrapper import FileComparatorAsyncWrapper
 from gui.PDFReportAsyncWrapper import PDFReportAsyncWrapper
 from gui.ResultTableMdl import ResultTableMdl
@@ -49,17 +49,26 @@ class UI (Ui_designer_window):
         # main button
         self.btn_compare.clicked.connect(self.start_comparision)
 
-        # actions in our menu
-        self.action_about.triggered.connect(self.about)
-        self.action_to_pdf.triggered.connect(self.start_pdf_generation)
-        self.action_clear_all.triggered.connect(self.clear_all)
-
         # do something upon arrival of results
         self.fc_wrapper.result_ready.connect(self.handle_result)
         self.pdf_report_wrapper.pdf_ready.connect(self.handle_pdf)
 
         # do something on extra thread errors:
         self.fc_wrapper.sig_error_ocurred.connect(self.handle_input_error)
+
+        # actions in our menu
+        self.action_about.triggered.connect(self.about)
+        self.action_to_pdf.triggered.connect(self.start_pdf_generation)
+        self.action_clear_all.triggered.connect(self.clear_all)
+
+        # what to do on result selection
+        self.table_view_results.doubleClicked.connect(self.start_graph)
+
+    ####################################################################################################################
+    def start_graph(self, selected: QModelIndex):
+        print('double click ' + str(selected.data()) + ' in row ' + str(selected.row()))
+        result_couple = self.comparision_result.result_l[selected.row()]
+        show(result_couple.test_var, result_couple.ref_var)
 
     ####################################################################################################################
     @pyqtSlot()
@@ -145,6 +154,7 @@ class UI (Ui_designer_window):
         self.action_to_pdf.setEnabled(True)
         ########## re-enable cmp button:
         self.btn_compare.setEnabled(True)
+
 
     ####################################################################################################################
     @pyqtSlot()
