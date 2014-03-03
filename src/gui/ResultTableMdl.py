@@ -50,6 +50,7 @@ class ResultTableMdl(QAbstractTableModel):
 
     def headerData(self, p_int, Qt_Orientation, int_role=None):
         if int_role == Qt.DisplayRole:
+            # column headers: the name of the columns
             if Qt_Orientation == Qt.Horizontal:
                 if p_int == ResultTableMdl.NAME_COLUMN:
                     return 'Variable'
@@ -57,5 +58,6 @@ class ResultTableMdl(QAbstractTableModel):
                     return 'Error'
                 if p_int == ResultTableMdl.STATUS_COLUMN:
                     return 'Status'
+            # row headers: just a number
             if Qt_Orientation == Qt.Vertical:
                 return p_int + 1

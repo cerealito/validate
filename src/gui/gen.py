@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'main_window.ui'
 #
-# Created: Mon Mar  3 11:36:11 2014
+# Created: Mon Mar  3 15:57:40 2014
 #      by: PyQt5 UI code generator 5.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -51,7 +51,9 @@ class Ui_designer_window(object):
         self.table_view_results.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
         self.table_view_results.setGridStyle(QtCore.Qt.DashLine)
         self.table_view_results.setObjectName("table_view_results")
+        self.table_view_results.horizontalHeader().setHighlightSections(False)
         self.table_view_results.horizontalHeader().setStretchLastSection(True)
+        self.table_view_results.verticalHeader().setHighlightSections(False)
         self.table_view_results.verticalHeader().setStretchLastSection(False)
         self.gridLayout.addWidget(self.table_view_results, 6, 0, 1, 3)
         designer_window.setCentralWidget(self.central_widget)
