@@ -39,19 +39,19 @@ class UI (Ui_designer_window):
         self.table_view_results.hide()
         self.lbl_result_is.hide()
         # add an expanding vertical spacer at the bottom
-        self.spacer_v_btm = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.spacer_v_btm = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum,
+                                                  QtWidgets.QSizePolicy.Expanding)
         self.gridLayout.addItem(self.spacer_v_btm, 6, 0, 1, 1)
 
         ###########################################################
         # connections follow reminder: signal.connect(slot)
-
         # main button
         self.btn_compare.clicked.connect(self.start_comparision)
 
         # actions in our menu
         self.action_about.triggered.connect(self.about)
         self.action_to_pdf.triggered.connect(self.start_pdf_generation)
-        self.action_clear_results.triggered.connect(self.clear_results)
+        self.action_clear_all.triggered.connect(self.clear_all)
 
         # do something upon arrival of results
         self.fc_wrapper.result_ready.connect(self.handle_result)
@@ -59,30 +59,30 @@ class UI (Ui_designer_window):
 
     @pyqtSlot()
     def start_comparision(self):
+        # disable the use of the button while comparing
+        self.btn_compare.setEnabled(False)
+
         t = self.line_test.text()
         r = self.line_ref.text()
 
         ########## Some Error Handling:
         if not exists(t):
-            self.statusbar.showMessage('Test file does not exist')
+            self.handle_input_error('Test file does not exist')
             return
 
         if not exists(r):
-            self.statusbar.showMessage('Reference file does not exist')
+            self.handle_input_error('Reference file does not exist')
             return
 
         ########## try to create our (synchronous) file comparator
         try:
             fc = FileComparator(t, r)
         except Exception as e:
-            self.statusbar.showMessage(str(e))
+            self.handle_input_error(str(e))
             return
         except UnicodeDecodeError:
-            self.statusbar.showMessage('Format not recognized')
+            self.handle_input_error('Format not recognized')
             return
-
-        # disable the use of the button while comparing
-        self.btn_compare.setEnabled(False)
 
         # put our fc in the asynchronous wrapper
         self.fc_wrapper.set_file_comparator(fc)
@@ -153,19 +153,27 @@ class UI (Ui_designer_window):
     def handle_pdf(self, out_f):
         if exists(out_f):
             self.statusbar.showMessage('Done. Output file is: ' + abspath(out_f), 10000)
-            self.clear_results()
+            self.clear_all()
         else:
             self.statusbar.showMessage('Oops! something went wrong. Cannot continue', 10000)
 
+    def handle_input_error(self, message):
+        self.clear_results()
+        self.statusbar.showMessage(message)
+        self.btn_compare.setEnabled(True)
+
     def clear_results(self):
-        self.line_test.clear()
-        self.line_ref.clear()
         self.lbl_result.clear()
         self.lbl_result_is.hide()
         self.action_to_pdf.setEnabled(False)
         self.comparision_result = None
         self.table_view_results.setModel(None)
         self.table_view_results.hide()
+
+    def clear_all(self):
+        self.line_test.clear()
+        self.line_ref.clear()
+        self.clear_results()
 
     def about(self):
         """Popup a box with about message."""

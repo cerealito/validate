@@ -118,7 +118,7 @@
      <x>0</x>
      <y>0</y>
      <width>652</width>
-     <height>22</height>
+     <height>18</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_help">
@@ -132,7 +132,7 @@
      <string>Validate</string>
     </property>
     <addaction name="action_to_pdf"/>
-    <addaction name="action_clear_results"/>
+    <addaction name="action_clear_all"/>
    </widget>
    <addaction name="menu_validate"/>
    <addaction name="menu_help"/>
@@ -151,9 +151,9 @@
     <string>Export as PDF</string>
    </property>
   </action>
-  <action name="action_clear_results">
+  <action name="action_clear_all">
    <property name="text">
-    <string>Clear results</string>
+    <string>Clear</string>
    </property>
   </action>
  </widget>

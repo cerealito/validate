@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'main_window.ui'
 #
-# Created: Sun Mar  2 21:22:58 2014
+# Created: Mon Mar  3 11:36:11 2014
 #      by: PyQt5 UI code generator 5.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -56,7 +56,7 @@ class Ui_designer_window(object):
         self.gridLayout.addWidget(self.table_view_results, 6, 0, 1, 3)
         designer_window.setCentralWidget(self.central_widget)
         self.menubar = QtWidgets.QMenuBar(designer_window)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 652, 22))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 652, 18))
         self.menubar.setObjectName("menubar")
         self.menu_help = QtWidgets.QMenu(self.menubar)
         self.menu_help.setObjectName("menu_help")
@@ -71,11 +71,11 @@ class Ui_designer_window(object):
         self.action_to_pdf = QtWidgets.QAction(designer_window)
         self.action_to_pdf.setEnabled(False)
         self.action_to_pdf.setObjectName("action_to_pdf")
-        self.action_clear_results = QtWidgets.QAction(designer_window)
-        self.action_clear_results.setObjectName("action_clear_results")
+        self.action_clear_all = QtWidgets.QAction(designer_window)
+        self.action_clear_all.setObjectName("action_clear_all")
         self.menu_help.addAction(self.action_about)
         self.menu_validate.addAction(self.action_to_pdf)
-        self.menu_validate.addAction(self.action_clear_results)
+        self.menu_validate.addAction(self.action_clear_all)
         self.menubar.addAction(self.menu_validate.menuAction())
         self.menubar.addAction(self.menu_help.menuAction())
 
@@ -96,6 +96,6 @@ class Ui_designer_window(object):
         self.menu_validate.setTitle(_translate("designer_window", "Validate"))
         self.action_about.setText(_translate("designer_window", "About"))
         self.action_to_pdf.setText(_translate("designer_window", "Export as PDF"))
-        self.action_clear_results.setText(_translate("designer_window", "Clear results"))
+        self.action_clear_all.setText(_translate("designer_window", "Clear"))
 
 from gui.custom import TgtLine
