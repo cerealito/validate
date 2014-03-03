@@ -57,10 +57,14 @@ class UI (Ui_designer_window):
         self.fc_wrapper.result_ready.connect(self.handle_result)
         self.pdf_report_wrapper.pdf_ready.connect(self.handle_pdf)
 
+        # do something on extra thread errors:
+        self.fc_wrapper.sig_error_ocurred.connect(self.handle_input_error)
+
     @pyqtSlot()
     def start_comparision(self):
         # disable the use of the button while comparing
         self.btn_compare.setEnabled(False)
+        self.clear_results()
 
         t = self.line_test.text()
         r = self.line_ref.text()
@@ -74,18 +78,7 @@ class UI (Ui_designer_window):
             self.handle_input_error('Reference file does not exist')
             return
 
-        ########## try to create our (synchronous) file comparator
-        try:
-            fc = FileComparator(t, r)
-        except Exception as e:
-            self.handle_input_error(str(e))
-            return
-        except UnicodeDecodeError:
-            self.handle_input_error('Format not recognized')
-            return
-
-        # put our fc in the asynchronous wrapper
-        self.fc_wrapper.set_file_comparator(fc)
+        self.fc_wrapper.set_files_to_compare(t, r)
 
         # we can now put the wrapper in a separate thread
         self.cmp_thread = QThread()

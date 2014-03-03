@@ -1,5 +1,5 @@
 from PyQt5 import QtGui
-from PyQt5.QtCore import QObject, pyqtSignal, pyqtSlot
+from PyQt5.QtCore import QObject, pyqtSignal, pyqtSlot, QThread
 from FileComparator import FileComparator
 
 __author__ = 'saflores'
@@ -10,16 +10,21 @@ class FileComparatorAsyncWrapper(QObject):
     # I have found that object <built-in> does a good job here.
     result_ready = pyqtSignal(object)
 
+    sig_error_ocurred = pyqtSignal(object)
+
     def __init__(self):
         QObject.__init__(self)
         # this is not needed but i used it to learn and experiment
         self.test_str = 'can see this instance variables'
         print('WATCHER constructor', self.test_str)
 
-        self.file_comparator = None
+        #self.file_comparator = None
+        self.test_file = None
+        self.ref_file = None
 
-    def set_file_comparator(self, file_comparator_p: FileComparator):
-        self.file_comparator = file_comparator_p
+    def set_files_to_compare(self, test_file, ref_file):
+        self.test_file = test_file
+        self.ref_file = ref_file
 
     @pyqtSlot()
     def synchronous_compare(self):
@@ -30,14 +35,19 @@ class FileComparatorAsyncWrapper(QObject):
         # this method actually lives on on a separate thread.
         # TODO: write a blog entry on this
         print('QObj slot :', self.test_str)
+        comparision_result = None
+        ########## try to create our (synchronous) file comparator
+        try:
+            fc = FileComparator(self.test_file, self.ref_file)
+            comparision_result = fc.compare()
+        except UnicodeDecodeError:
+            self.sig_error_ocurred.emit('Format not recognized')
+        except Exception as e:
+            self.sig_error_ocurred.emit(str(e))
+        finally:
+            # move this object back to the main thread, were it was originally created
+            # right before emitting the signal and even if errors occurred
+            self.moveToThread(QtGui.QGuiApplication.instance().thread())
 
-        # for i in range(5):
-        #     sleep(1)
-        #     print('sleeping', i)
-
-        comparision_result = self.file_comparator.compare()
-
-        # move this object back to the main thread, were it was originally created
-        self.moveToThread(QtGui.QGuiApplication.instance().thread())
-        self.result_ready.emit(comparision_result)
-
+        if comparision_result:
+            self.result_ready.emit(comparision_result)

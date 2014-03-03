@@ -26,8 +26,6 @@ class MAXCSVReader:
             if l.strip() != '#HEADER':
                 raise TypeError('Format not supported')
 
-
-
             generic_reader = csv.reader(csv_f, dialect='MAX')
 
             #########################################################
