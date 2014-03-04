@@ -66,9 +66,13 @@ class UI (Ui_designer_window):
 
     ####################################################################################################################
     def start_graph(self, selected: QModelIndex):
-        print('double click ' + str(selected.data()) + ' in row ' + str(selected.row()))
         result_couple = self.comparision_result.result_l[selected.row()]
+        # show will automatically spawn a separate thread, so there is no need to
+        # wrap it as the comparison or the pdf generation. OTOH we need to disable the main window
+        # in order not to call show again, that will mess everything up (see matplotlib doc)
+        self.main_window.setEnabled(False)
         show(result_couple.test_var, result_couple.ref_var)
+        self.main_window.setEnabled(True)
 
     ####################################################################################################################
     @pyqtSlot()
