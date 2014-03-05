@@ -36,7 +36,8 @@ class UI (Ui_designer_window):
         self.pdf_thread = None
 
         self.fc_wrapper = FileComparatorAsyncWrapper()
-        self.pdf_report_wrapper = PDFReportAsyncWrapper()
+        self.pdf_wrapper = None
+
         self.table_view_results.hide()
         self.lbl_result_is.hide()
         # add an expanding vertical spacer at the bottom
@@ -51,7 +52,7 @@ class UI (Ui_designer_window):
 
         # do something upon arrival of results
         self.fc_wrapper.result_ready.connect(self.handle_result)
-        self.pdf_report_wrapper.pdf_ready.connect(self.handle_pdf)
+
 
         # do something on extra thread errors:
         self.fc_wrapper.sig_error_ocurred.connect(self.handle_input_error)
@@ -114,20 +115,24 @@ class UI (Ui_designer_window):
     ####################################################################################################################
     def start_pdf_generation(self):
         self.statusbar.showMessage('generating pdf report, please wait...')
-        # disable further pdf exports until this one finishes
-        self.action_to_pdf.setEnabled(False)
+        # disable further everything
+        self.main_window.setEnabled(False)
 
         pdf_report = PDFReport(self.comparision_result)
 
         # put the PDFReport in an async wrapper
-        self.pdf_report_wrapper.set_pdf_report(pdf_report)
+        self.pdf_wrapper = PDFReportAsyncWrapper()
+        self.pdf_wrapper.set_pdf_report(pdf_report)
 
         self.pdf_thread = QThread()
-        self.pdf_report_wrapper.moveToThread(self.pdf_thread)
+        self.pdf_wrapper.moveToThread(self.pdf_thread)
 
-        self.pdf_thread.started.connect(self.pdf_report_wrapper.synchronous_pdf_generation)
+        self.pdf_wrapper.pdf_ready.connect(self.handle_pdf)
+        self.pdf_thread.started.connect(self.pdf_wrapper.synchronous_pdf_generation)
+        self.pdf_wrapper.pdf_ready.connect(self.pdf_thread.quit)
+        self.pdf_wrapper.pdf_ready.connect(self.pdf_wrapper.deleteLater)
         self.pdf_thread.finished.connect(self.pdf_thread.deleteLater)
-
+        print ("starting new thread" + str(self.pdf_thread.currentThreadId()))
         self.pdf_thread.start()
 
     ####################################################################################################################
@@ -163,6 +168,7 @@ class UI (Ui_designer_window):
     ####################################################################################################################
     @pyqtSlot()
     def handle_pdf(self, out_f):
+        self.main_window.setEnabled(True)
         if exists(out_f):
             self.statusbar.showMessage('Done. Output file is: ' + abspath(out_f), 10000)
             self.clear_all()

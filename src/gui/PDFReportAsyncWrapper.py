@@ -1,4 +1,5 @@
 from os.path import basename
+from time import sleep
 from PyQt5 import QtGui
 from PyQt5.QtCore import QObject, pyqtSignal, pyqtSlot
 from report_generators import PDFReport
@@ -24,10 +25,12 @@ class PDFReportAsyncWrapper(QObject):
     def synchronous_pdf_generation(self):
         # TODO: make this configurable
         out_f = str(basename(self.pdf_report.file_cmp_result.file_test))[:-4] + '.pdf'
-
         self.pdf_report.summary()
-
         self.pdf_report.plot_results()
+        for i in range(10):
+            print('sleeping in ', i, str(self.thread().currentThreadId()))
+            sleep(1)
+
         self.pdf_report.output(out_f, 'F')
 
         # move this object back to the main thread, were it was originally created
