@@ -1,5 +1,6 @@
 import unittest
-from charts.generation import generate_png, show
+from charts.generation import generate_png
+from charts.display import show
 from FileComparator import FileComparator
 
 __author__ = 'saflores'
