@@ -65,6 +65,7 @@ class UI (Ui_designer_window):
         self.table_view_results.doubleClicked.connect(self.start_graph)
 
     ####################################################################################################################
+    @pyqtSlot(object)
     def start_graph(self, selected: QModelIndex):
         result_couple = self.comparision_result.result_l[selected.row()]
         # show will automatically spawn a separate thread, so there is no need to
@@ -105,6 +106,7 @@ class UI (Ui_designer_window):
         # tell the thread what to do when started and when finished; then go!
         self.cmp_thread.started.connect(self.fc_wrapper.synchronous_compare)
         self.cmp_thread.finished.connect(self.cmp_thread.deleteLater)
+        self.fc_wrapper.result_ready.connect(self.cmp_thread.quit)
 
         self.cmp_thread.start()
 
@@ -112,10 +114,11 @@ class UI (Ui_designer_window):
         # nothing else to do here, handle result will be called when our thread emits a signal
 
     ####################################################################################################################
+    @pyqtSlot()
     def start_pdf_generation(self):
         self.statusbar.showMessage('generating pdf report, please wait...')
         # disable further pdf exports until this one finishes
-        self.action_to_pdf.setEnabled(False)
+        self.main_window.setEnabled(False)
 
         pdf_report = PDFReport(self.comparision_result)
 
@@ -127,11 +130,12 @@ class UI (Ui_designer_window):
 
         self.pdf_thread.started.connect(self.pdf_report_wrapper.synchronous_pdf_generation)
         self.pdf_thread.finished.connect(self.pdf_thread.deleteLater)
+        self.pdf_report_wrapper.pdf_ready.connect(self.pdf_thread.quit)
 
         self.pdf_thread.start()
 
     ####################################################################################################################
-    @pyqtSlot()
+    @pyqtSlot(object)
     def handle_result(self, res: FileCmpResult):
         self.statusbar.showMessage('Done')
         self.comparision_result = res
@@ -159,10 +163,10 @@ class UI (Ui_designer_window):
         ########## re-enable cmp button:
         self.btn_compare.setEnabled(True)
 
-
     ####################################################################################################################
-    @pyqtSlot()
+    @pyqtSlot(object)
     def handle_pdf(self, out_f):
+        self.main_window.setEnabled(True)
         if exists(out_f):
             self.statusbar.showMessage('Done. Output file is: ' + abspath(out_f), 10000)
             self.clear_all()
@@ -170,6 +174,7 @@ class UI (Ui_designer_window):
             self.statusbar.showMessage('Oops! something went wrong. Cannot continue', 10000)
 
     ####################################################################################################################
+    @pyqtSlot(object)
     def handle_input_error(self, message):
         self.clear_results()
         self.statusbar.showMessage(message)
@@ -185,12 +190,14 @@ class UI (Ui_designer_window):
         self.table_view_results.hide()
 
     ####################################################################################################################
+    @pyqtSlot()
     def clear_all(self):
         self.line_test.clear()
         self.line_ref.clear()
         self.clear_results()
 
     ####################################################################################################################
+    @pyqtSlot()
     def about(self):
         """Popup a box with about message."""
         about_str = "<center><b>Validate v{0} </b></center>           " + \
