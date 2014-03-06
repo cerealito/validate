@@ -2,3 +2,5 @@
 tests/*/*.png
 tests/*/*.pdf
 dist/
+*/*/__pycache__
+*.pyc
