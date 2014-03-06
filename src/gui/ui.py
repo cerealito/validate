@@ -7,7 +7,6 @@ from Results import FileCmpResult
 from charts.generation import show
 from gui.FileComparatorAsyncWrapper import FileComparatorAsyncWrapper
 from gui.PDFReportAsyncWrapper import PDFReportAsyncWrapper
-from gui.PDFWrapper2 import PDFWrapper2
 from gui.ResultTableMdl import ResultTableMdl
 
 from gui.gen import Ui_designer_window
@@ -34,10 +33,10 @@ class UI (Ui_designer_window):
 
         self.comparision_result = None
         self.cmp_thread = None
-        self.pdf_t = None
+        self.pdf_thread = None
 
         self.fc_wrapper = FileComparatorAsyncWrapper()
-
+        self.pdf_report_wrapper = PDFReportAsyncWrapper()
         self.table_view_results.hide()
         self.lbl_result_is.hide()
         # add an expanding vertical spacer at the bottom
@@ -52,6 +51,7 @@ class UI (Ui_designer_window):
 
         # do something upon arrival of results
         self.fc_wrapper.result_ready.connect(self.handle_result)
+        self.pdf_report_wrapper.pdf_ready.connect(self.handle_pdf)
 
         # do something on extra thread errors:
         self.fc_wrapper.sig_error_ocurred.connect(self.handle_input_error)
@@ -117,10 +117,18 @@ class UI (Ui_designer_window):
         # disable further pdf exports until this one finishes
         self.action_to_pdf.setEnabled(False)
 
-        self.pdf_t = PDFWrapper2(self.comparision_result, self.main_window)
-        self.pdf_t.pdf_ready.connect(self.handle_pdf)
+        pdf_report = PDFReport(self.comparision_result)
 
-        self.pdf_t.start()
+        # put the PDFReport in an async wrapper
+        self.pdf_report_wrapper.set_pdf_report(pdf_report)
+
+        self.pdf_thread = QThread()
+        self.pdf_report_wrapper.moveToThread(self.pdf_thread)
+
+        self.pdf_thread.started.connect(self.pdf_report_wrapper.synchronous_pdf_generation)
+        self.pdf_thread.finished.connect(self.pdf_thread.deleteLater)
+
+        self.pdf_thread.start()
 
     ####################################################################################################################
     @pyqtSlot()
@@ -160,8 +168,6 @@ class UI (Ui_designer_window):
             self.clear_all()
         else:
             self.statusbar.showMessage('Oops! something went wrong. Cannot continue', 10000)
-
-        self.pdf_t = None
 
     ####################################################################################################################
     def handle_input_error(self, message):
