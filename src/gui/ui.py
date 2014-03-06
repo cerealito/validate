@@ -4,7 +4,7 @@ from os.path import exists, abspath
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import pyqtSlot, QThread, QModelIndex
 from Results import FileCmpResult
-from charts.generation import show
+from charts.display import show
 from gui.FileComparatorAsyncWrapper import FileComparatorAsyncWrapper
 from gui.PDFReportAsyncWrapper import PDFReportAsyncWrapper
 from gui.ResultTableMdl import ResultTableMdl
