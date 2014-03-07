@@ -1,0 +1,22 @@
+# when we create and object but do nothing with it (presumably garbage collected)...
+# 'main' thread is the same as before
+C:\Python33\python.exe Q:/tools/validate/thread_xp/30_qthread_subclass.py
+    main is running in  <PyQt5.QtCore.QThread object at 0x0000000002965A68>
+        myApp lives in  <PyQt5.QtCore.QThread object at 0x0000000002965A68>
+
+# custom object (still) spawns a new thread!
+custom object lives in <PyQt5.QtCore.QThread object at 0x0000000002965AF8>
+           executes in <PyQt5.QtCore.QThread object at 0x0000000002965AF8>
+
+# custom thread lives and executes in the newly created thread
+Custom Thread constructor lives in: <PyQt5.QtCore.QThread object at 0x0000000002965AF8>
+                       executes in: <PyQt5.QtCore.QThread object at 0x0000000002965AF8>
+
+t started, executing app...
+
+# run lives in the newly created thread and executes in the main thread?
+Custom Thread.run() lives in: <PyQt5.QtCore.QThread object at 0x0000000002965AF8>
+                executes  in: <__main__.CustomThread object at 0x0000000002965A68>
+
+
+Process finished with exit code 0

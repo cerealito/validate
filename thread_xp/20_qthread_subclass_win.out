@@ -1,0 +1,22 @@
+# again main app 'lives' and executes in the same qthread
+C:\Python33\python.exe Q:/tools/validate/thread_xp/20_qthread_subclass.py
+    main is running in  <PyQt5.QtCore.QThread object at 0x0000000002975A68>
+        myApp lives in  <PyQt5.QtCore.QThread object at 0x0000000002975A68>
+
+# custom object spawns a new q thread!!! (wtf?) it leaves and executes in there
+custom object lives in <PyQt5.QtCore.QThread object at 0x0000000002975AF8>
+           executes in <PyQt5.QtCore.QThread object at 0x0000000002975AF8>
+
+# new thread lives and executes in a third one
+Custom Thread constructor lives in: <PyQt5.QtCore.QThread object at 0x0000000002975B88>
+                       executes in: <PyQt5.QtCore.QThread object at 0x0000000002975B88>
+
+t started, executing app...
+
+# run from our custom thread lives in its own created thread but executes in the one
+# created by the custom object!!!?
+Custom Thread.run() lives in: <PyQt5.QtCore.QThread object at 0x0000000002975B88>
+                executes  in: <__main__.CustomThread object at 0x0000000002975AF8>
+
+
+Process finished with exit code 0

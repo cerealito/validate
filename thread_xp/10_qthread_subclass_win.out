@@ -1,0 +1,18 @@
+# one thead sub class and one app
+
+C:\Python33\python.exe Q:\tools\validate\thread_xp\10_qthread_subclass.py
+# app lives and executes in the 'main' thread.
+    main is running in  <PyQt5.QtCore.QThread object at 0x00000000029B5A68>
+        myApp lives in  <PyQt5.QtCore.QThread object at 0x00000000029B5A68>
+
+# custom thread constructor spawned a new thread, it also executes in it.
+Custom Thread constructor lives in: <PyQt5.QtCore.QThread object at 0x00000000029B5AF8>
+                       executes in: <PyQt5.QtCore.QThread object at 0x00000000029B5AF8>
+
+t started, executing app...
+# overloaded run method lives in the new thred but runs in main thread???
+Custom Thread.run() lives in: <PyQt5.QtCore.QThread object at 0x00000000029B5AF8>
+                executes  in: <__main__.CustomThread object at 0x00000000029B5A68>
+
+
+Process finished with exit code 0
