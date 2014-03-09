@@ -1,0 +1,18 @@
+# same as in win!!!
+/usr/local/bin/python3.3 /Users/cerealito/projects/validate/thread_xp/20_qthread_subclass.py
+    main is running in  <PyQt5.QtCore.QThread object at 0x102e06510>
+        myApp lives in  <PyQt5.QtCore.QThread object at 0x102e06510>
+
+custom object lives in <PyQt5.QtCore.QThread object at 0x102e065a8>
+           executes in <PyQt5.QtCore.QThread object at 0x102e065a8>
+
+Custom Thread constructor lives in: <PyQt5.QtCore.QThread object at 0x102e06640>
+                       executes in: <PyQt5.QtCore.QThread object at 0x102e06640>
+
+t started, executing app...
+
+Custom Thread.run() lives in: <PyQt5.QtCore.QThread object at 0x102e06640>
+                executes  in: <__main__.CustomThread object at 0x102e065a8>
+
+
+Process finished with exit code 0
