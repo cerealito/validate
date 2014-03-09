@@ -21,7 +21,7 @@ class MatplotlibTest(unittest.TestCase):
 
         myVar = r.get_variable('CPC_SACU\SACU_h_cabin_alt_target_ft_out')
 
-        plt.plot(myVar.times, myVar.values, 'r-.')
+        plt.plot(myVar.times(), myVar.values(), 'r-.')
         plt.show()
 
 

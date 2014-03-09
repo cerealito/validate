@@ -20,4 +20,5 @@ def show(test, ref):
     plt.ylim(ymax=ymax*1.3)
 
     plt.show()
-    plt.close()
+    # commenting this out to avoid strange white square in Mac OSX
+    #plt.close()
