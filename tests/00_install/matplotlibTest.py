@@ -4,9 +4,7 @@ __author__ = 'saflores'
 
 import unittest
 
-import numpy as np
 import matplotlib.pyplot as plt
-
 
 class MatplotlibTest(unittest.TestCase):
 

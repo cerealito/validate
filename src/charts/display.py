@@ -1,4 +1,5 @@
 __author__ = 'saflores'
+import platform
 import matplotlib.pyplot as plt
 
 
@@ -20,5 +21,6 @@ def show(test, ref):
     plt.ylim(ymax=ymax*1.3)
 
     plt.show()
-    # commenting this out to avoid strange white square in Mac OSX
-    #plt.close()
+    # do not close in Mac OSX to avoid strange white square errors
+    if platform.system() == 'Windows':
+        plt.close()

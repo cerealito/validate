@@ -24,8 +24,10 @@ def generate_png(test, ref):
 
 
     # for some weird reason we must call savefig before show, otherwise the output file is all white
-    plt.savefig(output_f, dpi=240, bbox_inches='tight')
-
+    # 240 for very high quality. 120 acceptable. 96 is fast but ugly
+    plt.savefig(output_f, dpi=96, bbox_inches='tight')
+    # This little guy makes the whole thing crash the second time!!!
+    # plt.close()
     if exists(output_f):
         return abspath(output_f)
     else:
