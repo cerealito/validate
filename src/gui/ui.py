@@ -1,8 +1,8 @@
-from PyQt5 import QtWidgets
+import os
 from os.path import exists, abspath
-
+from PyQt5.QtCore import QCoreApplication, pyqtSignal
 from PyQt5.QtWidgets import *
-from PyQt5.QtCore import pyqtSlot, QThread, QModelIndex, QSize
+from PyQt5.QtCore import pyqtSlot, QThread, QModelIndex
 from Results import FileCmpResult
 from charts.display import show
 from gui.FileComparatorAsyncWrapper import FileComparatorAsyncWrapper
@@ -39,10 +39,6 @@ class UI (Ui_designer_window):
         self.pdf_report_wrapper = PDFReportAsyncWrapper()
         self.table_view_results.hide()
         self.lbl_result_is.hide()
-        # add an expanding vertical spacer at the bottom
-        #self.spacer_v_btm = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum,
-        #                                          QtWidgets.QSizePolicy.Expanding)
-        #self.gridLayout.addItem(self.spacer_v_btm, 6, 0, 1, 1)
 
         ###########################################################
         # connections follow reminder: signal.connect(slot)
@@ -50,6 +46,8 @@ class UI (Ui_designer_window):
         self.btn_compare.clicked.connect(self.start_comparision)
         self.btn_clear.clicked.connect(self.clear_all)
         self.btn_export.clicked.connect(self.start_pdf_generation)
+        self.btn_browse_test.clicked.connect(self.open_test_file)
+        self.btn_browse_ref.clicked.connect(self.open_ref_file)
 
         # do something upon arrival of results
         self.fc_wrapper.result_ready.connect(self.handle_result)
@@ -214,3 +212,24 @@ class UI (Ui_designer_window):
         QMessageBox.about(self.main_window, "Validate",
                           about_str.format(__version__, platform.python_version(), platform.system()))
 
+    ####################################################################################################################
+    @pyqtSlot()
+    def open_test_file(self):
+        tr = QCoreApplication.translate
+        f, ext = QFileDialog.getOpenFileName(None,
+                                        tr("designer_window", "Choose test file"),
+                                        os.getcwd(),
+                                        tr("designer_window", "CSV files (*.csv)"))
+
+        self.line_test.setText(f)
+
+    ####################################################################################################################
+    @pyqtSlot()
+    def open_ref_file(self):
+        tr = QCoreApplication.translate
+        f, ext = QFileDialog.getOpenFileName(None,
+                                        tr("designer_window", "Choose reference file"),
+                                        os.getcwd(),
+                                        tr("designer_window", "CSV files (*.csv)"))
+
+        self.line_ref.setText(f)
