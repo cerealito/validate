@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'main_window.ui'
 #
-# Created: Mon Mar 10 11:06:12 2014
+# Created: Mon Mar 10 14:00:10 2014
 #      by: PyQt5 UI code generator 5.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -12,7 +12,12 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_designer_window(object):
     def setupUi(self, designer_window):
         designer_window.setObjectName("designer_window")
-        designer_window.resize(652, 320)
+        designer_window.resize(650, 180)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(designer_window.sizePolicy().hasHeightForWidth())
+        designer_window.setSizePolicy(sizePolicy)
         self.central_widget = QtWidgets.QWidget(designer_window)
         self.central_widget.setObjectName("central_widget")
         self.gridLayout = QtWidgets.QGridLayout(self.central_widget)
@@ -71,6 +76,7 @@ class Ui_designer_window(object):
         self.btn_compare.setObjectName("btn_compare")
         self.gridLayout.addWidget(self.btn_compare, 2, 4, 1, 1)
         self.btn_export = QtWidgets.QPushButton(self.central_widget)
+        self.btn_export.setEnabled(False)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -120,7 +126,7 @@ class Ui_designer_window(object):
         self.gridLayout.addWidget(self.table_view_results, 4, 0, 1, 7)
         designer_window.setCentralWidget(self.central_widget)
         self.menubar = QtWidgets.QMenuBar(designer_window)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 652, 22))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 650, 18))
         self.menubar.setObjectName("menubar")
         self.menu_help = QtWidgets.QMenu(self.menubar)
         self.menu_help.setObjectName("menu_help")

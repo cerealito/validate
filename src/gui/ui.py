@@ -2,7 +2,7 @@ from PyQt5 import QtWidgets
 from os.path import exists, abspath
 
 from PyQt5.QtWidgets import *
-from PyQt5.QtCore import pyqtSlot, QThread, QModelIndex
+from PyQt5.QtCore import pyqtSlot, QThread, QModelIndex, QSize
 from Results import FileCmpResult
 from charts.display import show
 from gui.FileComparatorAsyncWrapper import FileComparatorAsyncWrapper
@@ -40,14 +40,16 @@ class UI (Ui_designer_window):
         self.table_view_results.hide()
         self.lbl_result_is.hide()
         # add an expanding vertical spacer at the bottom
-        self.spacer_v_btm = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum,
-                                                  QtWidgets.QSizePolicy.Expanding)
-        self.gridLayout.addItem(self.spacer_v_btm, 6, 0, 1, 1)
+        #self.spacer_v_btm = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum,
+        #                                          QtWidgets.QSizePolicy.Expanding)
+        #self.gridLayout.addItem(self.spacer_v_btm, 6, 0, 1, 1)
 
         ###########################################################
         # connections follow reminder: signal.connect(slot)
-        # main button
+        # buttons
         self.btn_compare.clicked.connect(self.start_comparision)
+        self.btn_clear.clicked.connect(self.clear_all)
+        self.btn_export.clicked.connect(self.start_pdf_generation)
 
         # do something upon arrival of results
         self.fc_wrapper.result_ready.connect(self.handle_result)
@@ -158,8 +160,11 @@ class UI (Ui_designer_window):
         self.table_view_results.setModel(ResultTableMdl(self.comparision_result))
         self.table_view_results.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeToContents)
 
+        self.main_window.adjustSize()
+
         ########## enable pdf export:
         self.action_to_pdf.setEnabled(True)
+        self.btn_export.setEnabled(True)
         ########## re-enable cmp button:
         self.btn_compare.setEnabled(True)
 
@@ -185,6 +190,7 @@ class UI (Ui_designer_window):
         self.lbl_result.clear()
         self.lbl_result_is.hide()
         self.action_to_pdf.setEnabled(False)
+        self.btn_export.setEnabled(False)
         self.comparision_result = None
         self.table_view_results.setModel(None)
         self.table_view_results.hide()
