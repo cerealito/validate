@@ -16,21 +16,22 @@ class PDFReportAsyncWrapper(QObject):
         # we declare this here and then set it.
         # for some weird reason i couldn't just pass it to the constructor...!
         self.pdf_report = None
+        self.out_f = None
+
+    def set_output_f(self, out_f):
+        self.out_f = out_f
 
     def set_pdf_report(self, pdf_report_p: PDFReport):
         self.pdf_report = pdf_report_p
 
     @pyqtSlot()
     def synchronous_pdf_generation(self):
-        # TODO: make this configurable
-        out_f = str(basename(self.pdf_report.file_cmp_result.file_test))[:-4] + '.pdf'
-
         self.pdf_report.summary()
 
         self.pdf_report.plot_results()
-        self.pdf_report.output(out_f, 'F')
+        self.pdf_report.output(self.out_f, 'F')
 
         # move this object back to the main thread, were it was originally created
         self.moveToThread(QtGui.QGuiApplication.instance().thread())
-        self.pdf_ready.emit(out_f)
+        self.pdf_ready.emit(self.out_f)
 

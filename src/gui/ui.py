@@ -1,6 +1,6 @@
 import os
-from os.path import exists, abspath
-from PyQt5.QtCore import QCoreApplication, pyqtSignal
+from os.path import exists, abspath, dirname, basename, join
+from PyQt5.QtCore import QCoreApplication
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import pyqtSlot, QThread, QModelIndex
 from Results import FileCmpResult
@@ -116,12 +116,24 @@ class UI (Ui_designer_window):
     ####################################################################################################################
     @pyqtSlot()
     def start_pdf_generation(self):
+
+        default_d = dirname(self.comparision_result.file_test)
+        default_f = basename(self.comparision_result.file_test)[:-4] + '.pdf'
+
+        tr = QCoreApplication.translate
+        out_f, crap = QFileDialog.getSaveFileName(None,
+                                                  tr("designer_window", "Save report file"),
+                                                  join(default_d, default_f),
+                                                  tr("designer_window", "PDF documents (*.pdf)"))
+
         self.statusbar.showMessage('generating pdf report, please wait...')
-        # disable further pdf exports until this one finishes
+        # disable further stuff until the export finishes
         self.main_window.setEnabled(False)
 
         pdf_report = PDFReport(self.comparision_result)
 
+        # set the output file
+        self.pdf_report_wrapper.set_output_f(out_f)
         # put the PDFReport in an async wrapper
         self.pdf_report_wrapper.set_pdf_report(pdf_report)
 
@@ -217,9 +229,9 @@ class UI (Ui_designer_window):
     def open_test_file(self):
         tr = QCoreApplication.translate
         f, ext = QFileDialog.getOpenFileName(None,
-                                        tr("designer_window", "Choose test file"),
-                                        os.getcwd(),
-                                        tr("designer_window", "CSV files (*.csv)"))
+                                             tr("designer_window", "Choose test file"),
+                                             os.getcwd(),
+                                             tr("designer_window", "CSV files (*.csv)"))
 
         self.line_test.setText(f)
 
@@ -227,9 +239,9 @@ class UI (Ui_designer_window):
     @pyqtSlot()
     def open_ref_file(self):
         tr = QCoreApplication.translate
-        f, ext = QFileDialog.getOpenFileName(None,
-                                        tr("designer_window", "Choose reference file"),
-                                        os.getcwd(),
-                                        tr("designer_window", "CSV files (*.csv)"))
+        f, filter = QFileDialog.getOpenFileName(None,
+                                                tr("designer_window", "Choose reference file"),
+                                                os.getcwd(),
+                                                tr("designer_window", "CSV files (*.csv)"))
 
         self.line_ref.setText(f)
