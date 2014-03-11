@@ -39,13 +39,12 @@ class UI (Ui_designer_window):
         self.pdf_report_wrapper = PDFReportAsyncWrapper()
         self.table_view_results.hide()
         self.lbl_result_is.hide()
+        self.lbl_result.setText('')
 
         ###########################################################
         # connections follow reminder: signal.connect(slot)
         # buttons
         self.btn_compare.clicked.connect(self.start_comparision)
-        self.btn_clear.clicked.connect(self.clear_all)
-        self.btn_export.clicked.connect(self.start_pdf_generation)
         self.btn_browse_test.clicked.connect(self.open_test_file)
         self.btn_browse_ref.clicked.connect(self.open_ref_file)
 
@@ -60,6 +59,7 @@ class UI (Ui_designer_window):
         self.action_about.triggered.connect(self.about)
         self.action_to_pdf.triggered.connect(self.start_pdf_generation)
         self.action_clear_all.triggered.connect(self.clear_all)
+        self.action_quit.triggered.connect(self.exit)
 
         # what to do on result selection
         self.table_view_results.doubleClicked.connect(self.start_graph)
@@ -126,6 +126,10 @@ class UI (Ui_designer_window):
                                                   join(default_d, default_f),
                                                   tr("designer_window", "PDF documents (*.pdf)"))
 
+        if '' == out_f:
+            # user cancelled the operation
+            return
+
         self.statusbar.showMessage('generating pdf report, please wait...')
         # disable further stuff until the export finishes
         self.main_window.setEnabled(False)
@@ -174,7 +178,7 @@ class UI (Ui_designer_window):
 
         ########## enable pdf export:
         self.action_to_pdf.setEnabled(True)
-        self.btn_export.setEnabled(True)
+        self.action_to_pdf.setEnabled(True)
         ########## re-enable cmp button:
         self.btn_compare.setEnabled(True)
 
@@ -200,7 +204,7 @@ class UI (Ui_designer_window):
         self.lbl_result.clear()
         self.lbl_result_is.hide()
         self.action_to_pdf.setEnabled(False)
-        self.btn_export.setEnabled(False)
+        self.action_to_pdf.setEnabled(False)
         self.comparision_result = None
         self.table_view_results.setModel(None)
         self.table_view_results.hide()
@@ -245,3 +249,9 @@ class UI (Ui_designer_window):
                                                 tr("designer_window", "CSV files (*.csv)"))
 
         self.line_ref.setText(f)
+
+    ####################################################################################################################
+    @pyqtSlot()
+    def exit(self):
+        self.clear_all
+        QCoreApplication.quit()
