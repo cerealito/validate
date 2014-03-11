@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'main_window.ui'
 #
-# Created: Tue Mar 11 10:42:56 2014
+# Created: Tue Mar 11 13:02:35 2014
 #      by: PyQt5 UI code generator 5.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -12,7 +12,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_designer_window(object):
     def setupUi(self, designer_window):
         designer_window.setObjectName("designer_window")
-        designer_window.resize(650, 226)
+        designer_window.resize(650, 260)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -36,6 +36,9 @@ class Ui_designer_window(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.btn_browse_test.sizePolicy().hasHeightForWidth())
         self.btn_browse_test.setSizePolicy(sizePolicy)
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap(":/gui/icons/document-open.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.btn_browse_test.setIcon(icon)
         self.btn_browse_test.setObjectName("btn_browse_test")
         self.gridLayout.addWidget(self.btn_browse_test, 0, 5, 1, 1)
         self.line_test = TgtLine(self.central_widget)
@@ -63,12 +66,13 @@ class Ui_designer_window(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.btn_browse_ref.sizePolicy().hasHeightForWidth())
         self.btn_browse_ref.setSizePolicy(sizePolicy)
+        self.btn_browse_ref.setIcon(icon)
         self.btn_browse_ref.setObjectName("btn_browse_ref")
         self.gridLayout.addWidget(self.btn_browse_ref, 1, 5, 1, 1)
         spacerItem = QtWidgets.QSpacerItem(269, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.gridLayout.addItem(spacerItem, 2, 0, 1, 5)
         self.btn_compare = QtWidgets.QPushButton(self.central_widget)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.btn_compare.sizePolicy().hasHeightForWidth())
@@ -125,10 +129,19 @@ class Ui_designer_window(object):
         self.action_about.setObjectName("action_about")
         self.action_to_pdf = QtWidgets.QAction(designer_window)
         self.action_to_pdf.setEnabled(False)
+        icon1 = QtGui.QIcon()
+        icon1.addPixmap(QtGui.QPixmap(":/gui/icons/document-save.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.action_to_pdf.setIcon(icon1)
         self.action_to_pdf.setObjectName("action_to_pdf")
         self.action_clear_all = QtWidgets.QAction(designer_window)
+        icon2 = QtGui.QIcon()
+        icon2.addPixmap(QtGui.QPixmap(":/gui/icons/edit-clear.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.action_clear_all.setIcon(icon2)
         self.action_clear_all.setObjectName("action_clear_all")
         self.action_quit = QtWidgets.QAction(designer_window)
+        icon3 = QtGui.QIcon()
+        icon3.addPixmap(QtGui.QPixmap(":/gui/icons/application-exit.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.action_quit.setIcon(icon3)
         self.action_quit.setObjectName("action_quit")
         self.menu_help.addAction(self.action_about)
         self.menu_validate.addAction(self.action_to_pdf)
@@ -168,3 +181,4 @@ class Ui_designer_window(object):
         self.action_quit.setToolTip(_translate("designer_window", "Exit the application"))
 
 from gui.custom import TgtLine
+import icons_rc

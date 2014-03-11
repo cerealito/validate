@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>650</width>
-    <height>226</height>
+    <height>260</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -44,6 +44,10 @@
       </property>
       <property name="text">
        <string>Browse ...</string>
+      </property>
+      <property name="icon">
+       <iconset resource="icons.qrc">
+        <normaloff>:/gui/icons/document-open.png</normaloff>:/gui/icons/document-open.png</iconset>
       </property>
      </widget>
     </item>
@@ -84,6 +88,10 @@
       <property name="text">
        <string>Browse ...</string>
       </property>
+      <property name="icon">
+       <iconset resource="icons.qrc">
+        <normaloff>:/gui/icons/document-open.png</normaloff>:/gui/icons/document-open.png</iconset>
+      </property>
      </widget>
     </item>
     <item row="2" column="0" colspan="5">
@@ -102,7 +110,7 @@
     <item row="2" column="5">
      <widget class="QPushButton" name="btn_compare">
       <property name="sizePolicy">
-       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+       <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
         <horstretch>0</horstretch>
         <verstretch>0</verstretch>
        </sizepolicy>
@@ -238,6 +246,10 @@
    <property name="enabled">
     <bool>false</bool>
    </property>
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/gui/icons/document-save.png</normaloff>:/gui/icons/document-save.png</iconset>
+   </property>
    <property name="text">
     <string>Export as PDF</string>
    </property>
@@ -249,11 +261,19 @@
    </property>
   </action>
   <action name="action_clear_all">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/gui/icons/edit-clear.png</normaloff>:/gui/icons/edit-clear.png</iconset>
+   </property>
    <property name="text">
     <string>Clear</string>
    </property>
   </action>
   <action name="action_quit">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/gui/icons/application-exit.png</normaloff>:/gui/icons/application-exit.png</iconset>
+   </property>
    <property name="text">
     <string>Quit</string>
    </property>
@@ -274,6 +294,8 @@
   <tabstop>line_ref</tabstop>
   <tabstop>table_view_results</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="icons.qrc"/>
+ </resources>
  <connections/>
 </ui>
