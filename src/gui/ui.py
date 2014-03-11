@@ -187,10 +187,10 @@ class UI (Ui_designer_window):
     def handle_pdf(self, out_f):
         self.main_window.setEnabled(True)
         if exists(out_f):
-            self.statusbar.showMessage('Done. Output file is: ' + abspath(out_f), 10000)
+            self.statusbar.showMessage('Done. Output file is: ' + abspath(out_f))
             self.clear_all()
         else:
-            self.statusbar.showMessage('Oops! something went wrong. Cannot continue', 10000)
+            self.statusbar.showMessage('Oops! something went wrong. Report file could not be generated :(')
 
     ####################################################################################################################
     @pyqtSlot(object)
