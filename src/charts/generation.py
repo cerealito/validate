@@ -4,7 +4,7 @@ from os.path import abspath, exists
 
 
 def generate_png(test, ref):
-
+    print("png generation, current backend at the begining is:", plt.get_backend())
     output_f = test.name + '.png'
 
     plt.plot(ref.times(), ref.values(), color='#00FF21',

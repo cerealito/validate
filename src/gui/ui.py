@@ -1,10 +1,12 @@
+from PyQt5 import QtSvg
 import os
 from os.path import exists, abspath, dirname, basename, join
-from PyQt5.QtCore import QCoreApplication
+from PyQt5.QtCore import QCoreApplication, QRect
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import pyqtSlot, QThread, QModelIndex
 from Results import FileCmpResult
-from charts.display import show
+#from charts.display import show
+from charts.svg import generate_svg
 from gui.FileComparatorAsyncWrapper import FileComparatorAsyncWrapper
 from gui.PDFReportAsyncWrapper import PDFReportAsyncWrapper
 from gui.ResultTableMdl import ResultTableMdl
@@ -71,9 +73,16 @@ class UI (Ui_designer_window):
         # show will automatically spawn a separate thread, so there is no need to
         # wrap it as the comparison or the pdf generation. OTOH we need to disable the main window
         # in order not to call show again, that will mess everything up (see matplotlib doc)
-        self.main_window.setEnabled(False)
-        show(result_couple.test_var, result_couple.ref_var)
-        self.main_window.setEnabled(True)
+        #self.main_window.setEnabled(False)
+        #show(result_couple.test_var, result_couple.ref_var)
+        #self.main_window.setEnabled(True)
+
+        f = generate_svg(result_couple.test_var, result_couple.ref_var)
+        print(f)
+        self.w = QtSvg.QSvgWidget()
+        self.w.load(f)
+        self.w.setGeometry(QRect(100, 100, 800, 600))
+        self.w.show()
 
     ####################################################################################################################
     @pyqtSlot()

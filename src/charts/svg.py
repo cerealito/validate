@@ -1,12 +1,12 @@
 __author__ = 'cerealito'
 import matplotlib
-matplotlib.use("svg")
+matplotlib.use("agg")
 import matplotlib.pyplot as plt
 from os.path import abspath, exists
 
 
 def generate_svg(test, ref):
-
+    print("showing svg, current backend at the begining is", plt.get_backend())
     output_f = test.name + '.svg'
 
     plt.plot(ref.times(), ref.values(), color='#00FF21',
