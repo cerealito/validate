@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>650</width>
-    <height>260</height>
+    <height>266</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -234,7 +234,6 @@
    </attribute>
    <addaction name="action_to_pdf"/>
    <addaction name="action_clear_all"/>
-   <addaction name="separator"/>
    <addaction name="action_quit"/>
   </widget>
   <action name="action_about">

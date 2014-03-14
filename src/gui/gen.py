@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'main_window.ui'
 #
-# Created: Tue Mar 11 13:02:35 2014
+# Created: Fri Mar 14 16:59:00 2014
 #      by: PyQt5 UI code generator 5.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -12,7 +12,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_designer_window(object):
     def setupUi(self, designer_window):
         designer_window.setObjectName("designer_window")
-        designer_window.resize(650, 260)
+        designer_window.resize(650, 266)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -151,7 +151,6 @@ class Ui_designer_window(object):
         self.menubar.addAction(self.menu_help.menuAction())
         self.toolBar.addAction(self.action_to_pdf)
         self.toolBar.addAction(self.action_clear_all)
-        self.toolBar.addSeparator()
         self.toolBar.addAction(self.action_quit)
 
         self.retranslateUi(designer_window)

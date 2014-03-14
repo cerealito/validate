@@ -33,6 +33,11 @@ class UI (Ui_designer_window):
         self.setupUi(main_window_p)
         self.main_window = main_window_p
 
+        self.toolbar_sep = QWidget()
+        self.toolbar_sep.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+
+        self.toolBar.insertWidget(self.action_quit, self.toolbar_sep)
+
         self.comparision_result = None
         self.cmp_thread = None
         self.pdf_thread = None
