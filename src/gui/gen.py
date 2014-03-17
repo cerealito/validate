@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'main_window.ui'
 #
-# Created: Fri Mar 14 16:59:00 2014
+# Created: Mon Mar 17 16:02:20 2014
 #      by: PyQt5 UI code generator 5.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -130,7 +130,7 @@ class Ui_designer_window(object):
         self.action_to_pdf = QtWidgets.QAction(designer_window)
         self.action_to_pdf.setEnabled(False)
         icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap(":/gui/icons/document-save.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon1.addPixmap(QtGui.QPixmap(":/gui/icons/application-pdf.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.action_to_pdf.setIcon(icon1)
         self.action_to_pdf.setObjectName("action_to_pdf")
         self.action_clear_all = QtWidgets.QAction(designer_window)

@@ -247,7 +247,7 @@
    </property>
    <property name="icon">
     <iconset resource="icons.qrc">
-     <normaloff>:/gui/icons/document-save.png</normaloff>:/gui/icons/document-save.png</iconset>
+     <normaloff>:/gui/icons/application-pdf.png</normaloff>:/gui/icons/application-pdf.png</iconset>
    </property>
    <property name="text">
     <string>Export as PDF</string>
