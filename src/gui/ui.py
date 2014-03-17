@@ -33,9 +33,9 @@ class UI (Ui_designer_window):
         self.setupUi(main_window_p)
         self.main_window = main_window_p
 
+        # add an empty expanding widget (a separator) before action quit to the toolbar.
         self.toolbar_sep = QWidget()
         self.toolbar_sep.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-
         self.toolBar.insertWidget(self.action_quit, self.toolbar_sep)
 
         self.comparision_result = None
@@ -47,6 +47,9 @@ class UI (Ui_designer_window):
         self.table_view_results.hide()
         self.lbl_result_is.hide()
         self.lbl_result.setText('')
+
+        # Prepare a temporary directory for files:
+        self.tmp_dir = self.prepare_tmp_dir()
 
         ###########################################################
         # connections follow reminder: signal.connect(slot)
@@ -70,6 +73,24 @@ class UI (Ui_designer_window):
 
         # what to do on result selection
         self.table_view_results.doubleClicked.connect(self.start_graph)
+    ####################################################################################################################
+    def prepare_tmp_dir(self):
+        my_dir = join(os.curdir, '.validate')
+        try:
+            os.makedirs(my_dir, exist_ok=True)
+        except OSError:
+            self.statusbar.showMessage('Can not create temporary directory' + my_dir)
+            self.main_window.setEnabled(False)
+        return my_dir
+
+    def clean_tmp_dir(self):
+        # TODO: put this in another thread?
+        for f in os.listdir(self.tmp_dir):
+            try:
+                print('removing', join(self.tmp_dir,f))
+                os.remove(join(self.tmp_dir,f))
+            except OSError as e:
+                print(e)
 
     ####################################################################################################################
     @pyqtSlot(object)
@@ -81,8 +102,8 @@ class UI (Ui_designer_window):
         #self.main_window.setEnabled(False)
         #show(result_couple.test_var, result_couple.ref_var)
         #self.main_window.setEnabled(True)
-
-        f = generate_svg(result_couple.test_var, result_couple.ref_var)
+        # TODO: put this in another thread?
+        f = generate_svg(result_couple.test_var, result_couple.ref_var, self.tmp_dir)
         print(f)
         self.w = QtSvg.QSvgWidget()
         self.w.load(f)
@@ -148,7 +169,7 @@ class UI (Ui_designer_window):
         # disable further stuff until the export finishes
         self.main_window.setEnabled(False)
 
-        pdf_report = PDFReport(self.comparision_result)
+        pdf_report = PDFReport(self.comparision_result, self.tmp_dir)
 
         # set the output file
         self.pdf_report_wrapper.set_output_f(out_f)
@@ -229,6 +250,7 @@ class UI (Ui_designer_window):
         self.line_test.clear()
         self.line_ref.clear()
         self.clear_results()
+        self.clean_tmp_dir()
 
     ####################################################################################################################
     @pyqtSlot()

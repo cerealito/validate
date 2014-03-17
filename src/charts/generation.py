@@ -1,11 +1,17 @@
+
 __author__ = 'cerealito'
 import matplotlib.pyplot as plt
-from os.path import abspath, exists
+import os
+from os.path import abspath, exists, join
 
 
-def generate_png(test, ref):
-    print("png generation, current backend at the begining is:", plt.get_backend())
+def generate_png(test, ref, output_dir=None):
     output_f = test.name + '.png'
+
+    if output_dir:
+        if not exists(output_dir):
+            os.makedirs(output_dir)
+        output_f = join(output_dir, output_f)
 
     plt.plot(ref.times(), ref.values(), color='#00FF21',
              label='ref', linestyle='solid', linewidth=2.5)
@@ -26,7 +32,7 @@ def generate_png(test, ref):
     # for some weird reason we must call savefig before show, otherwise the output file is all white
     # 240 for very high quality. 120 acceptable. 96 is fast but ugly
     # TODO: make this configurable
-    plt.savefig(output_f, dpi=240, bbox_inches='tight')
+    plt.savefig(output_f, dpi=96, bbox_inches='tight')
     # use clf instead of close, otherwise pyplot will crash in windows the second time!
     # clearing somehow is necessary for pdf files with more than one chart
     plt.clf()

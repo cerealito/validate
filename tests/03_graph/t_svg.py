@@ -19,7 +19,7 @@ class GraphTester(unittest.TestCase):
 
         # for every couple of variables, generate a png
         for result in fc.result_couple_l:
-            of = generate_svg(result.test_var, result.ref_var)
+            of = generate_svg(result.test_var, result.ref_var, './output')
             self.assertIsNotNone(of)
 
         self.assertFalse(res.is_acceptable)

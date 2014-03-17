@@ -2,12 +2,16 @@ __author__ = 'cerealito'
 import matplotlib
 matplotlib.use("agg")
 import matplotlib.pyplot as plt
-from os.path import abspath, exists
+from os.path import abspath, exists, join
+import os
 
-
-def generate_svg(test, ref):
-    print("showing svg, current backend at the begining is", plt.get_backend())
+def generate_svg(test, ref, output_dir=None):
     output_f = test.name + '.svg'
+
+    if output_dir:
+        if not exists(output_dir):
+            os.makedirs(output_dir)
+        output_f = join(output_dir, output_f)
 
     plt.plot(ref.times(), ref.values(), color='#00FF21',
              label='ref', linestyle='solid', linewidth=2.5)

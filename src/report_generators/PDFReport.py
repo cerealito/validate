@@ -8,7 +8,7 @@ from fpdf import FPDF
 
 class PDFReport(FPDF):
 
-    def __init__(self, file_cmp_result: FileCmpResult):
+    def __init__(self, file_cmp_result: FileCmpResult, tmp_dir=None):
         super().__init__(orientation='L', unit='mm', format='A4')
         # right and bottom are automatic
         self.set_margins(left=15, top=15)
@@ -20,6 +20,7 @@ class PDFReport(FPDF):
         self.set_font('Arial', '', 12)
 
         self.current_var =''
+        self.tmp_dir = tmp_dir
 
     def header(self):
         # no header for page 1
@@ -146,6 +147,6 @@ class PDFReport(FPDF):
             self.current_var = result.test_var.fullname
             self.add_page()
 
-            tmp_img_f = generate_png(result.test_var, result.ref_var)
+            tmp_img_f = generate_png(result.test_var, result.ref_var, self.tmp_dir)
             self.set_x(50)
             self.image(tmp_img_f, h=145)

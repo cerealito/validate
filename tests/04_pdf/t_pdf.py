@@ -41,7 +41,7 @@ class PdfTester(unittest.TestCase):
         print('\n### Overall result is: ', res.is_acceptable)
         print('generating pdf report...')
         out_f = 'small.pdf'
-        pdf_report = PDFReport(res)
+        pdf_report = PDFReport(res, 'tmp_dir')
 
         pdf_report.summary()
         pdf_report.plot_results()
