@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'main_window.ui'
 #
-# Created: Mon Mar 17 16:02:20 2014
+# Created: Mon Mar 17 16:39:02 2014
 #      by: PyQt5 UI code generator 5.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -37,7 +37,7 @@ class Ui_designer_window(object):
         sizePolicy.setHeightForWidth(self.btn_browse_test.sizePolicy().hasHeightForWidth())
         self.btn_browse_test.setSizePolicy(sizePolicy)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(":/gui/icons/document-open.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap(":/gui/icons/folder.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.btn_browse_test.setIcon(icon)
         self.btn_browse_test.setObjectName("btn_browse_test")
         self.gridLayout.addWidget(self.btn_browse_test, 0, 5, 1, 1)

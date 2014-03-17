@@ -1,7 +1,7 @@
 <RCC>
   <qresource prefix="gui">
+    <file>icons/folder.png</file>
     <file>icons/application-pdf.png</file>
-    <file>icons/document-open.png</file>
     <file>icons/edit-clear.png</file>
     <file>icons/application-exit.png</file>
   </qresource>
