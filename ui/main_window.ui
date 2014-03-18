@@ -19,6 +19,10 @@
   <property name="windowTitle">
    <string>Validate</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="icons.qrc">
+    <normaloff>:/gui/icons/account-logged-in.png</normaloff>:/gui/icons/account-logged-in.png</iconset>
+  </property>
   <widget class="QWidget" name="central_widget">
    <layout class="QGridLayout" name="gridLayout">
     <item row="1" column="0">

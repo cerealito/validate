@@ -10,6 +10,7 @@ from charts.svg import generate_svg
 from gui.FileComparatorAsyncWrapper import FileComparatorAsyncWrapper
 from gui.PDFReportAsyncWrapper import PDFReportAsyncWrapper
 from gui.ResultTableMdl import ResultTableMdl
+from gui.SVGAsyncGenerator import SVGAsyncGenerator
 
 from gui.gen import Ui_designer_window
 from report_generators.PDFReport import PDFReport
@@ -41,6 +42,7 @@ class UI (Ui_designer_window):
         self.comparision_result = None
         self.cmp_thread = None
         self.pdf_thread = None
+        self.svg_thread = None
 
         self.fc_wrapper = FileComparatorAsyncWrapper()
         self.pdf_report_wrapper = PDFReportAsyncWrapper()
@@ -73,6 +75,7 @@ class UI (Ui_designer_window):
 
         # what to do on result selection
         self.table_view_results.doubleClicked.connect(self.start_graph)
+
     ####################################################################################################################
     def prepare_tmp_dir(self):
         my_dir = join(os.curdir, '.validate')
@@ -96,14 +99,17 @@ class UI (Ui_designer_window):
     @pyqtSlot(object)
     def start_graph(self, selected: QModelIndex):
         result_couple = self.comparision_result.result_l[selected.row()]
-        # show will automatically spawn a separate thread, so there is no need to
-        # wrap it as the comparison or the pdf generation. OTOH we need to disable the main window
-        # in order not to call show again, that will mess everything up (see matplotlib doc)
-        #self.main_window.setEnabled(False)
-        #show(result_couple.test_var, result_couple.ref_var)
-        #self.main_window.setEnabled(True)
-        # TODO: put this in another thread?
-        f = generate_svg(result_couple.test_var, result_couple.ref_var, self.tmp_dir)
+
+        self.svg_thread = SVGAsyncGenerator(result_couple.test_var, result_couple.ref_var, self.tmp_dir)
+
+        self.svg_thread.svg_ready.connect(self.handle_graph)
+        self.svg_thread.finished.connect(self.svg_thread.quit)
+
+        self.svg_thread.start()
+
+    ####################################################################################################################
+    @pyqtSlot(object)
+    def handle_graph(self, f):
         print(f)
         self.w = QtSvg.QSvgWidget()
         self.w.load(f)
