@@ -1,5 +1,7 @@
 
 __author__ = 'cerealito'
+import matplotlib
+matplotlib.use("agg")
 import matplotlib.pyplot as plt
 import os
 from os.path import abspath, exists, join
@@ -32,7 +34,7 @@ def generate_png(test, ref, output_dir=None):
     # for some weird reason we must call savefig before show, otherwise the output file is all white
     # 240 for very high quality. 120 acceptable. 96 is fast but ugly
     # TODO: make this configurable
-    plt.savefig(output_f, dpi=96, bbox_inches='tight')
+    plt.savefig(output_f, dpi=120, bbox_inches='tight')
     # use clf instead of close, otherwise pyplot will crash in windows the second time!
     # clearing somehow is necessary for pdf files with more than one chart
     plt.clf()

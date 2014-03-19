@@ -1,9 +1,10 @@
-from PyQt5.QtCore import QAbstractTableModel
+from PyQt5.QtCore import QAbstractTableModel, QSortFilterProxyModel, QModelIndex
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QBrush, QColor
-from Results import FileCmpResult
+from Results import FileCmpResult, ResultCouple
 
 __author__ = 'saflores'
+
 
 class ResultTableMdl(QAbstractTableModel):
 
@@ -34,16 +35,16 @@ class ResultTableMdl(QAbstractTableModel):
 
         if int_role == Qt.ForegroundRole and QModelIndex.column() == ResultTableMdl.STATUS_COLUMN:
             color = QBrush(Qt.black)
-            if result_couple.status == 'ko':
+            if result_couple.status == ResultCouple.STS_KO:
                 #RED
                 color = QBrush(Qt.red)
-            if result_couple.status == 'warning':
+            if result_couple.status == ResultCouple.STS_WARN:
                 #YELLOW
                 color = QBrush(QColor(255, 157, 0, 255))
-            if result_couple.status == 'passed':
+            if result_couple.status == ResultCouple.STS_PASS:
                 # Yellowish-GREEN
                 color = QBrush(QColor(153, 204, 0, 255))
-            if result_couple.status == 'matched':
+            if result_couple.status == ResultCouple.STS_MATCH:
                 # GREEN
                 color = QBrush(QColor(0, 204, 0, 255))
             return color
@@ -61,3 +62,32 @@ class ResultTableMdl(QAbstractTableModel):
             # row headers: just a number
             if Qt_Orientation == Qt.Vertical:
                 return p_int + 1
+
+
+########################################################################################################################
+class StatusSortingProxyModel(QSortFilterProxyModel):
+    def lessThan(self, first: QModelIndex, second: QModelIndex):
+        """
+        Returns true if the value of the item referred to by the given index 'first'
+        is less than the value of the item referred to by the given index 'second',
+        otherwise returns false.
+        """
+        first_data = self.sourceModel().data(first, Qt.DisplayRole)
+        second_data = self.sourceModel().data(second, Qt.DisplayRole)
+
+        if first.column() == ResultTableMdl.STATUS_COLUMN:
+            if first_data == ResultCouple.STS_KO:
+                if second_data in [ResultCouple.STS_WARN, ResultCouple.STS_PASS, ResultCouple.STS_MATCH]:
+                    return True
+            if first_data == ResultCouple.STS_WARN:
+                if second_data in [ResultCouple.STS_PASS, ResultCouple.STS_MATCH]:
+                    return True
+            if first_data == ResultCouple.STS_PASS:
+                if second_data in [ResultCouple.STS_MATCH]:
+                    return True
+
+            # in any other case
+            return False
+        else:
+            # keep the usual order if user is not ordering by status
+            return super().lessThan(first, second)

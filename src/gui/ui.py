@@ -1,17 +1,16 @@
-from PyQt5 import QtSvg
 import os
 from os.path import exists, abspath, dirname, basename, join
+
+from PyQt5 import QtSvg, QtCore
 from PyQt5.QtCore import QCoreApplication, QRect
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import pyqtSlot, QThread, QModelIndex
+
 from Results import FileCmpResult
-#from charts.display import show
-from charts.svg import generate_svg
 from gui.FileComparatorAsyncWrapper import FileComparatorAsyncWrapper
 from gui.PDFReportAsyncWrapper import PDFReportAsyncWrapper
-from gui.ResultTableMdl import ResultTableMdl
+from gui.ResultTableMdl import ResultTableMdl, StatusSortingProxyModel
 from gui.SVGAsyncGenerator import SVGAsyncGenerator
-
 from gui.gen import Ui_designer_window
 from report_generators.PDFReport import PDFReport
 
@@ -39,6 +38,7 @@ class UI (Ui_designer_window):
         self.toolbar_sep.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         self.toolBar.insertWidget(self.action_quit, self.toolbar_sep)
 
+        self.p_src_mdl = None
         self.comparision_result = None
         self.cmp_thread = None
         self.pdf_thread = None
@@ -98,7 +98,11 @@ class UI (Ui_designer_window):
     ####################################################################################################################
     @pyqtSlot(object)
     def start_graph(self, selected: QModelIndex):
-        result_couple = self.comparision_result.result_l[selected.row()]
+        # the selected element is from the proxy model (used for sorting)
+        # map back to the source model
+        original_model_index = self.p_src_mdl.mapToSource(selected)
+
+        result_couple = self.comparision_result.result_l[original_model_index.row()]
 
         self.svg_thread = SVGAsyncGenerator(result_couple.test_var, result_couple.ref_var, self.tmp_dir)
 
@@ -197,12 +201,7 @@ class UI (Ui_designer_window):
         self.statusbar.showMessage('Done')
         self.comparision_result = res
 
-        # Make the results table view visible:
-        self.table_view_results.show()
-
-        ########## output to the user:
-        self.lbl_result_is.show()
-
+        ########## set the result label with a message and show it:
         if self.comparision_result.is_acceptable:
             self.lbl_result.setText('<div style="color:green;font-weight:bold;">Passed</div>')
             self.statusbar.showMessage('Files do not have significant differences :)', 5000)
@@ -210,11 +209,21 @@ class UI (Ui_designer_window):
             self.lbl_result.setText('<div style="color:red;font-weight:bold;">Not Passed</div>')
             self.statusbar.showMessage('Files have significant differences :(', 5000)
 
-        # create a Result_table_model with the results and associate it with the view.
-        # it should show up immediately
-        self.table_view_results.setModel(ResultTableMdl(self.comparision_result))
+        self.lbl_result_is.show()
+
+        ########## create a Result_table_model with the results and associate it with the view through a proxy
+        src_mdl = ResultTableMdl(self.comparision_result)
+        # use a proxy so that we can sort by column
+        self.p_src_mdl = StatusSortingProxyModel()
+        self.p_src_mdl.setSourceModel(src_mdl)
+
+        self.table_view_results.setModel(self.p_src_mdl)
         self.table_view_results.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeToContents)
 
+        self.table_view_results.show()
+        self.table_view_results.setSortingEnabled(True)
+        self.table_view_results.sortByColumn(ResultTableMdl.STATUS_COLUMN, QtCore.Qt.AscendingOrder)
+        ########## resize the window to accomodate the result table view
         self.main_window.adjustSize()
 
         ########## enable pdf export:
