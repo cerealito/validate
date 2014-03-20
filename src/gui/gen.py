@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'main_window.ui'
 #
-# Created: Tue Mar 18 16:19:34 2014
+# Created: Thu Mar 20 11:02:23 2014
 #      by: PyQt5 UI code generator 5.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -107,6 +107,7 @@ class Ui_designer_window(object):
         self.table_view_results.setAlternatingRowColors(True)
         self.table_view_results.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
         self.table_view_results.setGridStyle(QtCore.Qt.DashLine)
+        self.table_view_results.setSortingEnabled(True)
         self.table_view_results.setObjectName("table_view_results")
         self.table_view_results.horizontalHeader().setHighlightSections(False)
         self.table_view_results.horizontalHeader().setStretchLastSection(True)
@@ -126,6 +127,8 @@ class Ui_designer_window(object):
         self.statusbar.setObjectName("statusbar")
         designer_window.setStatusBar(self.statusbar)
         self.toolBar = QtWidgets.QToolBar(designer_window)
+        self.toolBar.setIconSize(QtCore.QSize(16, 16))
+        self.toolBar.setToolButtonStyle(QtCore.Qt.ToolButtonTextBesideIcon)
         self.toolBar.setObjectName("toolBar")
         designer_window.addToolBar(QtCore.Qt.TopToolBarArea, self.toolBar)
         self.action_about = QtWidgets.QAction(designer_window)

@@ -1,8 +1,8 @@
 import os
 from os.path import exists, abspath, dirname, basename, join
 
-from PyQt5 import QtSvg, QtCore
-from PyQt5.QtCore import QCoreApplication, QRect
+from PyQt5 import QtSvg
+from PyQt5.QtCore import QCoreApplication, QRect, Qt
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import pyqtSlot, QThread, QModelIndex
 
@@ -37,6 +37,7 @@ class UI (Ui_designer_window):
         self.toolbar_sep = QWidget()
         self.toolbar_sep.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         self.toolBar.insertWidget(self.action_quit, self.toolbar_sep)
+        self.toolBar.orientationChanged.connect(self.handle_toolbar)
 
         self.p_src_mdl = None
         self.comparision_result = None
@@ -75,6 +76,14 @@ class UI (Ui_designer_window):
 
         # what to do on result selection
         self.table_view_results.doubleClicked.connect(self.start_graph)
+
+    ####################################################################################################################
+    @pyqtSlot(object)
+    def handle_toolbar(self, orientation):
+        if Qt.Horizontal == orientation:
+            self.toolBar.setToolButtonStyle(Qt.ToolButtonTextBesideIcon)
+        if Qt.Vertical == orientation:
+            self.toolBar.setToolButtonStyle(Qt.ToolButtonIconOnly)
 
     ####################################################################################################################
     def prepare_tmp_dir(self):
@@ -221,8 +230,8 @@ class UI (Ui_designer_window):
         self.table_view_results.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeToContents)
 
         self.table_view_results.show()
-        self.table_view_results.setSortingEnabled(True)
-        self.table_view_results.sortByColumn(ResultTableMdl.STATUS_COLUMN, QtCore.Qt.AscendingOrder)
+        # sort by Status by default, greater errors first
+        self.table_view_results.sortByColumn(ResultTableMdl.STATUS_COLUMN, Qt.AscendingOrder)
         ########## resize the window to accomodate the result table view
         self.main_window.adjustSize()
 
@@ -271,10 +280,10 @@ class UI (Ui_designer_window):
     @pyqtSlot()
     def about(self):
         """Popup a box with about message."""
-        about_str = "<center><b>Validate v{0} </b></center>           " + \
-                    "<p>Copyright © 2014 Samuel FLORES.               " + \
-                    "All rights reserved in accordance with GPL v3</p>" + \
-                    "<p>Python {1} - on {2}</p>"
+        about_str = '<center><b>Validate v{0} </b></center>' + \
+                    '<p>Copyright © 2014 - samuel.flores@sogeti.com </p>' + \
+                    '<p>All rights reserved in accordance with GPL v3</p>' + \
+                    '<p>Python {1} - on {2}</p>'
 
         QMessageBox.about(self.main_window, "Validate",
                           about_str.format(__version__, platform.python_version(), platform.system()))
