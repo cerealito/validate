@@ -274,6 +274,9 @@
    <property name="shortcut">
     <string>Ctrl+S</string>
    </property>
+   <property name="iconVisibleInMenu">
+    <bool>false</bool>
+   </property>
   </action>
   <action name="action_clear_all">
    <property name="icon">
@@ -282,6 +285,9 @@
    </property>
    <property name="text">
     <string>Clear</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>false</bool>
    </property>
   </action>
   <action name="action_quit">
@@ -294,6 +300,9 @@
    </property>
    <property name="toolTip">
     <string>Exit the application</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>false</bool>
    </property>
   </action>
  </widget>

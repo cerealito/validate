@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'main_window.ui'
 #
-# Created: Thu Mar 20 11:02:23 2014
+# Created: Wed Mar 26 15:09:52 2014
 #      by: PyQt5 UI code generator 5.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -138,16 +138,19 @@ class Ui_designer_window(object):
         icon2 = QtGui.QIcon()
         icon2.addPixmap(QtGui.QPixmap(":/gui/icons/application-pdf.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.action_to_pdf.setIcon(icon2)
+        self.action_to_pdf.setIconVisibleInMenu(False)
         self.action_to_pdf.setObjectName("action_to_pdf")
         self.action_clear_all = QtWidgets.QAction(designer_window)
         icon3 = QtGui.QIcon()
         icon3.addPixmap(QtGui.QPixmap(":/gui/icons/edit-clear.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.action_clear_all.setIcon(icon3)
+        self.action_clear_all.setIconVisibleInMenu(False)
         self.action_clear_all.setObjectName("action_clear_all")
         self.action_quit = QtWidgets.QAction(designer_window)
         icon4 = QtGui.QIcon()
         icon4.addPixmap(QtGui.QPixmap(":/gui/icons/application-exit.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.action_quit.setIcon(icon4)
+        self.action_quit.setIconVisibleInMenu(False)
         self.action_quit.setObjectName("action_quit")
         self.menu_help.addAction(self.action_about)
         self.menu_validate.addAction(self.action_to_pdf)
