@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'main_window.ui'
 #
-# Created: Wed Mar 26 15:09:52 2014
+# Created: Wed May 28 15:57:16 2014
 #      by: PyQt5 UI code generator 5.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -152,9 +152,12 @@ class Ui_designer_window(object):
         self.action_quit.setIcon(icon4)
         self.action_quit.setIconVisibleInMenu(False)
         self.action_quit.setObjectName("action_quit")
+        self.action_preferences = QtWidgets.QAction(designer_window)
+        self.action_preferences.setObjectName("action_preferences")
         self.menu_help.addAction(self.action_about)
         self.menu_validate.addAction(self.action_to_pdf)
         self.menu_validate.addAction(self.action_clear_all)
+        self.menu_validate.addAction(self.action_preferences)
         self.menu_validate.addAction(self.action_quit)
         self.menubar.addAction(self.menu_validate.menuAction())
         self.menubar.addAction(self.menu_help.menuAction())
@@ -187,6 +190,7 @@ class Ui_designer_window(object):
         self.action_clear_all.setText(_translate("designer_window", "Clear"))
         self.action_quit.setText(_translate("designer_window", "Quit"))
         self.action_quit.setToolTip(_translate("designer_window", "Exit the application"))
+        self.action_preferences.setText(_translate("designer_window", "Preferences"))
 
 from gui.custom import TgtLine
 import icons_rc

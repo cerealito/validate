@@ -12,6 +12,7 @@ from gui.PDFReportAsyncWrapper import PDFReportAsyncWrapper
 from gui.ResultTableMdl import ResultTableMdl, StatusSortingProxyModel
 from gui.SVGAsyncGenerator import SVGAsyncGenerator
 from gui.gen import Ui_designer_window
+from gui.preferences import Ui_Dialog
 from report_generators.PDFReport import PDFReport
 
 
@@ -73,6 +74,7 @@ class UI (Ui_designer_window):
         self.action_to_pdf.triggered.connect(self.start_pdf_generation)
         self.action_clear_all.triggered.connect(self.clear_all)
         self.action_quit.triggered.connect(self.exit)
+        self.action_preferences.triggered.connect(self.show_preferences)
 
         # what to do on result selection
         self.table_view_results.doubleClicked.connect(self.start_graph)
@@ -288,6 +290,15 @@ class UI (Ui_designer_window):
         QMessageBox.about(self.main_window, "Validate",
                           about_str.format(__version__, platform.python_version(), platform.system()))
 
+    ####################################################################################################################
+    @pyqtSlot()
+    def show_preferences(self):
+        """shows the preferences dialog"""
+        pref_d = QDialog()
+        dialog_setter = Ui_Dialog()
+        dialog_setter.setupUi(pref_d)
+        r = pref_d.exec()
+        print (r, dialog_setter.spinBox.value())
     ####################################################################################################################
     @pyqtSlot()
     def open_test_file(self):

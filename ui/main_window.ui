@@ -223,6 +223,7 @@
     </property>
     <addaction name="action_to_pdf"/>
     <addaction name="action_clear_all"/>
+    <addaction name="action_preferences"/>
     <addaction name="action_quit"/>
    </widget>
    <addaction name="menu_validate"/>
@@ -303,6 +304,11 @@
    </property>
    <property name="iconVisibleInMenu">
     <bool>false</bool>
+   </property>
+  </action>
+  <action name="action_preferences">
+   <property name="text">
+    <string>Preferences</string>
    </property>
   </action>
  </widget>
