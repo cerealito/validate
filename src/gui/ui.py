@@ -1,4 +1,5 @@
 import os
+import platform
 from os.path import exists, abspath, dirname, basename, join
 
 from PyQt5 import QtSvg
@@ -7,19 +8,15 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtCore import pyqtSlot, QThread, QModelIndex
 
 from Results import FileCmpResult
+from gui.PreferencesDialog import PreferencesDialog
 from gui.FileComparatorAsyncWrapper import FileComparatorAsyncWrapper
 from gui.PDFReportAsyncWrapper import PDFReportAsyncWrapper
 from gui.ResultTableMdl import ResultTableMdl, StatusSortingProxyModel
 from gui.SVGAsyncGenerator import SVGAsyncGenerator
 from gui.gen.main_window import Ui_designer_window
-from gui.gen.preferences import Ui_preferences
 from report_generators.PDFReport import PDFReport
 
-
 __author__ = 'saflores'
-
-import platform
-
 __version__ = '0.0.1'
 
 
@@ -294,13 +291,13 @@ class UI (Ui_designer_window):
     @pyqtSlot()
     def show_preferences(self):
         """shows the preferences dialog"""
-        preferences_dialog = QDialog()
-        dialog_setter = Ui_preferences()
-        dialog_setter.setupUi(preferences_dialog)
 
-        r = preferences_dialog.exec()
+        dialog = QDialog()
+        my_preferences_dialog = PreferencesDialog(dialog)
 
-        print(r, dialog_setter.spinBox.value())
+        r = dialog.exec()
+
+        print(r, my_preferences_dialog.spinBox.value())
     ####################################################################################################################
     @pyqtSlot()
     def open_test_file(self):
