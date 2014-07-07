@@ -11,8 +11,8 @@ from gui.FileComparatorAsyncWrapper import FileComparatorAsyncWrapper
 from gui.PDFReportAsyncWrapper import PDFReportAsyncWrapper
 from gui.ResultTableMdl import ResultTableMdl, StatusSortingProxyModel
 from gui.SVGAsyncGenerator import SVGAsyncGenerator
-from gui.gen import Ui_designer_window
-from gui.preferences import Ui_Dialog
+from gui.gen.main_window import Ui_designer_window
+from gui.gen.preferences import Ui_preferences
 from report_generators.PDFReport import PDFReport
 
 
@@ -294,11 +294,13 @@ class UI (Ui_designer_window):
     @pyqtSlot()
     def show_preferences(self):
         """shows the preferences dialog"""
-        pref_d = QDialog()
-        dialog_setter = Ui_Dialog()
-        dialog_setter.setupUi(pref_d)
-        r = pref_d.exec()
-        print (r, dialog_setter.spinBox.value())
+        preferences_dialog = QDialog()
+        dialog_setter = Ui_preferences()
+        dialog_setter.setupUi(preferences_dialog)
+
+        r = preferences_dialog.exec()
+
+        print(r, dialog_setter.spinBox.value())
     ####################################################################################################################
     @pyqtSlot()
     def open_test_file(self):

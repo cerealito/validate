@@ -14,11 +14,19 @@ __author__ = 'saflores'
 
 
 from PyQt5 import QtWidgets
+from PyQt5.QtCore import QSettings
 from gui.ui import UI
 import sys
 
 app = QtWidgets.QApplication(sys.argv)
 MainWindow = QtWidgets.QMainWindow()
+
+mySettings = QSettings(QSettings.IniFormat, QSettings.UserScope, 'Sogeti', 'validate')
+mySettings.setValue("report/imageQuality", 120)
+mySettings.sync()
+
+print("settings written to " + mySettings.fileName())
+
 ui = UI(MainWindow)
 MainWindow.show()
 sys.exit(app.exec_())
