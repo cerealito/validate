@@ -17,8 +17,17 @@ class PreferencesDialog(Ui_preferences):
 
         mySettings = QSettings(QSettings.IniFormat, QSettings.UserScope, 'Sogeti', 'validate')
 
-        qv = 120
-        if mySettings.contains('report/imageQuality'):
+        # image quality value is 120 by default, unless the user set it to something else
+        qv = 110
+        #if mySettings.contains('report/imageQuality'):
+        try:
             qv = int(mySettings.value('report/imageQuality'))
+        except TypeError:
+            # most likely the key is not present in the config. The default value will be used
+            pass
+        except ValueError:
+            # config is not semantically correct (NaN). The default value will be used
+            pass
 
         self.spinBox.setValue(qv)
+

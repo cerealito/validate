@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'preferences.ui'
 #
-# Created: Mon Jul  7 15:48:47 2014
+# Created: Tue Jul  8 15:46:01 2014
 #      by: PyQt5 UI code generator 5.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -35,10 +35,10 @@ class Ui_preferences(object):
         self.lbl_quality = QtWidgets.QLabel(self.splitter)
         self.lbl_quality.setObjectName("lbl_quality")
         self.spinBox = QtWidgets.QSpinBox(self.splitter)
-        self.spinBox.setMinimum(70)
-        self.spinBox.setMaximum(400)
+        self.spinBox.setMinimum(50)
+        self.spinBox.setMaximum(300)
         self.spinBox.setSingleStep(10)
-        self.spinBox.setProperty("value", 120)
+        self.spinBox.setProperty("value", 110)
         self.spinBox.setObjectName("spinBox")
         self.lbl_quality_help = QtWidgets.QLabel(self.splitter_2)
         self.lbl_quality_help.setStyleSheet("color: rgb(0, 85, 255);")

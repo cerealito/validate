@@ -3,7 +3,7 @@ import platform
 from os.path import exists, abspath, dirname, basename, join
 
 from PyQt5 import QtSvg
-from PyQt5.QtCore import QCoreApplication, QRect, Qt
+from PyQt5.QtCore import QCoreApplication, QRect, Qt, QSettings
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import pyqtSlot, QThread, QModelIndex
 
@@ -183,6 +183,18 @@ class UI (Ui_designer_window):
             # user cancelled the operation
             return
 
+        ####################
+        # opening a tmp file to be sure that we can write on windows
+        try:
+            test_f = open(out_f, 'w')
+            test_f.write('test')
+            test_f.close()
+        except PermissionError:
+            # file can not be written because it is open?
+            self.statusbar.showMessage('Error writing to ' + out_f + '. Make Sure file is not open.')
+            return
+        ####################
+
         self.statusbar.showMessage('generating pdf report, please wait...')
         # disable further stuff until the export finishes
         self.main_window.setEnabled(False)
@@ -295,9 +307,14 @@ class UI (Ui_designer_window):
         dialog = QDialog()
         my_preferences_dialog = PreferencesDialog(dialog)
 
-        r = dialog.exec()
+        dialog_accepted = dialog.exec()
 
-        print(r, my_preferences_dialog.spinBox.value())
+        if dialog_accepted:
+            print('image quality set to ' + str(my_preferences_dialog.spinBox.value()))
+            mySettings = QSettings(QSettings.IniFormat, QSettings.UserScope, 'Sogeti', 'validate')
+            mySettings.setValue('report/imageQuality', my_preferences_dialog.spinBox.value())
+            mySettings.sync()
+
     ####################################################################################################################
     @pyqtSlot()
     def open_test_file(self):
